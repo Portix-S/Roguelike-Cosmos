@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // This Player Movement uses NavMesh
+
     NavMeshAgent navMeshAgent;
     public Transform fixedTransform;
 
