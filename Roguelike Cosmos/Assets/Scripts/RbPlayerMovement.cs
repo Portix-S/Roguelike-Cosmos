@@ -12,8 +12,10 @@ public class RbPlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] float moveSpeed;
     [SerializeField] float dashDistance;
+    float dashCooldownTimer = 1f;
+    [SerializeField] float dashTime = 0.75f;
 
-    bool dashing;
+    public bool dashing;
     bool onDashCooldown;
 
     [Header("Rotation")]
@@ -35,7 +37,7 @@ public class RbPlayerMovement : MonoBehaviour
     {
         MyInput();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown && playerAnimator.GetBool("isRunning"))
             dashing = true;
     }
 
@@ -83,24 +85,23 @@ public class RbPlayerMovement : MonoBehaviour
             playerAnimator.SetBool("isDashing", true);
             onDashCooldown = true;
             StartCoroutine(DashCooldown());
-            if (Mathf.Abs(input.x) > Mathf.Epsilon && Mathf.Abs(input.y) > Mathf.Epsilon)
+            if (Mathf.Abs(input.x) > Mathf.Epsilon && Mathf.Abs(input.y) > Mathf.Epsilon)   // Dashing Diagonally
                 moveDirection = new Vector3(Mathf.Sign(input.x) / 1.4125f, 0f, Mathf.Sign(input.y) / 1.4125f).normalized;
-            else if (input.x != 0f && input.y != 0f)
+            else if (input.x != 0f && input.y != 0f) // Dashing Straight
                 moveDirection = new Vector3(Mathf.Sign(input.x), 0f, Mathf.Sign(input.y)).normalized;
-            else
-                moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+            
         }
         
         
         playerRb.AddForce(moveDirection * dashDistance * 100f * Time.deltaTime, ForceMode.Impulse);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(dashTime);
         playerAnimator.SetBool("isDashing", false);
         dashing = false;
     }
 
     IEnumerator DashCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(dashCooldownTimer);
         onDashCooldown = false;
     }
 }

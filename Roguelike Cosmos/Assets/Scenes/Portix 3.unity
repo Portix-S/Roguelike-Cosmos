@@ -3183,7 +3183,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 90
-  dashDistance: 10
+  dashDistance: 7
+  dashTime: 0.2
+  dashing: 0
   smoothTurnTime: 0.05
   playerAnimator: {fileID: 1389033820}
 --- !u!1001 &1252791334
