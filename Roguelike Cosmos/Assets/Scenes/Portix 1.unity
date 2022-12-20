@@ -1918,6 +1918,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixedTransform: {fileID: 714691640}
+  dashDistance: 0
+  input: {x: 0, y: 0}
 --- !u!143 &1236329746
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1950,6 +1952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1236329746}
   speed: 10
+  dashSpeed: 1200
 --- !u!1001 &1283218638
 PrefabInstance:
   m_ObjectHideFlags: 0
