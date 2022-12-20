@@ -11,53 +11,96 @@ public class RbPlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
+    [SerializeField] float dashDistance;
 
-    [SerializeField] float groundDrag;
+    bool dashing;
+    bool onDashCooldown;
 
-    [Header("Ground Check")] // Utiliza a altura do player para ver se está no chão com RayCast
-    public float playerHeight;
-    public bool grounded;
-    public LayerMask whatIsGround;  
-    
+    [Header("Rotation")]
+    [SerializeField] float smoothTurnTime = 0.1f;
+    float smoothTurnVelocity;
+
+    [Header("Animation")]
+    public Animator playerAnimator;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        playerRb.freezeRotation = true;
+        //playerRb.freezeRotation = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         MyInput();
-        MovePlayer();
 
-
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown)
+            dashing = true;
     }
 
     void FixedUpdate()
     {
-        MovePlayer();
+        if (!dashing)
+            MovePlayer();
+        else
+            StartCoroutine(Dash());
+        Rotate();
+
+        
     }
 
     private void MyInput()
     {
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-
-        grounded = Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0), Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        if (grounded)
-            playerRb.drag = groundDrag;
-        else
-            playerRb.drag = 0f;
-
     }
 
     private void MovePlayer()
     {
-        moveDirection = new Vector3(-input.x, 0f, -input.y);
-
+        if (Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)
+            playerAnimator.SetBool("isRunning", true);
+        else
+            playerAnimator.SetBool("isRunning", false);
+        moveDirection = new Vector3(input.x, 0f, input.y).normalized;
         playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
+    }
+
+    private void Rotate()
+    {
+        if (moveDirection.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(-moveDirection.z, moveDirection.x) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
+    }
+
+    IEnumerator Dash()
+    {
+        if (input.x != 0f || input.y != 0f)
+        {
+            dashing = true;
+            playerAnimator.SetBool("isDashing", true);
+            onDashCooldown = true;
+            StartCoroutine(DashCooldown());
+            if (Mathf.Abs(input.x) > Mathf.Epsilon && Mathf.Abs(input.y) > Mathf.Epsilon)
+                moveDirection = new Vector3(Mathf.Sign(input.x) / 1.4125f, 0f, Mathf.Sign(input.y) / 1.4125f).normalized;
+            else if (input.x != 0f && input.y != 0f)
+                moveDirection = new Vector3(Mathf.Sign(input.x), 0f, Mathf.Sign(input.y)).normalized;
+            else
+                moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+        }
+        
+        
+        playerRb.AddForce(moveDirection * dashDistance * 100f * Time.deltaTime, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.1f);
+        playerAnimator.SetBool("isDashing", false);
+        dashing = false;
+    }
+
+    IEnumerator DashCooldown()
+    {
+        yield return new WaitForSeconds(1f);
+        onDashCooldown = false;
     }
 }
