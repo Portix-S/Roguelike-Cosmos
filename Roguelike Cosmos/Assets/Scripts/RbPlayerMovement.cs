@@ -9,6 +9,7 @@ public class RbPlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     Vector2 input;
     Rigidbody playerRb;
+    public Joystick joystick;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
@@ -60,11 +61,16 @@ public class RbPlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)
+        bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
+        bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
+        if (hasMobileInput || hasPcInput)
             playerAnimator.SetBool("isRunning", true);
         else
             playerAnimator.SetBool("isRunning", false);
-        moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+        if (hasPcInput)
+            moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+        else
+            moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
         playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
     }
 
