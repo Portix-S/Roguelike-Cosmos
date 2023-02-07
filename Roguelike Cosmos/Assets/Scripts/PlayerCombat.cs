@@ -17,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            playerAnimator.SetBool("isPunching", true);
+            //playerAnimator.SetBool("isPunching", true);
             Debug.Log(_playerData.attackDamage);
         }
     }
