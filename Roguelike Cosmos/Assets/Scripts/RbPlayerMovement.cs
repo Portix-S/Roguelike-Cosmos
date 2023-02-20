@@ -71,7 +71,10 @@ public class RbPlayerMovement : MonoBehaviour
             moveDirection = new Vector3(input.x, 0f, input.y).normalized;
         else
             moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
-        playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
+
+        if(!GetComponent<PlayerCombat>().isAttacking) //moveDirection = Vector3.zero;
+            playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
+        
     }
 
     private void Rotate()
