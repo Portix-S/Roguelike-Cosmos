@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PlayerCombat))]
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject[] mobileButtons;
     DeviceType system;
     bool isMobileDevice;
+
+    public PlayerCombat playerScript;
+    private PlayerSkills playerSkills;
+
     private void Start()
     {
         system = SystemInfo.deviceType;
@@ -15,6 +21,7 @@ public class GameManager : MonoBehaviour
             ChangeStateMobileButtons(false);
         }
         isMobileDevice = false;
+        playerSkills = playerScript.GetPlayerSkillScript();
     }
 
     private void Update()
@@ -47,5 +54,27 @@ public class GameManager : MonoBehaviour
     {
         RbPlayerMovement playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<RbPlayerMovement>();
         playerMov.StartCoroutine("Dash");
+    }
+
+    public void UnlockDash()
+    {
+        if(!playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Dash))
+        {
+            Debug.Log("Erro ao debloquear Dash");
+        }
+        else
+            Debug.Log("Desbloqueou Dash");
+
+    }
+
+    public void UnlockAgility()
+    {
+        if (!playerSkills.TryUnlockSkill(PlayerSkills.SkillType.Agility))
+        {
+            Debug.Log("Erro ao debloquear Agilidade");
+        }
+        else
+            Debug.Log("Desbloqueou Agilidade");
+
     }
 }

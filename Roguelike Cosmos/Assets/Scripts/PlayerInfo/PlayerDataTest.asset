@@ -9,8 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc42ffc1f3ba5d45bb20e30fa384e04, type: 3}
+  m_Script: {fileID: 11500000, guid: 94620abfff99cdb48a1d7686747979bb, type: 3}
   m_Name: PlayerDataTest
   m_EditorClassIdentifier: 
-  attackDamage: 1
-  healthPoints: 10
+  healthPoints: 0
+  armor: 0
+  magicResistence: 0
+  inteligence: 0
+  agility: 0
+  attackDamage: 10
+  moveSpeed: 0
+  lucky: 0
+  stateHandler: {fileID: 0}
+  skillHandler: {fileID: 0}
+  inventory: {fileID: 0}
