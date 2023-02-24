@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
+    DeviceType system;
 
     [Header("Animation")]
     public Animator playerAnimator;

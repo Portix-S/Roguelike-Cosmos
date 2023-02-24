@@ -10,6 +10,9 @@ public class RbPlayerMovement : MonoBehaviour
     Vector2 input;
     Rigidbody playerRb;
     public Joystick joystick;
+    DeviceType system;
+    bool isMobileDevice;
+
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
@@ -31,7 +34,9 @@ public class RbPlayerMovement : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        system = SystemInfo.deviceType;
         //playerRb.freezeRotation = true;
+        isMobileDevice = false;
     }
 
     // Update is called once per frame
@@ -41,6 +46,16 @@ public class RbPlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown && playerAnimator.GetBool("isRunning"))
             dashing = true;
+
+        //Only for tests on PC
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            isMobileDevice = !isMobileDevice;
+            if (isMobileDevice)
+                system = DeviceType.Handheld;
+            else
+                system = DeviceType.Desktop;
+        }
     }
 
     void FixedUpdate()
@@ -56,25 +71,30 @@ public class RbPlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if(system == DeviceType.Desktop)
+            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        else
+            input = new Vector2(joystick.Horizontal, joystick.Vertical);
     }
 
     private void MovePlayer()
     {
-        bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
-        bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
-        if (hasMobileInput || hasPcInput)
+        //bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
+        //bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
+        if (Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)
             playerAnimator.SetBool("isRunning", true);
         else
             playerAnimator.SetBool("isRunning", false);
-        if (hasPcInput)
+        //if (hasPcInput) // mudar depois para system == DeviceType.Desktop 
             moveDirection = new Vector3(input.x, 0f, input.y).normalized;
-        else
-            moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
+
+        //else
+           //moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
 
         if(!GetComponent<PlayerCombat>().isAttacking) //moveDirection = Vector3.zero;
             playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
         
+
     }
 
     private void Rotate()
