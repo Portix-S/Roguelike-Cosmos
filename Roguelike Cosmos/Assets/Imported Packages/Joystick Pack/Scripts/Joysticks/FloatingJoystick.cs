@@ -9,6 +9,8 @@ public class FloatingJoystick : Joystick
     {
         base.Start();
         background.gameObject.SetActive(false);
+        //if (SystemInfo.deviceType == DeviceType.Desktop)
+            //gameObject.SetActive(false);
     }
 
     public override void OnPointerDown(PointerEventData eventData)
