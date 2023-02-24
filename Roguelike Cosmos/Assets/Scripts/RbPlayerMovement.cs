@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class RbPlayerMovement : MonoBehaviour
 {
     Vector3 moveDirection;
     Vector2 input;
     Rigidbody playerRb;
+    public Joystick joystick;
+    DeviceType system;
+    bool isMobileDevice;
+
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
     [SerializeField] float dashDistance;
+    float dashCooldownTimer = 1f;
+    [SerializeField] float dashTime = 0.75f;
 
-    bool dashing;
+    public bool dashing;
     bool onDashCooldown;
 
     [Header("Rotation")]
@@ -27,7 +34,9 @@ public class RbPlayerMovement : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        system = SystemInfo.deviceType;
         //playerRb.freezeRotation = true;
+        isMobileDevice = false;
     }
 
     // Update is called once per frame
@@ -35,8 +44,18 @@ public class RbPlayerMovement : MonoBehaviour
     {
         MyInput();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown && playerAnimator.GetBool("isRunning"))
             dashing = true;
+
+        //Only for tests on PC
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            isMobileDevice = !isMobileDevice;
+            if (isMobileDevice)
+                system = DeviceType.Handheld;
+            else
+                system = DeviceType.Desktop;
+        }
     }
 
     void FixedUpdate()
@@ -52,16 +71,24 @@ public class RbPlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if(system == DeviceType.Desktop)
+            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        else
+            input = new Vector2(joystick.Horizontal, joystick.Vertical);
     }
 
     private void MovePlayer()
     {
+        //bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
+        //bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
         if (Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)
             playerAnimator.SetBool("isRunning", true);
         else
             playerAnimator.SetBool("isRunning", false);
-        moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+        //if (hasPcInput) // mudar depois para system == DeviceType.Desktop 
+            moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+        //else
+            //moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
         playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
     }
 
@@ -83,24 +110,23 @@ public class RbPlayerMovement : MonoBehaviour
             playerAnimator.SetBool("isDashing", true);
             onDashCooldown = true;
             StartCoroutine(DashCooldown());
-            if (Mathf.Abs(input.x) > Mathf.Epsilon && Mathf.Abs(input.y) > Mathf.Epsilon)
+            if (Mathf.Abs(input.x) > Mathf.Epsilon && Mathf.Abs(input.y) > Mathf.Epsilon)   // Dashing Diagonally
                 moveDirection = new Vector3(Mathf.Sign(input.x) / 1.4125f, 0f, Mathf.Sign(input.y) / 1.4125f).normalized;
-            else if (input.x != 0f && input.y != 0f)
+            else if (input.x != 0f && input.y != 0f) // Dashing Straight
                 moveDirection = new Vector3(Mathf.Sign(input.x), 0f, Mathf.Sign(input.y)).normalized;
-            else
-                moveDirection = new Vector3(input.x, 0f, input.y).normalized;
+            
         }
         
         
         playerRb.AddForce(moveDirection * dashDistance * 100f * Time.deltaTime, ForceMode.Impulse);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(dashTime);
         playerAnimator.SetBool("isDashing", false);
         dashing = false;
     }
 
     IEnumerator DashCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(dashCooldownTimer);
         onDashCooldown = false;
     }
 }
