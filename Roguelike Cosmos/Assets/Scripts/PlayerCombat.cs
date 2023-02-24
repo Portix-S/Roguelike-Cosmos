@@ -8,6 +8,8 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
     DeviceType system;
+    private PlayerSkills playerSkills;
+
 
     [Header("Animation")]
     public Animator playerAnimator;
@@ -26,14 +28,43 @@ public class PlayerCombat : MonoBehaviour
 
     private void Awake() {
         UpdateColliders(false);
+        playerSkills = new PlayerSkills();
+        playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
     }
-
+    
+    public PlayerSkills GetPlayerSkillScript()
+    {
+        return playerSkills;
+    }
+    
     void Update(){
         if(Input.GetKeyDown(KeyCode.Mouse0)){
             //UpdateColliders(true);
             //isAttacking = true;
             playerAnimator.SetTrigger("isPunching");
         }
+        
+     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
+     {
+        switch(e.skillType)
+        {
+            case PlayerSkills.SkillType.Agility:
+                Debug.Log("+Agility");
+                break;
+            case PlayerSkills.SkillType.Defense:
+                Debug.Log("+Def");
+                break;
+            case PlayerSkills.SkillType.Strenght:
+                Debug.Log("+Str");
+                break;
+        }
+     }
+
+    
+
+    private void Start()
+    {
+        system = SystemInfo.deviceType;
     }
 
     public void StartAttack(){
@@ -51,5 +82,10 @@ public class PlayerCombat : MonoBehaviour
             UpdateColliders(false);
             Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemie");
         }
+    }
+
+    private bool CanUseSkill()
+    {
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
     }
 }
