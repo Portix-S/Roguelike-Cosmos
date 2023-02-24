@@ -12,19 +12,44 @@ public class PlayerCombat : MonoBehaviour
     [Header("Animation")]
     public Animator playerAnimator;
 
-    private void Start()
-    {
-        system = SystemInfo.deviceType;
+    [Header("Colliders")]
+    [SerializeField] private BoxCollider leftHandCollider;
+    [SerializeField] private BoxCollider rightHandCollider;
+
+    [Header("")]
+    public bool isAttacking;
+
+    public void UpdateColliders(bool enable){
+        leftHandCollider.enabled = enable;
+        rightHandCollider.enabled = enable;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    private void Awake() {
+        UpdateColliders(false);
+    }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0) && system == DeviceType.Desktop)
-        {
-            //playerAnimator.SetBool("isPunching", true);
-            Debug.Log(_playerData.attackDamage);
+    void Update(){
+        if(Input.GetKeyDown(KeyCode.Mouse0)){
+            //UpdateColliders(true);
+            //isAttacking = true;
+            playerAnimator.SetTrigger("isPunching");
+        }
+    }
+
+    public void StartAttack(){
+        isAttacking = true;
+        UpdateColliders(true);
+    }
+
+    public void FinishAttack(){
+        isAttacking = false;
+        UpdateColliders(false);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Enemie"){
+            UpdateColliders(false);
+            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemie");
         }
     }
 }
