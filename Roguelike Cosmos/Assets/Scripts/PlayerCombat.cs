@@ -21,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("")]
     public bool isAttacking;
 
-    public void UpdateColliders(bool enable){
+    public void UpdateColliders(bool enable) {
         leftHandCollider.enabled = enable;
         rightHandCollider.enabled = enable;
     }
@@ -31,22 +31,14 @@ public class PlayerCombat : MonoBehaviour
         playerSkills = new PlayerSkills();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
     }
-    
+
     public PlayerSkills GetPlayerSkillScript()
     {
         return playerSkills;
     }
-    
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
-            //UpdateColliders(true);
-            //isAttacking = true;
-            playerAnimator.SetTrigger("isPunching");
-        }
-        
-     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
-     {
-        switch(e.skillType)
+    private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
+    {
+        switch (e.skillType)
         {
             case PlayerSkills.SkillType.Agility:
                 Debug.Log("+Agility");
@@ -58,29 +50,41 @@ public class PlayerCombat : MonoBehaviour
                 Debug.Log("+Str");
                 break;
         }
-     }
+    }
 
-    
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+            UpdateColliders(true);
+            //isAttacking = true;
+            playerAnimator.SetTrigger("isPunching");
+        }
+    }
+
 
     private void Start()
     {
         system = SystemInfo.deviceType;
     }
 
-    public void StartAttack(){
+    public void StartAttack()
+    {
         isAttacking = true;
         UpdateColliders(true);
     }
 
-    public void FinishAttack(){
+    public void FinishAttack()
+    {
         isAttacking = false;
         UpdateColliders(false);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.gameObject.tag == "Enemie"){
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
             UpdateColliders(false);
-            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemie");
+            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemy");
         }
     }
 
@@ -88,4 +92,5 @@ public class PlayerCombat : MonoBehaviour
     {
         return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
     }
-}
+} 
+
