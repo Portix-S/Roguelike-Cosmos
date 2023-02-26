@@ -8,17 +8,26 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
     DeviceType system;
+    private PlayerSkills playerSkills;
+
 
     [Header("Animation")]
     public Animator playerAnimator;
 
-    [Header("Colliders")]
+    [Header("Basic Combat")]
     [SerializeField] private BoxCollider leftHandCollider;
     [SerializeField] private BoxCollider rightHandCollider;
-
-    [Header("")]
     public bool isAttacking;
 
+    [Header("Projectile")]
+    public GameObject pfProjectile;
+    public Transform  projectileSpawn;
+    private bool canShoot = true;
+    public float projectileSpeed;
+    public float projectileCooldown;
+    public bool isShooting;
+
+    // Basic Attack Logic //
     public void UpdateColliders(bool enable){
         leftHandCollider.enabled = enable;
         rightHandCollider.enabled = enable;
@@ -26,13 +35,25 @@ public class PlayerCombat : MonoBehaviour
 
     private void Awake() {
         UpdateColliders(false);
+        playerSkills = new PlayerSkills();
+        playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
     }
-
+    
+    public PlayerSkills GetPlayerSkillScript()
+    {
+        return playerSkills;
+    }
+    
     void Update(){
         if(Input.GetKeyDown(KeyCode.Mouse0)){
-            //UpdateColliders(true);
-            //isAttacking = true;
             playerAnimator.SetTrigger("isPunching");
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot && !isAttacking){ 
+            playerAnimator.SetTrigger("isShooting");
+        }
+        else if(Input.GetKeyDown(KeyCode.Mouse1) && !canShoot){
+            Debug.Log("On cooldown");
         }
     }
 
@@ -42,14 +63,58 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void FinishAttack(){
-        isAttacking = false;
         UpdateColliders(false);
     }
 
+    // Temporary damage dealer
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Enemie"){
             UpdateColliders(false);
-            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemie");
+            Debug.Log("Dealing damage to " + other.gameObject.name);
         }
+    }
+
+
+    // Ranged Skill Logic //
+    public void Shoot(){
+        var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
+
+        proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
+
+        canShoot = false;
+        StartCoroutine(ShootCooldown());
+    }
+
+    IEnumerator ShootCooldown(){
+        yield return new WaitForSeconds(projectileCooldown);
+        canShoot = true;
+    }
+        
+    
+    // Unlock Skill Logic //
+    private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
+    {
+        switch(e.skillType)
+        {
+            case PlayerSkills.SkillType.Agility:
+                Debug.Log("+Agility");
+                break;
+            case PlayerSkills.SkillType.Defense:
+                Debug.Log("+Def");
+                break;
+            case PlayerSkills.SkillType.Strenght:
+                Debug.Log("+Str");
+                break;
+        }
+    }
+
+    private void Start()
+    {
+        system = SystemInfo.deviceType;
+    }
+
+    private bool CanUseSkill()
+    {
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
     }
 }

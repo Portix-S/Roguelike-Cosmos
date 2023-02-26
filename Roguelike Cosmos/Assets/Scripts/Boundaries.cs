@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class Boundaries : MonoBehaviour
 {
-    public Vector2 boundaries;
     public GameObject[] boundariesObj;
-    public float topBound;
-    public float botBound;
-    public float leftBound;
-    public float rightBound;
-    public Vector3 objPos;
-    public Vector3 lastPos;
+    float topBound;
+    float botBound;
+    float leftBound;
+    float rightBound;
+    Vector3 objPos;
+    Vector3 lastPos;
     public RectTransform rt;
-    public bool outsideLimitsHorizontal;
-    public bool outsideLimitsVertical;
+    bool outsideLimitsHorizontal;
+    bool outsideLimitsVertical;
 
     // Start is called before the first frame update
     void Start()
     {
-        boundaries = new Vector2(Screen.width/2, Screen.height/2);
         rt = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void LateUpdate()
+    {
+        CheckBoundaries();
+    }
+
+    void CheckBoundaries()
     {
         objPos = rt.anchoredPosition;
         topBound = Camera.main.ScreenToViewportPoint(boundariesObj[0].transform.position).y; // >1
@@ -49,6 +52,7 @@ public class Boundaries : MonoBehaviour
         else
             outsideLimitsHorizontal = false;
 
+
         if (!outsideLimitsHorizontal)
         {
             lastPos.x = rt.anchoredPosition.x;
@@ -57,11 +61,5 @@ public class Boundaries : MonoBehaviour
         {
             lastPos.y = rt.anchoredPosition.y;
         }
-
-        //objPos.x = Mathf.Clamp(objPos.x, -rt.sizeDelta.x / 2, rt.sizeDelta.x / 2);
-        //objPos.x = Mathf.Clamp(objPos.x, boundaries.x * - 1, boundaries.x);
-        //objPos.y = Mathf.Clamp(objPos.y, -boundaries.y, boundaries.y);
-        //rt.anchoredPosition = objPos;
-        //transform.localPosition = objPos;
     }
 }
