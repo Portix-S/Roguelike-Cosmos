@@ -49,8 +49,11 @@ public class PlayerCombat : MonoBehaviour
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
     }
 
-    
-    
+    private void Start()
+    {
+        system = SystemInfo.deviceType;
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Mouse0)){
@@ -110,11 +113,6 @@ public class PlayerCombat : MonoBehaviour
         
     
 
-
-    private void Start()
-    {
-        system = SystemInfo.deviceType;
-    }
 
 
     private bool CanUseSkill()
