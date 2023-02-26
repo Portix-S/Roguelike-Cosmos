@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Ground
   - PlayerAttackHitbox
-  - Enemy
+  - Enemie
   layers:
   - Default
   - TransparentFX
