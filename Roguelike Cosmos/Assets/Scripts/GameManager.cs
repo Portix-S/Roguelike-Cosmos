@@ -310,8 +310,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // Acho que é mais custoso toda vez ler toda a lista do que ter 500 funções
-    /*
+    // É mais custoso toda vez ler toda a lista do que ter 500 funções
+    //*
     public void UnlockAbility()
     {
         string skillName = EventSystem.current.currentSelectedGameObject.name;
