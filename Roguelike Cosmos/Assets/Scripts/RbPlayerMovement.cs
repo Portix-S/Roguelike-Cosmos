@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
 public class RbPlayerMovement : MonoBehaviour
 {
     Vector3 moveDirection;
@@ -65,6 +64,7 @@ public class RbPlayerMovement : MonoBehaviour
         else
             StartCoroutine(Dash());
         Rotate();
+
         
     }
 
@@ -90,7 +90,7 @@ public class RbPlayerMovement : MonoBehaviour
         //else
            //moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
 
-        if(!GetComponent<PlayerCombat>().isAttacking && !GetComponent<PlayerCombat>().isShooting) //moveDirection = Vector3.zero;
+        if(!GetComponent<PlayerCombat>().isAttacking) //moveDirection = Vector3.zero;
             playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
         
 
@@ -118,6 +118,7 @@ public class RbPlayerMovement : MonoBehaviour
                 moveDirection = new Vector3(Mathf.Sign(input.x) / 1.4125f, 0f, Mathf.Sign(input.y) / 1.4125f).normalized;
             else if (input.x != 0f && input.y != 0f) // Dashing Straight
                 moveDirection = new Vector3(Mathf.Sign(input.x), 0f, Mathf.Sign(input.y)).normalized;
+            
         }
         
         

@@ -22,4 +22,4 @@ MonoBehaviour:
   lucky: 0
   stateHandler: {fileID: 0}
   skillHandler: {fileID: 0}
-  inventory: {fileID: 0}
+  inventory: {fileID: 11400000, guid: 8dc6678db0415e04b8ec8759aaa9bcc2, type: 2}
