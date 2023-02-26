@@ -2,20 +2,14 @@ using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
     DeviceType system;
     private PlayerSkills playerSkills;
 
-    [Header("Level System")]
-    [SerializeField] LevelWindow levelWindow;
-    private LevelSystem levelSystem;
-    [SerializeField] int currentPoints;
-    [SerializeField] int currentStatsPoints;
-    [SerializeField] TextMeshProUGUI pointsText;
 
     [Header("Animation")]
     public Animator playerAnimator;
@@ -27,21 +21,18 @@ public class PlayerCombat : MonoBehaviour
     [Header("")]
     public bool isAttacking;
 
-    public void UpdateColliders(bool enable) {
+
+    // Basic Attack Logic //
+    public void UpdateColliders(bool enable){
         leftHandCollider.enabled = enable;
         rightHandCollider.enabled = enable;
     }
 
     private void Awake() {
         UpdateColliders(false);
-        levelSystem = new LevelSystem();
-        levelWindow.SetLevelSystem(levelSystem);
-        pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
-        playerSkills = new PlayerSkills(levelSystem, pointsText);
+        playerSkills = new PlayerSkills();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
-        levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
     }
-
     
 
     void Update() {
@@ -75,19 +66,30 @@ public class PlayerCombat : MonoBehaviour
         UpdateColliders(true);
     }
 
-    public void FinishAttack()
-    {
-        isAttacking = false;
+    public void FinishAttack(){
         UpdateColliders(false);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
+    // Temporary damage dealer
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Enemie"){
             UpdateColliders(false);
-            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemy");
+            Debug.Log("Dealing damage to " + other.gameObject.name);
         }
+    }
+     // Ranged Skill Logic //
+    public void Shoot(){
+        var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
+
+        proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
+
+        canShoot = false;
+        StartCoroutine(ShootCooldown());
+    }
+
+    IEnumerator ShootCooldown(){
+        yield return new WaitForSeconds(projectileCooldown);
+        canShoot = true;
     }
 
     private bool CanUseSkill()
@@ -99,6 +101,8 @@ public class PlayerCombat : MonoBehaviour
     {
         return playerSkills;
     }
+    
+    // Unlock Skill Logic //
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
         switch (e.skillType)
@@ -114,10 +118,15 @@ public class PlayerCombat : MonoBehaviour
                 break;
         }
     }
+    
 
-    private void LevelSystem_OnLevelChanged(object sender, System.EventArgs e)
+    private void Start()
     {
-        pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
+        system = SystemInfo.deviceType;
     }
-} 
 
+    private bool CanUseSkill()
+    {
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
+    }
+}
