@@ -2,14 +2,20 @@ using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-[RequireComponent(typeof(Animator))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
     DeviceType system;
     private PlayerSkills playerSkills;
 
+    [Header("Level System")]
+    [SerializeField] LevelWindow levelWindow;
+    private LevelSystem levelSystem;
+    [SerializeField] int currentPoints;
+    [SerializeField] int currentStatsPoints;
+    [SerializeField] TextMeshProUGUI pointsText;
 
     [Header("Animation")]
     public Animator playerAnimator;
@@ -29,15 +35,21 @@ public class PlayerCombat : MonoBehaviour
 
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
+
         leftHandCollider.enabled = enable;
         rightHandCollider.enabled = enable;
     }
 
     private void Awake() {
         UpdateColliders(false);
-        playerSkills = new PlayerSkills();
+        levelSystem = new LevelSystem();
+        levelWindow.SetLevelSystem(levelSystem);
+        pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
+        playerSkills = new PlayerSkills(levelSystem, pointsText);
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
+        levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
     }
+
     
     public PlayerSkills GetPlayerSkillScript()
     {
@@ -55,6 +67,9 @@ public class PlayerCombat : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Mouse1) && !canShoot){
             Debug.Log("On cooldown");
         }
+        currentPoints = levelSystem.GetSkillTreePoints();
+        currentStatsPoints = levelSystem.GetStatPoints();
+        if(Input.GetKey(KeyCode.X))
     }
 
     public void StartAttack(){
@@ -95,6 +110,56 @@ public class PlayerCombat : MonoBehaviour
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
         switch(e.skillType)
+
+        {
+            levelSystem.AddExperience(100);
+        }
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            levelSystem.AddExperience(10);
+        }
+    }
+
+
+    private void Start()
+    {
+        system = SystemInfo.deviceType;
+    }
+
+//*   //não retirei pois não sei se era pra ter ainda ou se foi mesmo retirado
+    public void StartAttack()
+    {
+        isAttacking = true;
+        UpdateColliders(true);
+    }
+
+    public void FinishAttack()
+    {
+        isAttacking = false;
+        UpdateColliders(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            UpdateColliders(false);
+            Debug.Log("Dealing " + _playerData.attackDamage + " damage to an enemy");
+        }
+    }
+//*/
+    private bool CanUseSkill()
+    {
+        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
+    }
+
+    public PlayerSkills GetPlayerSkillScript()
+    {
+        return playerSkills;
+    }
+    private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
+    {
+        switch (e.skillType)
         {
             case PlayerSkills.SkillType.Agility:
                 Debug.Log("+Agility");
@@ -108,13 +173,9 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void LevelSystem_OnLevelChanged(object sender, System.EventArgs e)
     {
-        system = SystemInfo.deviceType;
+        pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
     }
+} 
 
-    private bool CanUseSkill()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
-    }
-}
