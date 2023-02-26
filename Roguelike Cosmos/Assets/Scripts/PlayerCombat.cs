@@ -66,6 +66,7 @@ public class PlayerCombat : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Mouse1) && !canShoot){
             Debug.Log("On cooldown");
         }
+        
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
         if(Input.GetKey(KeyCode.X))

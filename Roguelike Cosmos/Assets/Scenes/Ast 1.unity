@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1771118, g: 0.22171697, b: 0.30397764, a: 1}
+  m_IndirectSpecularColor: {r: 0.17711967, g: 0.22172728, b: 0.3039862, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7067,8 +7067,8 @@ GameObject:
   m_Component:
   - component: {fileID: 647134186}
   - component: {fileID: 647134185}
-  - component: {fileID: 647134183}
   - component: {fileID: 647134182}
+  - component: {fileID: 647134183}
   - component: {fileID: 647134181}
   m_Layer: 0
   m_Name: Player
@@ -7100,7 +7100,7 @@ MonoBehaviour:
   isAttacking: 0
   pfProjectile: {fileID: 4897886130843630534, guid: 76ad689860003691f82e34cab9758f80, type: 3}
   projectileSpawn: {fileID: 479547511}
-  projectileSpeed: 10
+  projectileSpeed: 30
   projectileCooldown: 2
   isShooting: 0
 --- !u!54 &647134182
