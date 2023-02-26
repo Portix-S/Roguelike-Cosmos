@@ -607,6 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 138884845}
   - component: {fileID: 138884846}
+  - component: {fileID: 138884847}
   m_Layer: 0
   m_Name: LeftHandFistCombat
   m_TagString: Untagged
@@ -642,6 +643,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.25701693, y: 0.27944466, z: 0.23761931}
   m_Center: {x: 0.0079894215, y: 0.0000000016754846, z: -0.009698774}
+--- !u!114 &138884847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138884844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f35c992edc40339beaba28186d63d9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 72490c5790f63574cb3b437c94bd288c, type: 2}
 --- !u!1001 &183535492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -724,7 +738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2, type: 3}
       propertyPath: m_LocalScale.x
@@ -1744,37 +1758,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a5d320e92e9c8147b98e6439fcacef7, type: 3}
   m_PrefabInstance: {fileID: 1166192080}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &479547510
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 479547511}
-  m_Layer: 0
-  m_Name: ProjectileDirection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &479547511
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479547510}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 1.44, z: 0.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 647134186}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &489872497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2102,16 +2085,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b16bebfa71f83447a955591a40622a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
+  _playerData: {fileID: 11400000, guid: 72490c5790f63574cb3b437c94bd288c, type: 2}
   playerAnimator: {fileID: 1724048785}
   leftHandCollider: {fileID: 138884846}
   rightHandCollider: {fileID: 1018340017}
   isAttacking: 0
-  pfProjectile: {fileID: 4897886130843630534, guid: 76ad689860003691f82e34cab9758f80, type: 3}
-  projectileSpawn: {fileID: 479547511}
-  projectileSpeed: 10
-  projectileCooldown: 2
-  isShooting: 0
 --- !u!54 &647134182
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2121,12 +2099,12 @@ Rigidbody:
   m_GameObject: {fileID: 647134179}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 5
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &647134183
 MonoBehaviour:
@@ -2141,7 +2119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 66158604}
-  moveSpeed: 50
+  moveSpeed: 90
   dashDistance: 7
   dashTime: 0.2
   dashing: 0
@@ -2182,7 +2160,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 489872498}
-  - {fileID: 479547511}
   - {fileID: 1724048786}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -3081,7 +3058,7 @@ MonoBehaviour:
   m_Follow: {fileID: 647134186}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 8
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -3148,6 +3125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1018340016}
   - component: {fileID: 1018340017}
+  - component: {fileID: 1018340018}
   m_Layer: 0
   m_Name: RightHandFistCombat
   m_TagString: Untagged
@@ -3183,6 +3161,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.25701693, y: 0.27944466, z: 0.2570169}
   m_Center: {x: 0.007989421, y: 0.0000000010051899, z: 0.0000000019489204}
+--- !u!114 &1018340018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018340015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f35c992edc40339beaba28186d63d9e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 72490c5790f63574cb3b437c94bd288c, type: 2}
 --- !u!1001 &1020154104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3409,7 +3400,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4198,7 +4189,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 46
+  m_Constraints: 14
   m_CollisionDetection: 0
 --- !u!195 &1377410911
 NavMeshAgent:
