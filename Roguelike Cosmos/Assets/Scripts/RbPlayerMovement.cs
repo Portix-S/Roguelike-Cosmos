@@ -28,6 +28,7 @@ public class RbPlayerMovement : MonoBehaviour
 
     [Header("Animation")]
     public Animator playerAnimator;
+    PlayerCombat playerCombat;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class RbPlayerMovement : MonoBehaviour
         system = SystemInfo.deviceType;
         //playerRb.freezeRotation = true;
         isMobileDevice = false;
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     // Update is called once per frame
@@ -79,7 +81,8 @@ public class RbPlayerMovement : MonoBehaviour
     {
         //bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
         //bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
-        if (Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)
+        bool isNotAttacking = !playerCombat.isAttacking && !playerCombat.isShooting;
+        if (((Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)) && isNotAttacking)
             playerAnimator.SetBool("isRunning", true);
         else
             playerAnimator.SetBool("isRunning", false);
@@ -89,7 +92,7 @@ public class RbPlayerMovement : MonoBehaviour
         //else
            //moveDirection = new Vector3(joystick.Horizontal, 0f, joystick.Vertical).normalized;
 
-        if(!GetComponent<PlayerCombat>().isAttacking && !GetComponent<PlayerCombat>().isShooting) //moveDirection = Vector3.zero;
+        if(isNotAttacking) //moveDirection = Vector3.zero;
             playerRb.AddForce(moveDirection * moveSpeed * 100f * Time.deltaTime, ForceMode.Force);
         
 

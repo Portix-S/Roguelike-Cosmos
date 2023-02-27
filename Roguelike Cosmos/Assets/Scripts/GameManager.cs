@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public PlayerCombat playerScript;
     private PlayerSkills playerSkills;
     public GameObject skillTreeUI;
+    private bool skillTreeActive;
     
     public Button[] skillButtonList; // Lista teste
     public List<Button> skillButtonList2; // Lista Completa
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         skillTypeList.Remove(PlayerSkills.SkillType.None);
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
         UpdateVisuals();
-
+        skillTreeActive = false;
     }
 
     private void Update()
@@ -54,6 +55,11 @@ public class GameManager : MonoBehaviour
                 system = DeviceType.Handheld;
             else
                 system = DeviceType.Desktop;
+        }
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            skillTreeActive = !skillTreeActive;
+            skillTreeUI.SetActive(skillTreeActive);
         }
     }
 
