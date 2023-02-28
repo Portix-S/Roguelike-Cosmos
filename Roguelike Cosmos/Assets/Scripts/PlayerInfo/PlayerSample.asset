@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94620abfff99cdb48a1d7686747979bb, type: 3}
-  m_Name: PlayerDataTest
+  m_Name: PlayerSample
   m_EditorClassIdentifier: 
   healthPoints: 1
   armor: 1

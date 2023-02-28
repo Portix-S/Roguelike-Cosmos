@@ -8,67 +8,153 @@ namespace Player
 
     public class PlayerData : ScriptableObject
     {
+        public PlayerModifiers[] modifier;
+
         [Header("life and Defense")]
-        public int BaseHealthPoints;//base + constituicao
-        public int armor;
-        public int magicResistence;
-        public int dodge;//base + DEX
+        public int baseHealthPoints;//base + constituicao
+        public int baseArmor;
+        public int baseMagicResistence;
+        public int baseDodge;//base + DEX
 
         [Header("Attack and Damage")]
-        public float attackSpeed;
+        public float baseAttackSpeed;
         public float baseAttackDamage;
-        public float attackRange;
+        public float baseAttackRange;
+        public float baseCoolDown;//modificarodr de tempo de recarga das skills
 
-        public float MagicDamage;//
-        public float skillCoolDown;//modificarodr de tempo de recarga das skills
-        
 
         [Header("Other")]
-        public float moveSpeed;//base + DEX
-        public float lucky;
+        public float baseMoveSpeed;//base + DEX
 
-        public int inteligence;
 
+        ////////////////////////////////////////////////////////////////////////// valores baseados nos modificadores
+
+        public float HealthPoints
+        {
+            get
+            {
+                float hp = baseHealthPoints;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Constitution)
+                        hp += v.value * 1.5f;
+                }
+                return hp;
+            }
+        }
+
+        public float Armor
+        {
+            get
+            {
+                float hp = baseArmor;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Constitution)
+                        hp += v.value * 0.2f;
+                    if (v.stat == PlayerModifier.Agility)
+                        hp += v.value * 0.1f;
+                }
+                return hp;
+            }
+        }
+
+        public float MagicResistence
+        {
+            get
+            {
+                float hp = baseMagicResistence;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Constitution)
+                        hp += v.value * 0.1f;
+                    if (v.stat == PlayerModifier.Wisdom)
+                        hp += v.value * 0.2f;
+                    if (v.stat == PlayerModifier.Intelligence)
+                        hp += v.value * 0.1f;
+
+
+                }
+                return hp;
+            }
+        }
+        public float Dodge
+        {
+            get
+            {
+                float dg = baseDodge;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Agility)
+                        dg += v.value * 0.1f;
+                }
+                return dg;
+            }
+            
+        }
+
+        public float AttackSpeed
+        {
+            get
+            {
+                float dg = baseAttackSpeed;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Agility)
+                        dg += v.value * 0.1f;
+                }
+                return dg;
+            }
+
+        }
 
         public float AttackDamage
         {
             get
             {
-                float d = 0f;
+                float d = baseAttackDamage;
                 foreach (PlayerModifiers v in modifier)
                 {
-                    if (v.stat == PlayerModifier.Constitution)
-                        d += v.value * 0.7f;
+                    if (v.stat == PlayerModifier.Agility)
+                        d += v.value * 0.75f;
                     if (v.stat == PlayerModifier.Strength)
-                        d += v.value * 0.7f;
-                    if (v.stat == PlayerModifier.Intelligence)
-                        d += v.value * 0.7f;
+                        d += v.value * 1.5f;
                 }
                 return d;
             }
         }
 
-        public PlayerStatisticValue[] statistics;
+        public float CoolDownReduct
+        {
+            get
+            {
+                float d = baseCoolDown;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Intelligence)
+                        d += v.value* 0.2f;
+                    if (v.stat == PlayerModifier.Wisdom)
+                        d += v.value* 0.1f;
+                }
+                return d;
+            }
+        }
+
+        public float MoveSpeed
+        {
+            get
+            {
+                float d = baseMoveSpeed;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Agility)
+                        d += v.value * 0.1f;
+                }
+                return d;
+            }
+        }
 
         public ItemInventory[] inventory;
-
-        public PlayerModifiers[] modifier;
-
-
-
-    }
-
-    //moficador das estatisticas do player
-    public enum PlayerStatistic
-    {
-
-    }
-
-    [System.Serializable]
-    public class PlayerStatisticValue
-    {
-        public PlayerStatistic stat;
-        public int value;
     }
 
     //modificador simplificado de estatisticas do player, vulgo igual dnd 10 de strenght vira dano etc
@@ -89,5 +175,6 @@ namespace Player
     {
         public Item item;
     }
+    
 }
 
