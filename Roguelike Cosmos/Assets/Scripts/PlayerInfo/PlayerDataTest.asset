@@ -12,14 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94620abfff99cdb48a1d7686747979bb, type: 3}
   m_Name: PlayerDataTest
   m_EditorClassIdentifier: 
-  healthPoints: 0
-  armor: 0
-  magicResistence: 0
-  inteligence: 0
-  agility: 0
-  attackDamage: 10
-  moveSpeed: 0
-  lucky: 0
-  stateHandler: {fileID: 0}
-  skillHandler: {fileID: 0}
-  inventory: {fileID: 0}
+  healthPoints: 1
+  armor: 1
+  magicResistence: 1
+  dodge: 1
+  attackSpeed: 1
+  attackRange: 1
+  MagicDamage: 1
+  skillCoolDown: 1
+  moveSpeed: 1
+  lucky: 1
+  inteligence: 1
+  statistics: []
+  inventory: []
+  modifier:
+  - stat: 0
+    value: 10
+  - stat: 1
+    value: 5
+  - stat: 3
+    value: 2

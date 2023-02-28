@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Iten
-{
-    [CreateAssetMenu(fileName = "Iten", menuName = "Scriptable Objects/Iten")]
-    public class Iten : ScriptableObject
+
+    [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
+    public class Item : ScriptableObject
     {
         [Header("Iten Status modifier")]
         public int healthPoints;
@@ -27,4 +26,3 @@ namespace Iten
         public ScriptableObject skill;
 
     }
-}
