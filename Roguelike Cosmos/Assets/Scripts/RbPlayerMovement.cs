@@ -51,12 +51,17 @@ public class RbPlayerMovement : MonoBehaviour
         //Only for tests on PC
         if (Input.GetKeyDown(KeyCode.M))
         {
-            isMobileDevice = !isMobileDevice;
-            if (isMobileDevice)
-                system = DeviceType.Handheld;
-            else
-                system = DeviceType.Desktop;
+            ChangeInput();
         }
+    }
+
+    public void ChangeInput()
+    {
+        isMobileDevice = !isMobileDevice;
+        if (isMobileDevice)
+            system = DeviceType.Handheld;
+        else
+            system = DeviceType.Desktop;
     }
 
     void FixedUpdate()
