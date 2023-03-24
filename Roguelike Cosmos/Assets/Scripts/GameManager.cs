@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject[] mobileButtons;
-    DeviceType system;
+    //DeviceType system;
     bool isMobileDevice;
 
     public PlayerCombat playerScript;
@@ -30,8 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        system = SystemInfo.deviceType;
-        if(system == DeviceType.Desktop)
+        if(playerScript.system == DeviceType.Desktop)
         {
             ChangeStateMobileButtons(false);
         }
@@ -43,6 +42,10 @@ public class GameManager : MonoBehaviour
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
         UpdateVisuals();
         skillTreeActive = false;
+        if (playerScript.system == DeviceType.Desktop)
+        {
+            ChangeStateMobileButtons(false);
+        }
     }
 
     private void Update()
@@ -52,15 +55,26 @@ public class GameManager : MonoBehaviour
             isMobileDevice = !isMobileDevice;
             ChangeStateMobileButtons(isMobileDevice);
             if (isMobileDevice)
-                system = DeviceType.Handheld;
+                playerScript.system = DeviceType.Handheld;
             else
-                system = DeviceType.Desktop;
+                playerScript.system = DeviceType.Desktop;
         }
         if(Input.GetKeyDown(KeyCode.L))
         {
-            skillTreeActive = !skillTreeActive;
-            skillTreeUI.SetActive(skillTreeActive);
+            OpenSkillTree();
         }
+    }
+
+    public void ChangeStateMobileButtons()
+    {
+        isMobileDevice = !isMobileDevice;
+        ChangeStateMobileButtons(isMobileDevice);
+    }
+
+    public void OpenSkillTree()
+    {
+        skillTreeActive = !skillTreeActive;
+        skillTreeUI.SetActive(skillTreeActive);
     }
 
     void ChangeStateMobileButtons(bool state)
@@ -73,7 +87,12 @@ public class GameManager : MonoBehaviour
 
     public void AttackButton()
     {
-        Debug.Log("Attack");
+        playerScript.MobilePunch();
+    }
+
+    public void FirstSkillButton()
+    {
+        playerScript.RangedSkillMobile();
     }
 
     public void DashButton()
@@ -114,14 +133,14 @@ public class GameManager : MonoBehaviour
         {
             //image.material = null;
             //backgroundImage.material = null;
-            Debug.Log("Desbloq " + skillType);
+            //Debug.Log("Desbloq " + skillType);
             button.interactable = false;
         }
         else
         {
             if (playerSkills.CanUnlock(skillType))
             {
-                Debug.Log("Desbloquavel " + skillType);
+                //Debug.Log("Desbloquavel " + skillType);
                 //image.material = skillUnlockableMaterial;
                 //backgroundImage.color = UtilsClass.GetColorFromString("4B677D");
                 //transform.GetComponent<Button_UI>().enabled = true;
@@ -131,7 +150,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Bloq " + skillType);
+                //Debug.Log("Bloq " + skillType);
                 //image.material = skillLockedMaterial;
                 //backgroundImage.color = new Color(.3f, .3f, .3f);
                 //transform.GetComponent<Button_UI>().enabled = false;

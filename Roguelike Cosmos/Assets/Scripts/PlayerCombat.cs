@@ -7,7 +7,7 @@ using TMPro;
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
-    DeviceType system;
+    public DeviceType system;
     private PlayerSkills playerSkills;
 
     [Header("Level System")]
@@ -40,6 +40,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     private void Awake() {
+        system = SystemInfo.deviceType;
         UpdateColliders(false);
         levelSystem = new LevelSystem();
         levelWindow.SetLevelSystem(levelSystem);
@@ -56,27 +57,50 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
-            playerAnimator.SetTrigger("isPunching");
-        }
+        if (system == DeviceType.Desktop)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                playerAnimator.SetTrigger("isPunching");
+            }
 
-        if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot && !isAttacking){ 
-            playerAnimator.SetTrigger("isShooting");
+            if (Input.GetKeyDown(KeyCode.Mouse1) && canShoot && !isAttacking)
+            {
+                playerAnimator.SetTrigger("isShooting");
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse1) && !canShoot)
+            {
+                Debug.Log("On cooldown");
+            }
+
+            
+            if (Input.GetKey(KeyCode.X))
+            {
+                levelSystem.AddExperience(100);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                levelSystem.AddExperience(10);
+            }
         }
-        else if(Input.GetKeyDown(KeyCode.Mouse1) && !canShoot){
-            Debug.Log("On cooldown");
-        }
-        
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
-        if(Input.GetKey(KeyCode.X))
-        {
-            levelSystem.AddExperience(100);
-        }
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            levelSystem.AddExperience(10);
-        }
+    }
+
+    public void MobilePunch()
+    {
+        playerAnimator.SetTrigger("isPunching");
+    }
+
+    public void RangedSkillMobile()
+    {
+        playerAnimator.SetTrigger("isShooting");
+    }
+
+
+    public void AddXP()
+    {
+        levelSystem.AddExperience(90);
     }
 
     public void StartAttack(){
@@ -130,13 +154,13 @@ public class PlayerCombat : MonoBehaviour
         switch (e.skillType)
         {
             case PlayerSkills.SkillType.Agility:
-                Debug.Log("+Agility");
+                //Debug.Log("+Agility");
                 break;
             case PlayerSkills.SkillType.Defense:
-                Debug.Log("+Def");
+                //Debug.Log("+Def");
                 break;
             case PlayerSkills.SkillType.Strenght:
-                Debug.Log("+Str");
+                //Debug.Log("+Str");
                 break;
         }
     }
