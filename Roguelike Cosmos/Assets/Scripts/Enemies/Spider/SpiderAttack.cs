@@ -15,4 +15,9 @@ public class SpiderAttack : MonoBehaviour
         proj.GetComponent<Rigidbody>().velocity = launchPos.forward * projectileSpeed;
         proj.GetComponent<SpiderProjectile>().SetDamage(spiderDamage);
     }
+
+    public void StopTakingDamage()
+    {
+        gameObject.GetComponentInParent<EnemyController>().StopTakingDamage();
+    }
 }

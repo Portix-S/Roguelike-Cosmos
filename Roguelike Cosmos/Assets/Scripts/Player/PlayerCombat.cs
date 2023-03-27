@@ -61,6 +61,10 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         system = SystemInfo.deviceType;
+        if (system == DeviceType.Handheld)
+        {
+            attackMoveForce = 100f;
+        }
     }
 
     void Update()
@@ -72,10 +76,9 @@ public class PlayerCombat : MonoBehaviour
                 playerAnimator.SetTrigger("isPunching");
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1) && canShoot && !isAttacking)
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                canShoot = false;
-                playerAnimator.SetTrigger("isShooting");
+                RangedSkill();
             }
             else if (Input.GetKeyDown(KeyCode.Mouse1) && !canShoot)
             {
@@ -101,9 +104,13 @@ public class PlayerCombat : MonoBehaviour
         playerAnimator.SetTrigger("isPunching");
     }
 
-    public void RangedSkillMobile()
+    public void RangedSkill()
     {
-        playerAnimator.SetTrigger("isShooting");
+        if (canShoot && !isAttacking)
+        {
+            canShoot = false;
+            playerAnimator.SetTrigger("isShooting");
+        }
     }
 
     public void MoveForward()
@@ -131,7 +138,7 @@ public class PlayerCombat : MonoBehaviour
 
     // Temporary damage dealer
     private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Enemy"){
+        if(other.tag == "Enemy" && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
             enemyScript.TakeDamage(_playerData.attackDamage);

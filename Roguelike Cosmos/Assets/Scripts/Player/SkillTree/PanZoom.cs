@@ -13,6 +13,13 @@ public class PanZoom : MonoBehaviour
     [SerializeField] float panSpeed = 5f;
     // Update is called once per frame
 
+    private void Start()
+    {
+        if(SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            panSpeed *= 2f;
+        }
+    }
 
     // Maybe when zoomingOut, after certain amount, reset position to 0? or maybe slowly change it back?
     void Update()
