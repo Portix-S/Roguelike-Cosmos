@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - PlayerAttackHitbox
   - Enemy
+  - Enemie
+  - Wall
+  - Obstacle
   layers:
   - Default
   - TransparentFX
