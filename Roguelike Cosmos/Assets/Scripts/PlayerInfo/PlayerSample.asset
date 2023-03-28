@@ -12,23 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94620abfff99cdb48a1d7686747979bb, type: 3}
   m_Name: PlayerSample
   m_EditorClassIdentifier: 
-  healthPoints: 1
-  armor: 1
-  magicResistence: 1
-  dodge: 1
-  attackSpeed: 1
-  attackRange: 1
-  MagicDamage: 1
-  skillCoolDown: 1
-  moveSpeed: 1
-  lucky: 1
-  inteligence: 1
-  statistics: []
-  inventory: []
   modifier:
   - stat: 0
     value: 10
   - stat: 1
-    value: 5
+    value: 10
+  - stat: 2
+    value: 10
   - stat: 3
-    value: 2
+    value: 10
+  - stat: 4
+    value: 10
+  baseHealthPoints: 1
+  baseArmor: 1
+  baseMagicResistence: 1
+  baseDodge: 0
+  baseAttackSpeed: 1
+  baseAttackDamage: 1
+  baseAttackRange: 1
+  baseCoolDown: 0
+  baseMoveSpeed: 1
+  inventory: []
