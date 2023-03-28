@@ -32468,7 +32468,7 @@ PrefabInstance:
       objectReference: {fileID: 1717041668}
     - target: {fileID: 2007370840166066190, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: attackMoveForce
-      value: 2000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2007370840166066190, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: projectileCooldown
