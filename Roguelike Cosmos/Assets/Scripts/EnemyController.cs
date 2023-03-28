@@ -89,6 +89,11 @@ public class EnemyController : MonoBehaviour
         enemyAnimator.SetBool("isAttacking", false);
     }
 
+    public void StopTakingDamage()
+    {
+        enemyAnimator.SetBool("isTakingDamage", false);
+    }
+
 
     public int GetDamage()
     {
@@ -102,7 +107,9 @@ public class EnemyController : MonoBehaviour
     }
 
     public void TakeDamage(float amount)
-    { 
+    {
+        enemyAnimator.SetBool("isTakingDamage", true);
+        CameraShake.Instance.ShakeCamera(2f, 0.2f);
         if(healthPoints - amount > 0f)
         {
             healthPoints -= amount;

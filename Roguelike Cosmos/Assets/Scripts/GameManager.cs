@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public List<Button> skillButtonList2; // Lista Completa
     [SerializeField] private List<PlayerSkills.SkillType> skillTypeList;
 
+    [SerializeField] Transform spawnPos;
+    [SerializeField] GameObject enemyPrefab;
+
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
         UpdateVisuals();
@@ -65,6 +68,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpawnEnemy()
+    {
+        Instantiate(enemyPrefab, spawnPos.position, spawnPos.rotation);
+    }
+
     public void ChangeStateMobileButtons()
     {
         isMobileDevice = !isMobileDevice;
@@ -92,7 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void FirstSkillButton()
     {
-        playerScript.RangedSkillMobile();
+        playerScript.RangedSkill();
     }
 
     public void DashButton()

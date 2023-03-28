@@ -22,7 +22,8 @@ public class Projectile : MonoBehaviour
         {
             Debug.Log("Hit!");
             other.GetComponent<EnemyController>().TakeDamage(damage);
+            Destroy(gameObject,0.01f);
         }
-        Destroy(gameObject,0.01f);
     }
+
 }

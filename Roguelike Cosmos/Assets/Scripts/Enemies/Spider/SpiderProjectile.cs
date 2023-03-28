@@ -23,7 +23,10 @@ public class SpiderProjectile : MonoBehaviour
             Debug.Log("Hit!");
             //Player Take Damage;
             Destroy(gameObject, 0.01f);
-
+        }
+        else if(other.gameObject.tag == "Obstacle" || other.gameObject.tag == "Wall")
+        {
+            Destroy(gameObject);
         }
     }
 }
