@@ -21,8 +21,10 @@ public class CameraShake : MonoBehaviour
     {
         CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
-
-        startingIntensity = intensity;
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+            startingIntensity = 2 * intensity;
+        else
+            startingIntensity = intensity;
         shakerTimerTotal = time;
         shakerTimer = time;
     }

@@ -22,7 +22,7 @@ public class MenuScript : MonoBehaviour
     public void StartGame()
     {
         //SceneManager.LoadScene("DestroyEnemy Scene");
-        SceneManager.LoadScene("Cena1");
+        SceneManager.LoadScene("Portix 3");
     }
 
     public void Instructions()

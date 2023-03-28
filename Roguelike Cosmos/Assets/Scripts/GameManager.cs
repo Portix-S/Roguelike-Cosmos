@@ -45,10 +45,6 @@ public class GameManager : MonoBehaviour
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
         UpdateVisuals();
         skillTreeActive = false;
-        if (playerScript.system == DeviceType.Desktop)
-        {
-            ChangeStateMobileButtons(false);
-        }
     }
 
     private void Update()
