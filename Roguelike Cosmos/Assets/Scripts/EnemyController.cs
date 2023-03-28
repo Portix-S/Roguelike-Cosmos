@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
 
     public float lookRadius = 10f;
+    public float randomRadius = 20f;
     Transform target;
     NavMeshAgent agent;
     public bool nextLocation = false;
@@ -48,12 +49,11 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(AttackCooldown());
         }
 
-        //*/
-
         if (distance <= lookRadius)
         {
             agent.SetDestination(target.position);
-
+            Debug.Log("seguindo");
+            nextLocation = false;
             if (distance <= agent.stoppingDistance)
             {
                 FaceTarget();
@@ -61,23 +61,24 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-
+            Debug.Log("Não seguindo");
+            Debug.Log(nextLocation);
             if (nextLocation)
             {
                 agent.SetDestination(randomPoint);
+                Debug.Log(randomPoint);
                 float distance2 = Vector3.Distance(randomPoint, transform.position);
-                //Debug.Log(distance2);
+                Debug.Log(distance2);
 
                 if (distance2 <= agent.stoppingDistance)
                 {
                     nextLocation = false;
-                    //Attack;
                 }
 
             }
             else
             {
-                randomPoint = new Vector3(Random.Range(-20f, 3f), 0, Random.Range(-10f, 3f));
+                randomPoint = RandomNavmeshLocation(randomRadius);
                 nextLocation = true;
             }
         }
@@ -104,6 +105,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(attackCooldownTimer);
         isAttacking = false;
     }
+
     public void TakeDamage(float amount)
     {
         enemyAnimator.SetBool("isTakingDamage", true);
@@ -121,6 +123,19 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public Vector3 RandomNavmeshLocation(float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        Vector3 finalPosition = Vector3.zero;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            finalPosition = hit.position;
+        }
+        return finalPosition;
+    }
+
     void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -132,5 +147,7 @@ public class EnemyController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
+        Gizmos.DrawWireSphere(transform.position, randomRadius);
+        Gizmos.DrawSphere(randomPoint, 1);
     }
 }

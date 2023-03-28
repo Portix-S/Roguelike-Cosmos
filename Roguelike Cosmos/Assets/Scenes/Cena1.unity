@@ -1022,7 +1022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 949977452898693188, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.809803
+      value: -24.36
       objectReference: {fileID: 0}
     - target: {fileID: 949977452898693188, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1030,7 +1030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 949977452898693188, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.936747
+      value: 31.67
       objectReference: {fileID: 0}
     - target: {fileID: 949977452898693188, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1059,6 +1059,30 @@ PrefabInstance:
     - target: {fileID: 949977452898693188, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693189, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: x0
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693189, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: x1
+      value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693189, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: z0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693189, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: z1
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693189, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: randomRadius
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 949977452898693191, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 949977452898693192, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
       propertyPath: m_Name
