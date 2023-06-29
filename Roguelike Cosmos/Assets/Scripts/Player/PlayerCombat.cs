@@ -26,6 +26,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private BoxCollider rightHandCollider;
     public bool isAttacking;
     [SerializeField] float attackMoveForce = 1f;
+    private Plane plane;
 
     [Header("Projectile")]
     public GameObject pfProjectile;
@@ -61,6 +62,7 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         system = SystemInfo.deviceType;
+        plane = new Plane(Vector3.up, Vector3.zero);
         if (system == DeviceType.Handheld)
         {
             attackMoveForce = 100f;
@@ -74,6 +76,15 @@ public class PlayerCombat : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 playerAnimator.SetTrigger("isPunching");
+                // Cria um raycast para achar o ponto do plano que o jogador está direcionando
+                Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if(plane.Raycast(raio, out float enter)){
+                    Vector3 hit = raio.GetPoint(enter);
+                    Vector3 playerPos = plane.ClosestPointOnPlane(transform.position);
+                    Vector3 attackDirection = new Vector3(hit.x - playerPos.x, hit.y - playerPos.y, hit.z - playerPos.z);
+                    transform.rotation = Quaternion.LookRotation(attackDirection);
+                    transform.rotation *= Quaternion.Euler(0,-90f,0);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Mouse1))

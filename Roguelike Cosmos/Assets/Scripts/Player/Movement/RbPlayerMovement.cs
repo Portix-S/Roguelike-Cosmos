@@ -74,7 +74,8 @@ public class RbPlayerMovement : MonoBehaviour
             MovePlayer();
         else
             StartCoroutine(Dash());
-        Rotate();
+        
+        if(isNotAttacking) Rotate();
         
     }
 
