@@ -23,7 +23,6 @@ namespace Player
 
         [Header("Player Inventory")]
         public ScriptableObject inventory;
-
     }
 }
 

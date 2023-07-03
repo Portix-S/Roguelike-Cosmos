@@ -4,10 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Player;
 
 public class PlayerSkills
 {
     public event EventHandler<OnSkillUnlockedArgs> OnSkillUnlocked;
+
+    [SerializeField] private PlayerData _playerData;
+
     public class OnSkillUnlockedArgs : EventArgs
     {
         public SkillType skillType;
@@ -37,10 +41,114 @@ public class PlayerSkills
     {
         if (!IsSkillUnlocked(skillType))
         {
+            increaseStats(skillType);
             unlockedSkillTypesList.Add(skillType);
             OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedArgs { skillType = skillType });
         }
     }
+
+    private void increaseStats(SkillType skillType)
+    {
+        if(skillType == SkillType.Dash) return;
+        if(skillType == SkillType.Strenght6) return;
+        if(skillType == SkillType.Defense6) return;
+        if(skillType == SkillType.Agility6) return;
+        if(skillType == SkillType.StrAgi6) return;
+        if(skillType == SkillType.AgiDef6) return;
+        if(skillType == SkillType.DefStr6) return;
+
+        switch (skillType)
+        {
+            // First/Second Layer
+            case SkillType.Strenght:
+            case SkillType.Strenght1Left: 
+            case SkillType.Strenght2Left: 
+            case SkillType.Strenght1Right:
+            case SkillType.Strenght2Right: 
+                _playerData.attackDamage += 10; 
+            break;
+            case SkillType.Defense: 
+            case SkillType.Defense1Left:  
+            case SkillType.Defense2Left: 
+            case SkillType.Defense1Right:
+            case SkillType.Defense2Right:
+                _playerData.armor += 10;
+                _playerData.magicResistence += 10;
+            break;
+
+            case SkillType.Agility: 
+            case SkillType.Agility1Left: 
+            case SkillType.Agility2Left: 
+            case SkillType.Agility1Right:
+            case SkillType.Agility2Right:
+                _playerData.moveSpeed +=10;
+            break;
+
+            // First Skill/Buff
+            case SkillType.Strenght3: 
+                _playerData.attackDamage += 5; 
+            break;
+            case SkillType.Defense3:
+                _playerData.armor += 5;
+                _playerData.magicResistence += 5;
+            break;
+            case SkillType.Agility3:
+                _playerData.moveSpeed +=5;
+            break;
+            case SkillType.StrAgi2: 
+                _playerData.moveSpeed +=2;
+                _playerData.attackDamage += 2; 
+            break;
+            case SkillType.AgiDef2: 
+                _playerData.armor += 2;
+                _playerData.magicResistence += 2;
+                _playerData.moveSpeed +=2;
+            break;
+            case SkillType.DefStr2: 
+                _playerData.attackDamage += 2; 
+                _playerData.armor += 2;
+                _playerData.magicResistence += 2;
+            break;
+            // Fourth/Fifth Layer and Second Buff
+            case SkillType.Strenght4Left: 
+            case SkillType.Strenght5Left:
+            case SkillType.Strenght4Right:
+            case SkillType.Strenght5Right:
+                _playerData.attackDamage += 10; 
+            break;
+            case SkillType.Defense4Left:
+            case SkillType.Defense5Left:
+            case SkillType.Defense4Right: 
+            case SkillType.Defense5Right: 
+                _playerData.armor += 10;
+                _playerData.magicResistence += 10;
+            break;
+
+            case SkillType.Agility4Left:
+            case SkillType.Agility5Left: 
+            case SkillType.Agility4Right:  
+            case SkillType.Agility5Right: 
+                _playerData.moveSpeed +=10;
+            break;
+              
+        
+            case SkillType.StrAgi4:  
+                _playerData.attackDamage += 10; 
+                _playerData.moveSpeed +=10;
+            break;
+            case SkillType.AgiDef4: 
+                _playerData.moveSpeed +=10;
+                _playerData.armor += 10;
+                _playerData.magicResistence += 10;
+            break;
+            case SkillType.DefStr4: 
+                _playerData.armor += 10;
+                _playerData.magicResistence += 10;
+                _playerData.attackDamage += 10; 
+            break;
+        }
+    }
+
     public bool CanUnlock(SkillType skillType)
     {
         SkillType skillRequirement1;

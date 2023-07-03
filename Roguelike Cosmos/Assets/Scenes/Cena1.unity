@@ -734,6 +734,8 @@ MonoBehaviour:
   - {fileID: 0}
   skillButtonList2: []
   skillTypeList: 
+  spawnPos: {fileID: 0}
+  enemyPrefab: {fileID: 0}
 --- !u!4 &49192861
 Transform:
   m_ObjectHideFlags: 0
@@ -21999,8 +22001,8 @@ MonoBehaviour:
   _playerData: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
   system: 0
   levelWindow: {fileID: 1676892915}
-  currentPoints: 0
-  currentStatsPoints: 0
+  currentPoints: 100
+  currentStatsPoints: 200
   pointsText: {fileID: 2047923891}
   playerAnimator: {fileID: 1389033820}
   leftHandCollider: {fileID: 701960529}
@@ -27818,7 +27820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 9.000244}
+  m_AnchoredPosition: {x: 0, y: 9.000305}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1676892915
