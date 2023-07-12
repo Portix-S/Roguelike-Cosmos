@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private BoxCollider leftHandCollider;
     [SerializeField] private BoxCollider rightHandCollider;
     public bool isAttacking;
-    [SerializeField] float attackMoveForce = 1f;
+    [SerializeField] float attackMoveForce = 2f;
 
     [Header("Projectile")]
     public GameObject pfProjectile;

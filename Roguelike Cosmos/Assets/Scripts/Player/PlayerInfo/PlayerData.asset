@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94620abfff99cdb48a1d7686747979bb, type: 3}
-  m_Name: PlayerDataTest
+  m_Name: PlayerData
   m_EditorClassIdentifier: 
-  healthPoints: 100
-  armor: 1
-  magicResistence: 1
-  inteligence: 1
-  agility: 1
-  attackDamage: 10
-  moveSpeed: 1
-  lucky: 1
-  stateHandler: {fileID: 0}
-  skillHandler: {fileID: 0}
-  inventory: {fileID: 11400000, guid: 8dc6678db0415e04b8ec8759aaa9bcc2, type: 2}
+  modifier: []
+  baseHealthPoints: 0
+  baseArmor: 0
+  baseMagicResistence: 0
+  baseDodge: 0
+  baseAttackSpeed: 0
+  baseAttackDamage: 20
+  baseAttackRange: 0
+  baseCoolDown: 0
+  baseMoveSpeed: 0
+  inventory:
+  - item: {fileID: 0}
+  - item: {fileID: 0}
+  - item: {fileID: 0}
