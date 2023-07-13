@@ -17,7 +17,7 @@ public class PlayerSkills
         public SkillType skillType;
     }
 
-    public enum SkillType
+    public enum SkillType // Todos os tipos de skills
     {
         None, Dash, Strenght, Strenght1Left, Strenght1Right, Strenght2Left, Strenght2Right, Strenght3, Strenght4Left, Strenght4Right, Strenght5Left, Strenght5Right,
         Strenght6, Defense, Defense1Left, Defense1Right, Defense2Left, Defense2Right, Defense3, Defense4Left, 
@@ -29,7 +29,8 @@ public class PlayerSkills
     List<SkillType> unlockedSkillTypesList;
     LevelSystem levelSystem;
     int requiredPoints;
-    public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText)
+
+    public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText) // Construtor da classe
     {
         this.levelSystem = levelSystem;
         this.pointsText = pointsText;
@@ -149,7 +150,7 @@ public class PlayerSkills
         }
     }
 
-    public bool CanUnlock(SkillType skillType)
+    public bool CanUnlock(SkillType skillType) // Verifica se � poss�vel liberar uma skill
     {
         SkillType skillRequirement1;
         SkillType skillRequirement2;
@@ -197,12 +198,12 @@ public class PlayerSkills
 
     }
 
-    private bool HasRequiredPoint(int point)
+    private bool HasRequiredPoint(int point) // Verifica se tem pontos o suficiente
     {
         return levelSystem.GetSkillTreePoints() >= point;
     }
 
-     private bool CheckRequirement(PlayerSkills.SkillType skill1, PlayerSkills.SkillType skill2)
+    private bool CheckRequirement(PlayerSkills.SkillType skill1, PlayerSkills.SkillType skill2) // Checa se est� com requisitos liberados
     {
         return ((skill1 == PlayerSkills.SkillType.Strenght2Left && skill2 == PlayerSkills.SkillType.Strenght2Right) ||
             (skill1 == PlayerSkills.SkillType.Strenght5Left && skill2 == PlayerSkills.SkillType.Strenght5Right) ||
@@ -212,11 +213,12 @@ public class PlayerSkills
             (skill1 == PlayerSkills.SkillType.Agility5Left && skill2 == PlayerSkills.SkillType.Agility5Right));
     }
 
-    public bool IsSkillUnlocked(SkillType skillType)
+    public bool IsSkillUnlocked(SkillType skillType) 
     {
         return unlockedSkillTypesList.Contains(skillType);
     }
 
+    // Pega o que � necess�rio para liberar a skill (um sistema de node talvez seria mais efetivo -> mostrando n�s daquela ramifica��o)
     public void GetSkillRequirement(SkillType skillType, out PlayerSkills.SkillType firstRequirement, out PlayerSkills.SkillType secondRequirement, out int requiredPoints)
     {
         firstRequirement = SkillType.None;
