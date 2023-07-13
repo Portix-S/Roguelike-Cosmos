@@ -3,7 +3,12 @@ guid: e930479d74158fa40a8c1e42505d5686
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lasquinha
+    second: {fileID: 2100000, guid: d34c9d46cdf6f9246aa7910ca59420f5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
