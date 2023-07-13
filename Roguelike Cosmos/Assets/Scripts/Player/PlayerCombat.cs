@@ -96,6 +96,7 @@ public class PlayerCombat : MonoBehaviour
                 Debug.Log("On cooldown");
             }
 
+            
             if (Input.GetKey(KeyCode.X))
             {
                 levelSystem.AddExperience(100);
@@ -151,7 +152,7 @@ public class PlayerCombat : MonoBehaviour
         if(other.tag == "Enemy" && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
-            enemyScript.TakeDamage(_playerData.AttackDamage);
+            enemyScript.TakeDamage(_playerData.attackDamage);
         }
     }
 
@@ -161,7 +162,7 @@ public class PlayerCombat : MonoBehaviour
         var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
 
         proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.AttackDamage); //mudar dano depois
+        proj.GetComponent<Projectile>().SetDamage(_playerData.attackDamage); //mudar dano depois
         StartCoroutine(ShootCooldown());
     }
 
