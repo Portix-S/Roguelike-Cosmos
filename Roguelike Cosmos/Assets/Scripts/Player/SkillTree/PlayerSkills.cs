@@ -65,7 +65,9 @@ public class PlayerSkills
             case SkillType.Strenght2Left: 
             case SkillType.Strenght1Right:
             case SkillType.Strenght2Right: 
-                _playerData.attackDamage += 10; 
+                _playerData.attackDamage += 10;
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
             break;
             case SkillType.Defense: 
             case SkillType.Defense1Left:  
@@ -74,6 +76,8 @@ public class PlayerSkills
             case SkillType.Defense2Right:
                 _playerData.armor += 10;
                 _playerData.magicResistence += 10;
+                //_playerData.modifier[1]+=10; //CON
+                //_playerData.modifier[4]+=10; //WIS
             break;
 
             case SkillType.Agility: 
@@ -82,32 +86,48 @@ public class PlayerSkills
             case SkillType.Agility1Right:
             case SkillType.Agility2Right:
                 _playerData.moveSpeed +=10;
+                //_playerData.modifier[2]+=10; // AGI
             break;
 
             // First Skill/Buff
             case SkillType.Strenght3: 
                 _playerData.attackDamage += 5; 
+                //_playerData.modifier[0]+=20; //STR
+                //_playerData.modifier[2]+=20; //INT
             break;
             case SkillType.Defense3:
                 _playerData.armor += 5;
                 _playerData.magicResistence += 5;
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
             break;
             case SkillType.Agility3:
                 _playerData.moveSpeed +=5;
+                //_playerData.modifier[2]+=20;
             break;
             case SkillType.StrAgi2: 
                 _playerData.moveSpeed +=2;
                 _playerData.attackDamage += 2; 
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
+                //_playerData.modifier[2]+=10; // AGI
             break;
             case SkillType.AgiDef2: 
                 _playerData.armor += 2;
                 _playerData.magicResistence += 2;
                 _playerData.moveSpeed +=2;
+                //_playerData.modifier[2]+=10; // AGI
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
             break;
             case SkillType.DefStr2: 
                 _playerData.attackDamage += 2; 
                 _playerData.armor += 2;
                 _playerData.magicResistence += 2;
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
             break;
             // Fourth/Fifth Layer and Second Buff
             case SkillType.Strenght4Left: 
@@ -115,6 +135,8 @@ public class PlayerSkills
             case SkillType.Strenght4Right:
             case SkillType.Strenght5Right:
                 _playerData.attackDamage += 10; 
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
             break;
             case SkillType.Defense4Left:
             case SkillType.Defense5Left:
@@ -122,6 +144,8 @@ public class PlayerSkills
             case SkillType.Defense5Right: 
                 _playerData.armor += 10;
                 _playerData.magicResistence += 10;
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
             break;
 
             case SkillType.Agility4Left:
@@ -135,13 +159,23 @@ public class PlayerSkills
             case SkillType.StrAgi4:  
                 _playerData.attackDamage += 10; 
                 _playerData.moveSpeed +=10;
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
+                //_playerData.modifier[2]+=10; // AGI
             break;
             case SkillType.AgiDef4: 
                 _playerData.moveSpeed +=10;
                 _playerData.armor += 10;
                 _playerData.magicResistence += 10;
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
+                //_playerData.modifier[2]+=10; // AGI
             break;
             case SkillType.DefStr4: 
+                //_playerData.modifier[1]+=20; //CON
+                //_playerData.modifier[4]+=20; //WIS
+                //_playerData.modifier[0]+=10; //STR
+                //_playerData.modifier[2]+=10; //INT
                 _playerData.armor += 10;
                 _playerData.magicResistence += 10;
                 _playerData.attackDamage += 10; 
