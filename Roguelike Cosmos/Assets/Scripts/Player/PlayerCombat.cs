@@ -26,7 +26,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private BoxCollider rightHandCollider;
     public bool isAttacking;
     [SerializeField] float attackMoveForce = 1f;
-    private Plane plane;
 
     [Header("Projectile")]
     public GameObject pfProjectile;
@@ -35,6 +34,7 @@ public class PlayerCombat : MonoBehaviour
     public float projectileSpeed;
     public float projectileCooldown;
     public bool isShooting;
+    private Transform projectileHUD;
 
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
@@ -52,6 +52,10 @@ public class PlayerCombat : MonoBehaviour
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
         playerRb = GetComponent<Rigidbody>();
+        projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
+        if(projectileHUD.gameObject.activeSelf){
+            projectileHUD.gameObject.SetActive(false);
+        }
     }
 
     public LevelSystem GetLevelSystem()
@@ -62,10 +66,24 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         system = SystemInfo.deviceType;
-        plane = new Plane(Vector3.up, Vector3.zero);
         if (system == DeviceType.Handheld)
         {
             attackMoveForce = 100f;
+        }
+    }
+
+    private void LookAtMouse(Transform rotatedObject){
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        // Cria um raycast para achar o ponto do plano que o jogador está direcionando
+        Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(plane.Raycast(raio, out float enter)){
+            Vector3 hit = raio.GetPoint(enter);
+            Vector3 playerPos = plane.ClosestPointOnPlane(rotatedObject.position);
+            Vector3 attackDirection = new Vector3(hit.x - playerPos.x, hit.y - playerPos.y, hit.z - playerPos.z);
+            rotatedObject.rotation = Quaternion.LookRotation(attackDirection) * Quaternion.Euler(0f, -90f, 0f);
+            if(rotatedObject != this.transform){
+                rotatedObject.rotation *= Quaternion.Euler(90f, 0f, 0f);
+            }
         }
     }
 
@@ -75,25 +93,23 @@ public class PlayerCombat : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                LookAtMouse(this.transform);
                 playerAnimator.SetTrigger("isPunching");
-                // Cria um raycast para achar o ponto do plano que o jogador está direcionando
-                Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if(plane.Raycast(raio, out float enter)){
-                    Vector3 hit = raio.GetPoint(enter);
-                    Vector3 playerPos = plane.ClosestPointOnPlane(transform.position);
-                    Vector3 attackDirection = new Vector3(hit.x - playerPos.x, hit.y - playerPos.y, hit.z - playerPos.z);
-                    transform.rotation = Quaternion.LookRotation(attackDirection);
-                    transform.rotation *= Quaternion.Euler(0,-90f,0);
-                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                RangedSkill();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot){
+                projectileHUD.gameObject.SetActive(true);
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse1) && !canShoot)
-            {
-                Debug.Log("On cooldown");
+            if(Input.GetKeyUp(KeyCode.Mouse1)){
+                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
+                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
+                RangedSkill();
+                projectileHUD.gameObject.SetActive(false);
+            }
+            else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
+                // Should probably change the animation too
+                // And make the player stay in place
+                LookAtMouse(projectileHUD);
             }
 
             
