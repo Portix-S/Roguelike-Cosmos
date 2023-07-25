@@ -9,10 +9,11 @@ public class PanZoomNew : MonoBehaviour
     //public GameObject skillTreeUI;
     //public RectTransform rt;
     public float resetTransformAmount = 50f;
-    float minZoom = 1f;
-    float maxZoom = 5f;
+    float minZoom = 0.5f;
+    float maxZoom = 2f;
     [SerializeField] float panSpeed = 5f;
     [SerializeField] CinemachineVirtualCamera cineVc;
+    CinemachineConfiner confiner;
     // Update is called once per frame
 
     private void Start()
@@ -29,7 +30,7 @@ public class PanZoomNew : MonoBehaviour
         // InitialTouch
         if(Input.GetMouseButtonDown(0))
         {
-            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            touchStart = Input.mousePosition;
         }
         // If zooming with touch
         if(Input.touchCount == 2)
@@ -50,10 +51,13 @@ public class PanZoomNew : MonoBehaviour
         } // Checks if Dragging input on screen
         else if (Input.GetMouseButton(0))
         {
-            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position += direction * panSpeed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-            touchStart -= direction/10f;
+            if (!Input.GetMouseButtonDown(0))
+            {
+                Vector3 direction = touchStart - Input.mousePosition;
+                transform.localPosition += direction * panSpeed * Time.deltaTime;
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -904f);
+                touchStart -= direction / 10f; // Slows down movement when mouse is stationary
+            }
         }
         // Checks if zoomming with mouse
         if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > Mathf.Epsilon)
@@ -65,6 +69,10 @@ public class PanZoomNew : MonoBehaviour
         // Checks if zoomingOut
         increment = Mathf.Clamp(cineVc.m_Lens.OrthographicSize - increment, minZoom, maxZoom);
         cineVc.m_Lens.OrthographicSize = increment;
+        if(cineVc.m_Lens.OrthographicSize > maxZoom*0.9f)
+        {
+            transform.localPosition = Vector3.zero;
+        }
     }
     
     /*
