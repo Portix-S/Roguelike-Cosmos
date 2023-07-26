@@ -17,13 +17,13 @@ public class HealthSystem : MonoBehaviour
     void Start()
     {
         timeStamp = 0;
-        maxHealth = info.HealthPoints;
+        //maxHealth = info.HealthPoints;
         healthBar.SetSlider();
         healthBar.SetMaxHealth(maxHealth);
         actualHealth = maxHealth;
         healthBar.SetHealth(maxHealth);
 
-        Debug.Log(info.modifier[0].value);
+        //Debug.Log(info.modifier[0].value);
     }
 
 
@@ -75,7 +75,7 @@ public class HealthSystem : MonoBehaviour
         actualHealth -= d;
         healthBar.SetHealth(actualHealth);
         timeStamp = Time.time + invbtyTime;
-        if(actualHealth-d <= 0)
+        if (actualHealth - d <= 0) ;
         //FAZER ALGUMA COISA
     }
 
