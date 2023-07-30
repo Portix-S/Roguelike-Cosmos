@@ -14,6 +14,7 @@ public class PanZoomNew : MonoBehaviour
     [SerializeField] float panSpeed = 5f;
     [SerializeField] CinemachineVirtualCamera cineVc;
     CinemachineConfiner confiner;
+    Transform camera;
     // Update is called once per frame
 
     private void Start()
@@ -22,11 +23,14 @@ public class PanZoomNew : MonoBehaviour
         {
             panSpeed *= 2f;
         }
+        camera = Camera.main.transform;
     }
 
     // Maybe when zoomingOut, after certain amount, reset position to 0? or maybe slowly change it back?
     void Update()
     {
+        if(camera.position != transform.position)
+            transform.position = camera.position; // Tentar deixar suave
         // InitialTouch
         if(Input.GetMouseButtonDown(0))
         {
