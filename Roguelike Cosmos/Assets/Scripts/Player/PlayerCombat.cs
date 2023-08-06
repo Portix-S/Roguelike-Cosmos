@@ -36,6 +36,13 @@ public class PlayerCombat : MonoBehaviour
     public bool isShooting;
     private Transform projectileHUD;
 
+    [Header("Mobile Input")]
+    public Joystick joystickAttack;
+    private Vector3 joystickAttackDirection;
+    public Joystick joystickSkill;
+    private Vector3 joystickSkillDirection;
+    private bool isHUDActive = false;
+
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
         leftHandCollider.enabled = enable;
@@ -121,6 +128,30 @@ public class PlayerCombat : MonoBehaviour
             {
                 levelSystem.AddExperience(10);
             }
+        }
+        else if (system == DeviceType.Handheld){
+            if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
+                joystickAttackDirection = new Vector3(joystickAttack.Horizontal, transform.position.y, joystickAttack.Vertical);
+                transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
+                playerAnimator.SetTrigger("isPunching");
+            }
+
+            if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
+                if(!isHUDActive){
+                    projectileHUD.gameObject.SetActive(true);
+                    isHUDActive = true;
+                }
+                joystickSkillDirection = new Vector3(joystickSkill.Horizontal, projectileHUD.position.y, joystickSkill.Vertical);
+                projectileHUD.rotation = Quaternion.LookRotation(joystickSkillDirection) * Quaternion.Euler(90f, -90f, 0f);
+            }
+            else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && isHUDActive){
+                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
+                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
+                RangedSkill();
+                projectileHUD.gameObject.SetActive(false);
+                isHUDActive = false;
+            }
+
         }
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();

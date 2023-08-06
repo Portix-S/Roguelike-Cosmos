@@ -339,7 +339,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // É mais custoso toda vez ler toda a lista do que ter 500 funções
+    // ï¿½ mais custoso toda vez ler toda a lista do que ter 500 funï¿½ï¿½es
     //*
     public void UnlockAbility()
     {
