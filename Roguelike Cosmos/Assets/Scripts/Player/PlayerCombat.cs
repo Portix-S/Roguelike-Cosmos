@@ -131,7 +131,7 @@ public class PlayerCombat : MonoBehaviour
         }
         else if (system == DeviceType.Handheld){
             if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
-                joystickAttackDirection = new Vector3(joystickAttack.Horizontal, transform.position.y, joystickAttack.Vertical);
+                joystickAttackDirection = new Vector3(joystickAttack.Horizontal, 0f, joystickAttack.Vertical);
                 transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
                 Debug.Log("ATACA O AST");
                 playerAnimator.SetTrigger("isPunching");
@@ -144,7 +144,7 @@ public class PlayerCombat : MonoBehaviour
 
                     isHUDActive = true;
                 }
-                joystickSkillDirection = new Vector3(joystickSkill.Horizontal, projectileHUD.position.y, joystickSkill.Vertical);
+                joystickSkillDirection = new Vector3(joystickSkill.Horizontal, 0f, joystickSkill.Vertical);
                 projectileHUD.rotation = Quaternion.LookRotation(joystickSkillDirection) * Quaternion.Euler(90f, -90f, 0f);
             }
             else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && isHUDActive){
