@@ -133,12 +133,15 @@ public class PlayerCombat : MonoBehaviour
             if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
                 joystickAttackDirection = new Vector3(joystickAttack.Horizontal, transform.position.y, joystickAttack.Vertical);
                 transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
+                Debug.Log("ATACA O AST");
                 playerAnimator.SetTrigger("isPunching");
             }
 
             if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
                 if(!isHUDActive){
                     projectileHUD.gameObject.SetActive(true);
+                    Debug.Log("ATACA O AST COM SKILL");
+
                     isHUDActive = true;
                 }
                 joystickSkillDirection = new Vector3(joystickSkill.Horizontal, projectileHUD.position.y, joystickSkill.Vertical);
