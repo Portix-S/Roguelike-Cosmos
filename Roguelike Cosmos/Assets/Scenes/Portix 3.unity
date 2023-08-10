@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17711216, g: 0.22171733, b: 0.3039786, a: 1}
+  m_IndirectSpecularColor: {r: 0.1771118, g: 0.22171697, b: 0.30397764, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1610,6 +1610,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 949977452898693192, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
   playerCamera: {fileID: 1588663055}
   skillTreeCamera: {fileID: 383762306}
+  panScript: {fileID: 383762307}
 --- !u!4 &49192861
 Transform:
   m_ObjectHideFlags: 0
@@ -10706,14 +10707,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383762303}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81bf0eb9b9ccaac428aee5ae03f98cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resetTransformAmount: 0
-  panSpeed: 20
+  panSpeed: 160
   cineVc: {fileID: 383762306}
+  cameraTransitioningIn: 0
 --- !u!114 &383762308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48612,6 +48614,7 @@ MonoBehaviour:
   resetTransformAmount: 50
   panSpeed: 20
   cineVc: {fileID: 1397168513}
+  cameraTransitioningIn: 0
 --- !u!1 &1687947753
 GameObject:
   m_ObjectHideFlags: 0
@@ -64657,6 +64660,7 @@ MonoBehaviour:
   resetTransformAmount: 50
   panSpeed: 20
   cineVc: {fileID: 1397168513}
+  cameraTransitioningIn: 0
 --- !u!1 &2080421007
 GameObject:
   m_ObjectHideFlags: 0

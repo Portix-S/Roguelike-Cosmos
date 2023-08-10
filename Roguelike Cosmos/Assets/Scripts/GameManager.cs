@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera playerCamera;
     [SerializeField] CinemachineVirtualCamera skillTreeCamera;
     private bool cameraIsOnPlayer = true;
+    [SerializeField] PanZoomNew panScript;
 
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
@@ -85,6 +86,8 @@ public class GameManager : MonoBehaviour
     {
         skillTreeActive = !skillTreeActive;
         skillTreeUI.SetActive(skillTreeActive);
+        if (skillTreeActive)
+            panScript.cameraTransitioningIn = true;
         ChangeCamera();
     }
 
@@ -178,11 +181,13 @@ public class GameManager : MonoBehaviour
         {
             playerCamera.Priority = 0;
             skillTreeCamera.Priority = 1;
+            panScript.enabled = true;
         }
         else
         {
             playerCamera.Priority = 1;
             skillTreeCamera.Priority = 0;
+            panScript.enabled = false;
         }
         cameraIsOnPlayer = !cameraIsOnPlayer;
     }

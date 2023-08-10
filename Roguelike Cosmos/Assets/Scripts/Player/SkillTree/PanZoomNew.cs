@@ -15,6 +15,7 @@ public class PanZoomNew : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera cineVc;
     CinemachineConfiner confiner;
     Transform camera;
+    public bool cameraTransitioningIn;
     // Update is called once per frame
 
     private void Start()
@@ -29,8 +30,15 @@ public class PanZoomNew : MonoBehaviour
     // Maybe when zoomingOut, after certain amount, reset position to 0? or maybe slowly change it back?
     void Update()
     {
-        if(camera.position != transform.position)
-            transform.position = camera.position; // Tentar deixar suave
+        Debug.Log("Normal " + camera.position + " " + transform.position);
+        Debug.Log("Local " + camera.localPosition + transform.localPosition);
+        if (camera.localPosition == transform.position && cameraTransitioningIn)
+            cameraTransitioningIn = false;
+        //*
+
+        if (camera.localPosition != transform.position && !cameraTransitioningIn)
+            transform.position = camera.localPosition; // Tentar deixar suave
+        //*/
         // InitialTouch
         if(Input.GetMouseButtonDown(0))
         {
