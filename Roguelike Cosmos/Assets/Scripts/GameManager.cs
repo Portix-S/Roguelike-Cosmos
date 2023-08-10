@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Cinemachine;
 
 
 public class GameManager : MonoBehaviour
@@ -24,6 +25,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Transform spawnPos;
     [SerializeField] GameObject enemyPrefab;
+
+    [Header("Cinemachine Configs")]
+    [SerializeField] CinemachineVirtualCamera playerCamera;
+    [SerializeField] CinemachineVirtualCamera skillTreeCamera;
+    private bool cameraIsOnPlayer = true;
+    [SerializeField] PanZoomNew panScript;
 
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
@@ -79,6 +86,9 @@ public class GameManager : MonoBehaviour
     {
         skillTreeActive = !skillTreeActive;
         skillTreeUI.SetActive(skillTreeActive);
+        if (skillTreeActive)
+            panScript.cameraTransitioningIn = true;
+        ChangeCamera();
     }
 
     void ChangeStateMobileButtons(bool state)
@@ -165,6 +175,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void ChangeCamera()
+    {
+        if (cameraIsOnPlayer)
+        {
+            playerCamera.Priority = 0;
+            skillTreeCamera.Priority = 1;
+            panScript.enabled = true;
+        }
+        else
+        {
+            playerCamera.Priority = 1;
+            skillTreeCamera.Priority = 0;
+            panScript.enabled = false;
+        }
+        cameraIsOnPlayer = !cameraIsOnPlayer;
+    }
+
+    #region("Skills")
     public void UnlockDash()
     {
         CheckUnlock(PlayerSkills.SkillType.Dash);
@@ -355,4 +383,5 @@ public class GameManager : MonoBehaviour
         UpdateVisuals();
     }
     //*/
+    #endregion
 }
