@@ -19,7 +19,7 @@ namespace Tools
             if (cameraTransform == null)
                 cameraTransform = Camera.main.transform;
          
-            float damageMultiplier = damageAmount / AddressableLoader.instance.playerData.attackDamage;
+            float damageMultiplier = damageAmount / AddressableLoader.instance.playerData.baseAttackDamage;
 
             AddressableLoader.instance.damagePopupPrefab.InstantiateAsync(worldPosition, Quaternion.identity).Completed +=
                 async (AsyncOperationHandle<GameObject> obj) =>

@@ -55,7 +55,7 @@ public class PlayerCombat : MonoBehaviour
         levelSystem = new LevelSystem();
         levelWindow.SetLevelSystem(levelSystem);
         pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
-        playerSkills = new PlayerSkills(levelSystem, pointsText);
+        playerSkills = new PlayerSkills(levelSystem, pointsText, _playerData);
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
         playerRb = GetComponent<Rigidbody>();
@@ -202,7 +202,7 @@ public class PlayerCombat : MonoBehaviour
         if(other.tag == "Enemy" && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
-            enemyScript.TakeDamage(_playerData.attackDamage);
+            enemyScript.TakeDamage(_playerData.AttackDamage);
         }
     }
 
@@ -212,7 +212,7 @@ public class PlayerCombat : MonoBehaviour
         var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
 
         proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.attackDamage); //mudar dano depois
+        proj.GetComponent<Projectile>().SetDamage(_playerData.AttackDamage); //mudar dano depois
         StartCoroutine(ShootCooldown());
     }
 

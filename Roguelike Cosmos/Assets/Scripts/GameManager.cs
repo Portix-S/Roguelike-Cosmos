@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Cinemachine;
 
-
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject[] mobileButtons;
@@ -15,8 +14,8 @@ public class GameManager : MonoBehaviour
     bool isMobileDevice;
 
     public PlayerCombat playerScript;
-    private PlayerSkills playerSkills;
     public GameObject skillTreeUI;
+    [SerializeField] private GameObject pointsUI;
     private bool skillTreeActive;
 
     public Button[] skillButtonList; // Lista teste
@@ -31,6 +30,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera skillTreeCamera;
     private bool cameraIsOnPlayer = true;
     [SerializeField] PanZoomNew panScript;
+    private PlayerSkills playerSkills;
+    [SerializeField] Transform skillTreeParent;
 
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
         isMobileDevice = false;
         playerSkills = playerScript.GetPlayerSkillScript();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
+        Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
         skillTypeList = Enum.GetValues(typeof(PlayerSkills.SkillType)).Cast<PlayerSkills.SkillType>().ToList();
         skillTypeList.Remove(PlayerSkills.SkillType.None);
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(playerSkills);
         if (Input.GetKeyDown(KeyCode.M))
         {
             isMobileDevice = !isMobileDevice;
@@ -84,10 +87,13 @@ public class GameManager : MonoBehaviour
 
     public void OpenSkillTree()
     {
+        ChangeStateMobileButtons(skillTreeActive);
         skillTreeActive = !skillTreeActive;
         skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
             panScript.cameraTransitioningIn = true;
+        else
+            pointsUI.SetActive(skillTreeActive);
         ChangeCamera();
     }
 
@@ -179,12 +185,16 @@ public class GameManager : MonoBehaviour
     {
         if (cameraIsOnPlayer)
         {
+            //playerCamera.transform.SetParent(null);
+            //skillTreeCamera.transform.SetParent(Camera.main.transform);
             playerCamera.Priority = 0;
             skillTreeCamera.Priority = 1;
             panScript.enabled = true;
         }
         else
         {
+            //playerCamera.transform.SetParent(Camera.main.transform);
+            //skillTreeCamera.transform.SetParent(skillTreeParent);
             playerCamera.Priority = 1;
             skillTreeCamera.Priority = 0;
             panScript.enabled = false;
