@@ -34,6 +34,14 @@ public class PlayerCombat : MonoBehaviour
     public float projectileSpeed;
     public float projectileCooldown;
     public bool isShooting;
+    private Transform projectileHUD;
+
+    [Header("Mobile Input")]
+    public Joystick joystickAttack;
+    private Vector3 joystickAttackDirection;
+    public Joystick joystickSkill;
+    private Vector3 joystickSkillDirection;
+    private bool isHUDActive = false;
 
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
@@ -47,10 +55,14 @@ public class PlayerCombat : MonoBehaviour
         levelSystem = new LevelSystem();
         levelWindow.SetLevelSystem(levelSystem);
         pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
-        playerSkills = new PlayerSkills(levelSystem, pointsText);
+        playerSkills = new PlayerSkills(levelSystem, pointsText, _playerData);
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
         playerRb = GetComponent<Rigidbody>();
+        projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
+        if(projectileHUD.gameObject.activeSelf){
+            projectileHUD.gameObject.SetActive(false);
+        }
     }
 
     public LevelSystem GetLevelSystem()
@@ -67,22 +79,44 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void LookAtMouse(Transform rotatedObject){
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        // Cria um raycast para achar o ponto do plano que o jogador está direcionando
+        Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(plane.Raycast(raio, out float enter)){
+            Vector3 hit = raio.GetPoint(enter);
+            Vector3 playerPos = plane.ClosestPointOnPlane(rotatedObject.position);
+            Vector3 attackDirection = new Vector3(hit.x - playerPos.x, hit.y - playerPos.y, hit.z - playerPos.z);
+            rotatedObject.rotation = Quaternion.LookRotation(attackDirection) * Quaternion.Euler(0f, -90f, 0f);
+            if(rotatedObject != this.transform){
+                rotatedObject.rotation *= Quaternion.Euler(90f, 0f, 0f);
+            }
+        }
+    }
+
     void Update()
     {
         if (system == DeviceType.Desktop)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                LookAtMouse(this.transform);
                 playerAnimator.SetTrigger("isPunching");
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                RangedSkill();
+            if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot){
+                projectileHUD.gameObject.SetActive(true);
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse1) && !canShoot)
-            {
-                Debug.Log("On cooldown");
+            if(Input.GetKeyUp(KeyCode.Mouse1)){
+                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
+                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
+                RangedSkill();
+                projectileHUD.gameObject.SetActive(false);
+            }
+            else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
+                // Should probably change the animation too
+                // And make the player stay in place
+                LookAtMouse(projectileHUD);
             }
 
             
@@ -94,6 +128,33 @@ public class PlayerCombat : MonoBehaviour
             {
                 levelSystem.AddExperience(10);
             }
+        }
+        else if (system == DeviceType.Handheld){
+            if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
+                joystickAttackDirection = new Vector3(joystickAttack.Horizontal, 0f, joystickAttack.Vertical);
+                transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
+                Debug.Log("ATACA O AST");
+                playerAnimator.SetTrigger("isPunching");
+            }
+
+            if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
+                if(!isHUDActive){
+                    projectileHUD.gameObject.SetActive(true);
+                    Debug.Log("ATACA O AST COM SKILL");
+
+                    isHUDActive = true;
+                }
+                joystickSkillDirection = new Vector3(joystickSkill.Horizontal, 0f, joystickSkill.Vertical);
+                projectileHUD.rotation = Quaternion.LookRotation(joystickSkillDirection) * Quaternion.Euler(90f, -90f, 0f);
+            }
+            else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && isHUDActive){
+                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
+                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
+                RangedSkill();
+                projectileHUD.gameObject.SetActive(false);
+                isHUDActive = false;
+            }
+
         }
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
@@ -141,7 +202,7 @@ public class PlayerCombat : MonoBehaviour
         if(other.tag == "Enemy" && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
-            enemyScript.TakeDamage(_playerData.attackDamage);
+            enemyScript.TakeDamage(_playerData.AttackDamage);
         }
     }
 
@@ -151,7 +212,7 @@ public class PlayerCombat : MonoBehaviour
         var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
 
         proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.attackDamage); //mudar dano depois
+        proj.GetComponent<Projectile>().SetDamage(_playerData.AttackDamage); //mudar dano depois
         StartCoroutine(ShootCooldown());
     }
 
