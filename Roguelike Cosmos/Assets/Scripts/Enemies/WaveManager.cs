@@ -9,8 +9,6 @@ public class WaveManager : MonoBehaviour
     public int wCounter;
     public bool wsCompleted = false;
     public RewardManager rm;
-    [SerializeField]
-    public Vector3 rewardPosition = new Vector3(0,0,0);
     void Start()
     {
         waves.Add(new List<GameObject>());
@@ -18,7 +16,6 @@ public class WaveManager : MonoBehaviour
         waves.Add(new List<GameObject>());
         wCounter = 0;
         rm = gameObject.GetComponentInChildren<RewardManager>();
-        rm.SetRewardLocation(rewardPosition);
     }
 
     // Update is called once per frame

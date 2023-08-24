@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     public Vector3 randomPoint = new Vector3(0, 0, 0);
     [SerializeField] float healthPoints = 100f;
     [SerializeField] Animator enemyAnimator;
+    [SerializeField] private Collider collider;
 
     [Header("Attack Config")]
     bool isAttacking;
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponentInChildren<Animator>();
+        collider = GetComponent<Collider>();
     }
 
     void Update()
@@ -37,7 +39,7 @@ public class EnemyController : MonoBehaviour
         {
             enemyAnimator.SetBool("isWalking", true);
         }
-        else 
+        else
         {
             enemyAnimator.SetBool("isWalking", false);
         }
@@ -52,7 +54,7 @@ public class EnemyController : MonoBehaviour
         if (distance <= lookRadius)
         {
             agent.SetDestination(target.position);
-            //Debug.Log("seguindo");
+            Debug.Log("seguindo");
             nextLocation = false;
             if (distance <= agent.stoppingDistance)
             {
@@ -61,14 +63,14 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Não seguindo");
-            //Debug.Log(nextLocation);
+            Debug.Log("Não seguindo");
+            Debug.Log(nextLocation);
             if (nextLocation)
             {
                 agent.SetDestination(randomPoint);
-                //Debug.Log(randomPoint);
+                Debug.Log(randomPoint);
                 float distance2 = Vector3.Distance(randomPoint, transform.position);
-                //Debug.Log(distance2);
+                Debug.Log(distance2);
 
                 if (distance2 <= agent.stoppingDistance)
                 {
@@ -110,13 +112,17 @@ public class EnemyController : MonoBehaviour
     {
         enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
-        if(healthPoints - amount > 0f)
+        float height = collider.bounds.extents.y / 2f;
+        Vector3 popupPos = transform.position + transform.up * height;
+        if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;
             Debug.Log(healthPoints);
+            Tools.Graphics.CreateDamagePopup(amount, popupPos);
         }
         else
         {
+            Tools.Graphics.CreateDamagePopup(healthPoints, popupPos);
             healthPoints = 0f;
             target.GetComponent<PlayerCombat>().GetLevelSystem().AddExperience(xpAmount);
             Destroy(gameObject);

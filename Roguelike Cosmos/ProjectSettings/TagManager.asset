@@ -10,6 +10,7 @@ TagManager:
   - Enemie
   - Wall
   - Obstacle
+  - Projectile
   layers:
   - Default
   - TransparentFX

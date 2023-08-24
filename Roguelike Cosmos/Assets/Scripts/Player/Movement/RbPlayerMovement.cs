@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class RbPlayerMovement : MonoBehaviour
 {
     Vector3 moveDirection;
@@ -73,7 +74,8 @@ public class RbPlayerMovement : MonoBehaviour
             MovePlayer();
         else
             StartCoroutine(Dash());
-        Rotate();
+        
+        if(isNotAttacking) Rotate();
         
     }
 
