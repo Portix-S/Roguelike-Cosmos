@@ -522,6 +522,13 @@ MonoBehaviour:
   projectileSpeed: 30
   projectileCooldown: 1
   isShooting: 0
+  whatIsEnemie:
+    serializedVersion: 2
+    m_Bits: 128
+  areaSkillRange: 3.5
+  areaSkillDamage: 2
+  joystickAttack: {fileID: 0}
+  joystickSkill: {fileID: 0}
 --- !u!136 &2007370840166066191
 CapsuleCollider:
   m_ObjectHideFlags: 0

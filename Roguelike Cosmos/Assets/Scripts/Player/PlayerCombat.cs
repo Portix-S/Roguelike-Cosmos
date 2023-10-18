@@ -36,6 +36,10 @@ public class PlayerCombat : MonoBehaviour
     public bool isShooting;
     private Transform projectileHUD;
 
+    [Header("AoE")]
+    [SerializeField] private LayerMask whatIsEnemie;
+    [SerializeField] private float areaSkillRange = 3.5f, areaSkillDamage = 2f;
+    
     [Header("Mobile Input")]
     public Joystick joystickAttack;
     private Vector3 joystickAttackDirection;
@@ -119,6 +123,16 @@ public class PlayerCombat : MonoBehaviour
                 LookAtMouse(projectileHUD);
             }
 
+            if(Input.GetKeyDown(KeyCode.Q)){
+                Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+                foreach(Collider col in colliders){
+                    if(col.GetComponent<EnemyController>()){
+                        Debug.Log("Dano em área boom");
+                        col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
+                    }
+                } 
+            }
+
             
             if (Input.GetKey(KeyCode.X))
             {
@@ -158,6 +172,11 @@ public class PlayerCombat : MonoBehaviour
         }
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, areaSkillRange);
     }
 
     public void MobilePunch()
