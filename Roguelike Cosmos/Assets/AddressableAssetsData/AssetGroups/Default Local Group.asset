@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 16e638855c6face4199ea613cf5c8422
+  m_SerializeEntries:
+  - m_GUID: 1d9765f43a2f560499c3fc997ffa77ed
+    m_Address: Assets/Prefabs/3D Text/DamagePopUp.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 06cfca46083c49145be59a8deab093a7
+    m_Address: Assets/Scripts/Player/PlayerInfo/PlayerDataTest.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4410eb9e92dd4dc4d93b3c0146c69856, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 56a415520eda550459ea76db933f7564, type: 2}
+    - {fileID: 11400000, guid: 30cf234997d15a6409d54914ac6f8bb8, type: 2}
