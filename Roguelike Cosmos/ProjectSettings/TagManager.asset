@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - Obstacle
   - Projectile
+  - Enemie Spawn
   layers:
   - Default
   - TransparentFX

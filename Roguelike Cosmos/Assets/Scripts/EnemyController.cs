@@ -23,12 +23,21 @@ public class EnemyController : MonoBehaviour
     [Header("Stats/Experience")]
     [SerializeField] int xpAmount = 10;
 
+
+
+
+
+    /// Para o inimigo não começar se movendo
+    
+
     void Start()
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponentInChildren<Animator>();
         collider = GetComponent<Collider>();
+
+        StartCoroutine(SpawnDelay());
     }
 
     void Update()
@@ -54,7 +63,7 @@ public class EnemyController : MonoBehaviour
         if (distance <= lookRadius)
         {
             agent.SetDestination(target.position);
-            Debug.Log("seguindo");
+            //Debug.Log("seguindo");
             nextLocation = false;
             if (distance <= agent.stoppingDistance)
             {
@@ -63,14 +72,14 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Não seguindo");
-            Debug.Log(nextLocation);
+            //Debug.Log("Não seguindo");
+            //Debug.Log(nextLocation);
             if (nextLocation)
             {
                 agent.SetDestination(randomPoint);
-                Debug.Log(randomPoint);
+                //Debug.Log(randomPoint);
                 float distance2 = Vector3.Distance(randomPoint, transform.position);
-                Debug.Log(distance2);
+                //Debug.Log(distance2);
 
                 if (distance2 <= agent.stoppingDistance)
                 {
@@ -117,7 +126,7 @@ public class EnemyController : MonoBehaviour
         if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;
-            Debug.Log(healthPoints);
+            //Debug.Log(healthPoints);
             Tools.Graphics.CreateDamagePopup(amount, popupPos);
         }
         else
@@ -155,5 +164,14 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, lookRadius);
         Gizmos.DrawWireSphere(transform.position, randomRadius);
         Gizmos.DrawSphere(randomPoint, 1);
+    }
+
+
+
+    public IEnumerator SpawnDelay(float sec = 0.25f)
+    {
+        yield return new WaitForSeconds(sec);
+        
+        StartCoroutine("Reset");
     }
 }

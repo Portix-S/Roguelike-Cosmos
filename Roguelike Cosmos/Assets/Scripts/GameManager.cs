@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         isMobileDevice = false;
         playerSkills = playerScript.GetPlayerSkillScript();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
-        Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
+        //Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
         skillTypeList = Enum.GetValues(typeof(PlayerSkills.SkillType)).Cast<PlayerSkills.SkillType>().ToList();
         skillTypeList.Remove(PlayerSkills.SkillType.None);
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerSkills);
+        //Debug.Log(playerSkills);
         if (Input.GetKeyDown(KeyCode.M))
         {
             isMobileDevice = !isMobileDevice;
