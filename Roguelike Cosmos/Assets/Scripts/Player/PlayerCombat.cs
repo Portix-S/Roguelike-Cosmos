@@ -39,6 +39,9 @@ public class PlayerCombat : MonoBehaviour
     [Header("AoE")]
     [SerializeField] private LayerMask whatIsEnemie;
     [SerializeField] private float areaSkillRange = 3.5f, areaSkillDamage = 2f;
+    [SerializeField] private float areaSkillCooldown = 2f;
+    private float cooldownCounter;
+    [SerializeField] private ParticleSystem areaSkillEffect;
     
     [Header("Mobile Input")]
     public Joystick joystickAttack;
@@ -124,13 +127,18 @@ public class PlayerCombat : MonoBehaviour
             }
 
             if(Input.GetKeyDown(KeyCode.Q)){
-                Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
-                foreach(Collider col in colliders){
-                    if(col.GetComponent<EnemyController>()){
-                        Debug.Log("Dano em área boom");
-                        col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
+                if(cooldownCounter <= 0){
+                    Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+                    playerAnimator.SetTrigger("isAOE");
+                    areaSkillEffect.Play();
+                    foreach(Collider col in colliders){
+                        if(col.GetComponent<EnemyController>()){
+                            Debug.Log("Dano em área boom");
+                            col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
+                        }
                     }
-                } 
+                    cooldownCounter = areaSkillCooldown;
+                }
             }
 
             
@@ -172,6 +180,9 @@ public class PlayerCombat : MonoBehaviour
         }
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
+
+        if(cooldownCounter > 0)
+            cooldownCounter -= Time.deltaTime;
     }
 
     private void OnDrawGizmos() {

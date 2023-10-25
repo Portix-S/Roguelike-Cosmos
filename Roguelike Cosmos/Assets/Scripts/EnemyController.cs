@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class EnemyController : MonoBehaviour
 {
 
@@ -63,7 +64,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Não seguindo");
+            Debug.Log("Nï¿½o seguindo");
             Debug.Log(nextLocation);
             if (nextLocation)
             {
@@ -110,6 +111,7 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        Debug.Log("AAAAAAAAAAAAAAAA");
         enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
