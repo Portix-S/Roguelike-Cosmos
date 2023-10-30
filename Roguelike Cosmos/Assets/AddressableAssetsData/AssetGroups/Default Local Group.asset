@@ -15,14 +15,14 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 0d4dd20993746354f92d951b768b76b5
+  m_GUID: 16e638855c6face4199ea613cf5c8422
   m_SerializeEntries:
   - m_GUID: 1d9765f43a2f560499c3fc997ffa77ed
     m_Address: Assets/Prefabs/3D Text/DamagePopUp.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 06cfca46083c49145be59a8deab093a7
-    m_Address: Assets/Scripts/Player/PlayerInfo/PlayerData.asset
+    m_Address: Assets/Scripts/Player/PlayerInfo/PlayerDataTest.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

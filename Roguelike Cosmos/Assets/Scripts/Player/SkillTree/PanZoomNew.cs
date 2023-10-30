@@ -16,36 +16,27 @@ public class PanZoomNew : MonoBehaviour
     CinemachineConfiner confiner;
     Transform camera;
     public bool cameraTransitioningIn;
+    [SerializeField] private GameObject pointsUI;
     // Update is called once per frame
 
     private void Start()
     {
         if(SystemInfo.deviceType == DeviceType.Handheld)
         {
-            panSpeed *= 2f;
+            panSpeed *= 1.5f;
         }
         camera = Camera.main.transform;
     }
 
-    // Maybe when zoomingOut, after certain amount, reset position to 0? or maybe slowly change it back?
-    void Update()
-    {
-        Debug.Log("Normal " + camera.position + " " + transform.position);
-        Debug.Log("Local " + camera.localPosition + transform.localPosition);
-        if (camera.localPosition == transform.position && cameraTransitioningIn)
-            cameraTransitioningIn = false;
-        //*
 
-        if (camera.localPosition != transform.position && !cameraTransitioningIn)
+    private void FixedUpdate()
+    {
+        //*
+        if (camera.localPosition != transform.position && !cameraTransitioningIn) // Change to child?
             transform.position = camera.localPosition; // Tentar deixar suave
         //*/
-        // InitialTouch
-        if(Input.GetMouseButtonDown(0))
-        {
-            touchStart = Input.mousePosition;
-        }
         // If zooming with touch
-        if(Input.touchCount == 2)
+        if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
@@ -58,7 +49,7 @@ public class PanZoomNew : MonoBehaviour
 
             float difference = currentMagnitude - prevMagnitude;
 
-            Zoom(-difference * 0.005f); // 0.01f sensibilidade é um bom valor
+            Zoom(difference * 0.005f); // 0.01f sensibilidade é um bom valor
 
         } // Checks if Dragging input on screen
         else if (Input.GetMouseButton(0))
@@ -66,11 +57,36 @@ public class PanZoomNew : MonoBehaviour
             if (!Input.GetMouseButtonDown(0))
             {
                 Vector3 direction = touchStart - Input.mousePosition;
+                /*
+                transform.position += direction * panSpeed * Time.deltaTime;
+                transform.position = new Vector3(transform.position.x, transform.position.y, -904f);
+                //*/
+                //*
                 transform.localPosition += direction * panSpeed * Time.deltaTime;
                 transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -904f);
+                //*/
                 touchStart -= direction / 10f; // Slows down movement when mouse is stationary
             }
         }
+    }
+
+    // Maybe when zoomingOut, after certain amount, reset position to 0? or maybe slowly change it back?
+    void Update()
+    {
+        //*
+        if (camera.localPosition == transform.position && cameraTransitioningIn)
+        {
+            cameraTransitioningIn = false;
+            pointsUI.SetActive(true);
+        }
+        //*/
+        
+        // InitialTouch
+        if (Input.GetMouseButtonDown(0))
+        {
+            touchStart = Input.mousePosition;
+        }
+        
         // Checks if zoomming with mouse
         if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > Mathf.Epsilon)
             Zoom(Input.GetAxis("Mouse ScrollWheel"));

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class EnemyController : MonoBehaviour
 {
 
@@ -39,7 +40,7 @@ public class EnemyController : MonoBehaviour
         {
             enemyAnimator.SetBool("isWalking", true);
         }
-        else 
+        else
         {
             enemyAnimator.SetBool("isWalking", false);
         }
@@ -63,7 +64,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Não seguindo");
+            Debug.Log("Nï¿½o seguindo");
             Debug.Log(nextLocation);
             if (nextLocation)
             {
@@ -110,11 +111,12 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        Debug.Log("AAAAAAAAAAAAAAAA");
         enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
         Vector3 popupPos = transform.position + transform.up * height;
-        if(healthPoints - amount > 0f)
+        if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;
             Debug.Log(healthPoints);

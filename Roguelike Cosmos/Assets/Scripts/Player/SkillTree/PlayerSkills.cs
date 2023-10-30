@@ -4,16 +4,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Player;
 
 public class PlayerSkills
 {
     public event EventHandler<OnSkillUnlockedArgs> OnSkillUnlocked;
+
+    private PlayerData _playerData;
+
     public class OnSkillUnlockedArgs : EventArgs
     {
         public SkillType skillType;
     }
 
-    public enum SkillType // Todos os tipos de skills
+    public enum SkillType
     {
         None, Dash, Strenght, Strenght1Left, Strenght1Right, Strenght2Left, Strenght2Right, Strenght3, Strenght4Left, Strenght4Right, Strenght5Left, Strenght5Right,
         Strenght6, Defense, Defense1Left, Defense1Right, Defense2Left, Defense2Right, Defense3, Defense4Left, 
@@ -25,11 +29,11 @@ public class PlayerSkills
     List<SkillType> unlockedSkillTypesList;
     LevelSystem levelSystem;
     int requiredPoints;
-
-    public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText) // Construtor da classe
+    public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText, PlayerData playerData)
     {
         this.levelSystem = levelSystem;
         this.pointsText = pointsText;
+        this._playerData = playerData;
         unlockedSkillTypesList = new List<SkillType>();
         requiredPoints = 1;
     }
@@ -38,11 +42,122 @@ public class PlayerSkills
     {
         if (!IsSkillUnlocked(skillType))
         {
+            increaseStats(skillType);
             unlockedSkillTypesList.Add(skillType);
             OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedArgs { skillType = skillType });
         }
     }
-    public bool CanUnlock(SkillType skillType) // Verifica se é possível liberar uma skill
+
+    private void increaseStats(SkillType skillType)
+    {
+        if(skillType == SkillType.Dash) return;
+        if(skillType == SkillType.Strenght6) return;
+        if(skillType == SkillType.Defense6) return;
+        if(skillType == SkillType.Agility6) return;
+        if(skillType == SkillType.StrAgi6) return;
+        if(skillType == SkillType.AgiDef6) return;
+        if(skillType == SkillType.DefStr6) return;
+
+        switch (skillType)
+        {
+            // First/Second Layer
+            case SkillType.Strenght:
+            case SkillType.Strenght1Left: 
+            case SkillType.Strenght2Left: 
+            case SkillType.Strenght1Right:
+            case SkillType.Strenght2Right:
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[2].value +=10; //INT
+                break;
+            case SkillType.Defense: 
+            case SkillType.Defense1Left:  
+            case SkillType.Defense2Left: 
+            case SkillType.Defense1Right:
+            case SkillType.Defense2Right:
+                _playerData.modifier[1].value +=10; //CON
+                _playerData.modifier[4].value +=10; //WIS
+                break;
+
+            case SkillType.Agility: 
+            case SkillType.Agility1Left: 
+            case SkillType.Agility2Left: 
+            case SkillType.Agility1Right:
+            case SkillType.Agility2Right:
+                _playerData.modifier[2].value +=10; // AGI
+                break;
+
+            // First Skill/Buff
+            case SkillType.Strenght3:
+                _playerData.modifier[0].value +=20; //STR
+                _playerData.modifier[3].value +=20; //INT
+                break;
+            case SkillType.Defense3:
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                break;
+            case SkillType.Agility3:
+                _playerData.modifier[2].value +=20;
+                break;
+            case SkillType.StrAgi2:
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[3].value +=10; //INT
+                _playerData.modifier[2].value +=10; // AGI
+                break;
+            case SkillType.AgiDef2:
+                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                break;
+            case SkillType.DefStr2:
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[3].value +=10; //INT
+                break;
+            // Fourth/Fifth Layer and Second Buff
+            case SkillType.Strenght4Left: 
+            case SkillType.Strenght5Left:
+            case SkillType.Strenght4Right:
+            case SkillType.Strenght5Right:
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[3].value +=10; //INT
+                break;
+            case SkillType.Defense4Left:
+            case SkillType.Defense5Left:
+            case SkillType.Defense4Right: 
+            case SkillType.Defense5Right:
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                break;
+
+            case SkillType.Agility4Left:
+            case SkillType.Agility5Left: 
+            case SkillType.Agility4Right:  
+            case SkillType.Agility5Right:
+                _playerData.modifier[2].value +=10; // AGI
+                break;
+              
+        
+            case SkillType.StrAgi4:
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[3].value +=10; //INT
+                _playerData.modifier[2].value +=10; // AGI
+                break;
+            case SkillType.AgiDef4:
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[2].value +=10; // AGI
+                break;
+            case SkillType.DefStr4:
+                _playerData.modifier[1].value +=20; //CON
+                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[0].value +=10; //STR
+                _playerData.modifier[3].value +=10; //INT 
+                break;
+        }
+    }
+
+    public bool CanUnlock(SkillType skillType)
     {
         SkillType skillRequirement1;
         SkillType skillRequirement2;
@@ -90,12 +205,12 @@ public class PlayerSkills
 
     }
 
-    private bool HasRequiredPoint(int point) // Verifica se tem pontos o suficiente
+    private bool HasRequiredPoint(int point)
     {
         return levelSystem.GetSkillTreePoints() >= point;
     }
 
-    private bool CheckRequirement(PlayerSkills.SkillType skill1, PlayerSkills.SkillType skill2) // Checa se está com requisitos liberados
+     private bool CheckRequirement(PlayerSkills.SkillType skill1, PlayerSkills.SkillType skill2)
     {
         return ((skill1 == PlayerSkills.SkillType.Strenght2Left && skill2 == PlayerSkills.SkillType.Strenght2Right) ||
             (skill1 == PlayerSkills.SkillType.Strenght5Left && skill2 == PlayerSkills.SkillType.Strenght5Right) ||
@@ -105,12 +220,11 @@ public class PlayerSkills
             (skill1 == PlayerSkills.SkillType.Agility5Left && skill2 == PlayerSkills.SkillType.Agility5Right));
     }
 
-    public bool IsSkillUnlocked(SkillType skillType) 
+    public bool IsSkillUnlocked(SkillType skillType)
     {
         return unlockedSkillTypesList.Contains(skillType);
     }
 
-    // Pega o que é necessário para liberar a skill (um sistema de node talvez seria mais efetivo -> mostrando nós daquela ramificação)
     public void GetSkillRequirement(SkillType skillType, out PlayerSkills.SkillType firstRequirement, out PlayerSkills.SkillType secondRequirement, out int requiredPoints)
     {
         firstRequirement = SkillType.None;

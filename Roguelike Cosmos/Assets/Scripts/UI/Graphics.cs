@@ -1,3 +1,4 @@
+//*
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -18,7 +19,7 @@ namespace Tools
             if (cameraTransform == null)
                 cameraTransform = Camera.main.transform;
          
-            float damageMultiplier = damageAmount / AddressableLoader.instance.playerData.AttackDamage;
+            float damageMultiplier = damageAmount / AddressableLoader.instance.playerData.baseAttackDamage;
 
             AddressableLoader.instance.damagePopupPrefab.InstantiateAsync(worldPosition, Quaternion.identity).Completed +=
                 async (AsyncOperationHandle<GameObject> obj) =>
@@ -40,3 +41,4 @@ namespace Tools
         }
     }
 }
+//*/

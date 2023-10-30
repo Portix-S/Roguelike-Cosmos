@@ -32,7 +32,7 @@ public class CameraShake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(shakerTimer > 0f)
+        if (shakerTimer > 0f)
         {
             shakerTimer -= Time.deltaTime;
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
