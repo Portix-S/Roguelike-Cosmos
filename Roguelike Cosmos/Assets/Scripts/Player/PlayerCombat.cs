@@ -42,6 +42,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float areaSkillCooldown = 2f;
     private float cooldownCounter;
     [SerializeField] private ParticleSystem areaSkillEffect;
+    public bool isAreaCasting = false;
     
     [Header("Mobile Input")]
     public Joystick joystickAttack;
@@ -66,6 +67,7 @@ public class PlayerCombat : MonoBehaviour
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
         playerRb = GetComponent<Rigidbody>();
+
         projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
         if(projectileHUD.gameObject.activeSelf){
             projectileHUD.gameObject.SetActive(false);
@@ -128,16 +130,9 @@ public class PlayerCombat : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.Q)){
                 if(cooldownCounter <= 0){
-                    Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+                    isAreaCasting = true;
                     playerAnimator.SetTrigger("isAOE");
-                    areaSkillEffect.Play();
-                    foreach(Collider col in colliders){
-                        if(col.GetComponent<EnemyController>()){
-                            Debug.Log("Dano em área boom");
-                            col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
-                        }
-                    }
-                    cooldownCounter = areaSkillCooldown;
+                    // AreaSkill();
                 }
             }
 
@@ -185,10 +180,10 @@ public class PlayerCombat : MonoBehaviour
             cooldownCounter -= Time.deltaTime;
     }
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, areaSkillRange);
-    }
+    // private void OnDrawGizmos() {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, areaSkillRange);
+    // }
 
     public void MobilePunch()
     {
@@ -202,6 +197,18 @@ public class PlayerCombat : MonoBehaviour
             canShoot = false;
             playerAnimator.SetTrigger("isShooting");
         }
+    }
+
+    public void AreaSkill(){
+        Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+        areaSkillEffect.Play();
+        foreach(Collider col in colliders){
+            if(col.GetComponent<EnemyController>()){
+                Debug.Log("Dano em área boom");
+                col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
+            }
+        }
+        cooldownCounter = areaSkillCooldown;
     }
 
     public void MoveForward()
