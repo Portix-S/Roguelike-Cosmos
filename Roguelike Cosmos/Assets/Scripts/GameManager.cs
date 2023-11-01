@@ -115,6 +115,10 @@ public class GameManager : MonoBehaviour
         playerScript.RangedSkill();
     }
 
+    public void SecondSkillButton(){
+        playerScript.MobileAreaSkill();
+    }
+
     public void DashButton()
     {
         RbPlayerMovement playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<RbPlayerMovement>();

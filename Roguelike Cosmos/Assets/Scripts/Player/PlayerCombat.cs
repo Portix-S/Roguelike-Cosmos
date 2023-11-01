@@ -199,6 +199,13 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    public void MobileAreaSkill(){
+        if(cooldownCounter <= 0){
+            isAreaCasting = true;
+            playerAnimator.SetTrigger("isAOE");
+        }
+    }
+
     public void AreaSkill(){
         Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
         areaSkillEffect.Play();
