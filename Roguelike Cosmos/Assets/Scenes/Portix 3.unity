@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17711967, g: 0.22172728, b: 0.3039862, a: 1}
+  m_IndirectSpecularColor: {r: 0.1771118, g: 0.22171697, b: 0.30397764, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -817,6 +817,7 @@ MonoBehaviour:
   - {fileID: 539934728}
   - {fileID: 1940210038}
   playerScript: {fileID: 1236329748}
+  healthSystem: {fileID: 2007370839235988768}
   skillTreeUI: {fileID: 1084727920}
   pointsUI: {fileID: 487812700}
   skillButtonList:
@@ -11742,6 +11743,10 @@ PrefabInstance:
       propertyPath: pointsUI
       value: 
       objectReference: {fileID: 487812700}
+    - target: {fileID: 1325403336734306777, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_Priority
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
 --- !u!114 &873937006 stripped
