@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     bool isMobileDevice;
 
     public PlayerCombat playerScript;
+    [SerializeField] HealthSystem healthSystem;
     public GameObject skillTreeUI;
     [SerializeField] private GameObject pointsUI;
     private bool skillTreeActive;
@@ -87,13 +88,17 @@ public class GameManager : MonoBehaviour
 
     public void OpenSkillTree()
     {
-        ChangeStateMobileButtons(skillTreeActive);
+        if(isMobileDevice)
+            ChangeStateMobileButtons(skillTreeActive);
         skillTreeActive = !skillTreeActive;
         skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
             panScript.cameraTransitioningIn = true;
         else
+        {
             pointsUI.SetActive(skillTreeActive);
+            healthSystem.UpdateStats();
+        }
         ChangeCamera();
     }
 
