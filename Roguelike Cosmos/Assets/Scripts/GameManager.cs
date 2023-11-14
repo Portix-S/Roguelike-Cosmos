@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Cinemachine;
+using Player;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public PlayerCombat playerScript;
     [SerializeField] HealthSystem healthSystem;
+
+    [Header("UI")]
     public GameObject skillTreeUI;
     [SerializeField] private GameObject pointsUI;
     private bool skillTreeActive;
@@ -22,6 +26,13 @@ public class GameManager : MonoBehaviour
     public Button[] skillButtonList; // Lista teste
     public List<Button> skillButtonList2; // Lista Completa
     [SerializeField] private List<PlayerSkills.SkillType> skillTypeList;
+
+    [Header("Popup")]
+    public GameObject popupPrefab;
+    [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private Button popupButton;
+
+    [Header("Enemy Spawn")]
 
     [SerializeField] Transform spawnPos;
     [SerializeField] GameObject enemyPrefab;
@@ -31,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera skillTreeCamera;
     private bool cameraIsOnPlayer = true;
     [SerializeField] PanZoomNew panScript;
-    private PlayerSkills playerSkills;
+    public PlayerSkills playerSkills;
     [SerializeField] Transform skillTreeParent;
 
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
@@ -59,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerSkills);
+        //Debug.Log(playerSkills);
         if (Input.GetKeyDown(KeyCode.M))
         {
             isMobileDevice = !isMobileDevice;
@@ -126,20 +137,23 @@ public class GameManager : MonoBehaviour
         playerMov.StartCoroutine("Dash");
     }
 
-    private void CheckUnlock(PlayerSkills.SkillType skillType)
+    public bool CheckUnlock(PlayerSkills.SkillType skillType, PlayerModifiers[] modifiers)
     {
-        if (!playerSkills.TryUnlockSkill(skillType))
+        if (!playerSkills.TryUnlockSkill(skillType, modifiers))
         {
             Debug.Log("Erro ao debloquear " + skillType + "!");
+            return false;
         }
         else
         {
             Debug.Log("Desbloqueou " + skillType + "!");
+            ClosePopup();
             //Debug.Log(skillType + " checkingUnloc");
 
         }
         //Button button = skillButtonList2[skillTypeList.IndexOf(skillType)]; Utiliza igual
         UpdateVisual(skillType, skillButtonList2[skillTypeList.IndexOf(skillType)]);
+        return true;
 
     }
 
@@ -207,6 +221,30 @@ public class GameManager : MonoBehaviour
         cameraIsOnPlayer = !cameraIsOnPlayer;
     }
 
+    public void ShowPopup(Transform parent, PlayerSkills.SkillType skillType ,PlayerModifiers[] modifiers, StatsGiver statsScript)
+    {
+        popupPrefab.SetActive(true);
+        popupPrefab.transform.SetParent(parent);
+        popupPrefab.transform.localPosition = new Vector3(0, 100, 0);
+        popupPrefab.transform.SetParent(parent.parent);
+        popupText.text = "";
+        foreach (PlayerModifiers mod in modifiers)
+        {
+            if(mod.value > 0)
+                popupText.text += mod.stat.ToString() + ": +" + mod.value + "\n";
+        }
+        popupButton.onClick.AddListener(() => CheckUnlock(skillType, modifiers));
+    }
+
+    public void ClosePopup()
+    {
+        popupPrefab.SetActive(false);
+        //popupPrefab.transform.SetParent(this.transform); // Acho q n precisa
+    }
+    
+
+
+    /*
     #region("Skills")
     public void UnlockDash()
     {
@@ -397,6 +435,6 @@ public class GameManager : MonoBehaviour
         }
         UpdateVisuals();
     }
-    //*/
     #endregion
+    //*/
 }
