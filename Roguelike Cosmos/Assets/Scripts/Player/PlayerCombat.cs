@@ -113,9 +113,6 @@ public class PlayerCombat : MonoBehaviour
                 playerAnimator.SetTrigger("isPunching");
             }
 
-            if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot){
-                projectileHUD.gameObject.SetActive(true);
-            }
             if(Input.GetKeyUp(KeyCode.Mouse1)){
                 transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
                 projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
@@ -125,6 +122,7 @@ public class PlayerCombat : MonoBehaviour
             else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
                 // Should probably change the animation too
                 // And make the player stay in place
+                projectileHUD.gameObject.SetActive(true);
                 LookAtMouse(projectileHUD);
             }
 
@@ -212,7 +210,7 @@ public class PlayerCombat : MonoBehaviour
         foreach(Collider col in colliders){
             if(col.GetComponent<EnemyController>()){
                 Debug.Log("Dano em área boom");
-                col.GetComponent<EnemyController>().TakeDamage(areaSkillDamage);
+                col.GetComponent<EnemyController>().TakeDamage(_playerData.MagicDamage/3f);
             }
         }
         cooldownCounter = areaSkillCooldown;
@@ -256,7 +254,7 @@ public class PlayerCombat : MonoBehaviour
         var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
 
         proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.AttackDamage); //mudar dano depois
+        proj.GetComponent<Projectile>().SetDamage(_playerData.MagicDamage); //mudar dano depois
         StartCoroutine(ShootCooldown());
     }
 
