@@ -139,21 +139,22 @@ public class GameManager : MonoBehaviour
 
     public bool CheckUnlock(PlayerSkills.SkillType skillType, PlayerModifiers[] modifiers)
     {
+        bool success = false;
         if (!playerSkills.TryUnlockSkill(skillType, modifiers))
         {
             Debug.Log("Erro ao debloquear " + skillType + "!");
-            return false;
         }
         else
         {
             Debug.Log("Desbloqueou " + skillType + "!");
             ClosePopup();
+            success = true;
             //Debug.Log(skillType + " checkingUnloc");
 
         }
         //Button button = skillButtonList2[skillTypeList.IndexOf(skillType)]; Utiliza igual
         UpdateVisual(skillType, skillButtonList2[skillTypeList.IndexOf(skillType)]);
-        return true;
+        return success;
 
     }
 
@@ -232,7 +233,8 @@ public class GameManager : MonoBehaviour
         {
             if(mod.value > 0)
                 popupText.text += mod.stat.ToString() + ": +" + mod.value + "\n";
-        }
+        }   
+        popupButton.onClick.RemoveAllListeners();
         popupButton.onClick.AddListener(() => CheckUnlock(skillType, modifiers));
     }
 

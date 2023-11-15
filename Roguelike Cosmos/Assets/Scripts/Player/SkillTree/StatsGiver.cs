@@ -21,7 +21,7 @@ public class StatsGiver : MonoBehaviour
     {
         // button.y+155 --> Altura que deve spawnar o popup
         // Chamar pelo gm
-        Debug.Log("Can unlock: " + gm.playerSkills.CanUnlock(playerSkill));
+        Debug.Log("Can unlock: " + gm.playerSkills.CanUnlock(playerSkill)); // Loses mana?
         if(gm.playerSkills.CanUnlock(playerSkill))
             gm.ShowPopup(this.transform, playerSkill ,modifiers, this);
     }

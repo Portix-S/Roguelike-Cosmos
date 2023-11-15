@@ -348,9 +348,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 17
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 0
     value: 5
 --- !u!1 &7894309
 GameObject:
@@ -953,9 +955,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 16
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 2
     value: 5
 --- !u!1 &87658340
 GameObject:
@@ -2339,8 +2343,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 37
+  modifiers:
+  - stat: 0
+    value: 10
+  - stat: 4
+    value: 10
+  - stat: 1
+    value: 10
 --- !u!1 &170582493
 GameObject:
   m_ObjectHideFlags: 0
@@ -3207,9 +3217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 20
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 0
     value: 5
 --- !u!1 &228554325
 GameObject:
@@ -3652,10 +3664,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 18
   modifiers:
   - stat: 1
-    value: 5
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!1001 &248677763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4362,10 +4376,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 32
   modifiers:
   - stat: 2
-    value: 5
+    value: 15
 --- !u!114 &342783256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4378,9 +4392,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 15
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 0
     value: 5
 --- !u!114 &360692074
 MonoBehaviour:
@@ -4394,10 +4410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 33
   modifiers:
   - stat: 2
-    value: 5
+    value: 15
 --- !u!1 &361791889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 26fe777362c900a46889017dbb038046, type: 3}
@@ -5060,8 +5076,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 9
+  modifiers:
+  - stat: 2
+    value: 5
+  - stat: 3
+    value: 5
 --- !u!1001 &431671589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5885,10 +5905,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 23
   modifiers:
   - stat: 1
-    value: 5
+    value: 15
 --- !u!114 &465119126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5901,10 +5921,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 29
   modifiers:
   - stat: 2
-    value: 5
+    value: 10
 --- !u!1 &465445825
 GameObject:
   m_ObjectHideFlags: 0
@@ -8068,8 +8088,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 43
+  modifiers:
+  - stat: 0
+    value: 15
+  - stat: 1
+    value: 15
+  - stat: 4
+    value: 15
 --- !u!114 &602136308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8082,10 +8108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 34
   modifiers:
   - stat: 2
-    value: 5
+    value: 15
 --- !u!1 &610449542
 GameObject:
   m_ObjectHideFlags: 0
@@ -8330,7 +8356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 13
   modifiers:
   - stat: 1
     value: 5
@@ -8388,8 +8414,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 38
+  modifiers:
+  - stat: 0
+    value: 10
+  - stat: 3
+    value: 10
+  - stat: 2
+    value: 10
 --- !u!114 &654995899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8402,8 +8434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 8
+  modifiers:
+  - stat: 0
+    value: 5
+  - stat: 1
+    value: 5
 --- !u!1 &659573965
 GameObject:
   m_ObjectHideFlags: 0
@@ -9138,8 +9174,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 35
+  modifiers:
+  - stat: 0
+    value: 10
+  - stat: 2
+    value: 10
+  - stat: 3
+    value: 10
 --- !u!1 &704949622
 GameObject:
   m_ObjectHideFlags: 0
@@ -9644,8 +9686,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 36
+  modifiers:
+  - stat: 2
+    value: 10
+  - stat: 1
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!1001 &757142911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11038,8 +11086,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 12
+  modifiers:
+  - stat: 0
+    value: 15
+  - stat: 3
+    value: 15
 --- !u!1 &845699337
 GameObject:
   m_ObjectHideFlags: 0
@@ -11756,6 +11808,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UnlockAgiDef6
       objectReference: {fileID: 0}
+    - target: {fileID: 1325403335192118813, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_Size.z
+      value: 1693.3154
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325403335192118813, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_Center.x
+      value: -0.000014410458
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325403335192118813, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_Center.y
+      value: 0.000004220733
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325403335192118813, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_Center.z
+      value: -85.4777
+      objectReference: {fileID: 0}
     - target: {fileID: 1325403335204595786, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_IgnoreReversedGraphics
       value: 0
@@ -12014,7 +12082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -12023,7 +12091,7 @@ PrefabInstance:
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 49192860}
+      objectReference: {fileID: 291688555}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -12034,11 +12102,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UnlockDash
+      value: ShowPopup
       objectReference: {fileID: 0}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ShowPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StatsGiver, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1325403335723474863, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -12198,7 +12270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1325403336389118744, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1325403336405608179, guid: 0f904de3e7bedf346a727280d268c7a2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -12557,8 +12629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 7
+  modifiers:
+  - stat: 0
+    value: 10
+  - stat: 3
+    value: 10
 --- !u!114 &873937050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12571,8 +12647,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 6
+  modifiers:
+  - stat: 3
+    value: 5
+  - stat: 4
+    value: 5
 --- !u!114 &873937051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12585,8 +12665,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 5
+  modifiers:
+  - stat: 0
+    value: 5
+  - stat: 1
+    value: 5
 --- !u!114 &873937052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12600,7 +12684,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSkill: 4
-  modifiers: []
+  modifiers:
+  - stat: 3
+    value: 5
+  - stat: 4
+    value: 5
 --- !u!114 &873937053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13659,9 +13747,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 14
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 4
     value: 5
 --- !u!1001 &959126109
 PrefabInstance:
@@ -14042,8 +14132,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 41
+  modifiers:
+  - stat: 0
+    value: 15
+  - stat: 2
+    value: 15
+  - stat: 3
+    value: 15
 --- !u!1 &991955686
 GameObject:
   m_ObjectHideFlags: 0
@@ -14659,9 +14755,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 26
   modifiers:
   - stat: 2
+    value: 5
+  - stat: 3
     value: 5
 --- !u!114 &1043295338
 MonoBehaviour:
@@ -14675,8 +14773,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 42
+  modifiers:
+  - stat: 1
+    value: 15
+  - stat: 2
+    value: 15
+  - stat: 4
+    value: 15
 --- !u!114 &1048160171 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5202109078326091217, guid: 9950439d1a4ab754aa46090a640ded64, type: 3}
@@ -16181,10 +16285,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 22
   modifiers:
   - stat: 1
-    value: 5
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!1 &1160826843
 GameObject:
   m_ObjectHideFlags: 0
@@ -17086,9 +17192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 28
   modifiers:
   - stat: 2
+    value: 5
+  - stat: 4
     value: 5
 --- !u!1 &1216193124
 GameObject:
@@ -17260,8 +17368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 40
+  modifiers:
+  - stat: 0
+    value: 10
+  - stat: 1
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!1 &1230906894
 GameObject:
   m_ObjectHideFlags: 0
@@ -18129,10 +18243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 31
   modifiers:
   - stat: 2
-    value: 5
+    value: 10
+  - stat: 3
+    value: 10
 --- !u!1001 &1316666510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19823,8 +19939,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 11
+  modifiers:
+  - stat: 3
+    value: 15
 --- !u!1 &1438793696 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
@@ -23114,8 +23232,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 39
+  modifiers:
+  - stat: 2
+    value: 10
+  - stat: 1
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!1001 &1667612341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23659,9 +23783,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 27
   modifiers:
   - stat: 2
+    value: 5
+  - stat: 1
     value: 5
 --- !u!1 &1713940269 stripped
 GameObject:
@@ -29867,10 +29993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 24
   modifiers:
   - stat: 2
-    value: 5
+    value: 10
 --- !u!1001 &1785825708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30535,8 +30661,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
-  modifiers: []
+  playerSkill: 10
+  modifiers:
+  - stat: 0
+    value: 15
 --- !u!1 &1817157462
 GameObject:
   m_ObjectHideFlags: 0
@@ -30671,9 +30799,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 25
   modifiers:
   - stat: 2
+    value: 5
+  - stat: 0
     value: 5
 --- !u!1 &1820197884
 GameObject:
@@ -31749,10 +31879,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 21
   modifiers:
   - stat: 1
-    value: 5
+    value: 10
+  - stat: 4
+    value: 10
 --- !u!114 &1913408012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31765,9 +31897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 19
   modifiers:
   - stat: 1
+    value: 5
+  - stat: 2
     value: 5
 --- !u!1 &1915818825
 GameObject:
@@ -32386,10 +32520,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c103fc7a5166707ca293ddeae64393a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSkill: 0
+  playerSkill: 30
   modifiers:
+  - stat: 1
+    value: 10
   - stat: 2
-    value: 5
+    value: 10
 --- !u!1001 &1947370043
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -155,7 +155,6 @@ public class PlayerSkills
                 _playerData.modifier[1].value +=10; //CON
                 _playerData.modifier[4].value +=10; //WIS
                 _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[3].value +=10; //INT
                 break;
 
             
