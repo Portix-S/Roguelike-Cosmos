@@ -830,6 +830,9 @@ MonoBehaviour:
   - {fileID: 2132145877}
   skillButtonList2: []
   skillTypeList: 
+  popupPrefab: {fileID: 0}
+  popupText: {fileID: 0}
+  popupButton: {fileID: 0}
   spawnPos: {fileID: 778303625}
   enemyPrefab: {fileID: 949977452898693192, guid: f4e68dae0dc1692489ca482ce9f2da9c, type: 3}
   playerCamera: {fileID: 1588663055}
@@ -33637,6 +33640,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 129651715, guid: 909e965ed40319c488cb471cf084e527, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 129651715, guid: 909e965ed40319c488cb471cf084e527, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2007370839682111779, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
@@ -33657,6 +33668,10 @@ PrefabInstance:
       propertyPath: joystickSkill
       value: 
       objectReference: {fileID: 1940210040}
+    - target: {fileID: 2007370840166066190, guid: 909e965ed40319c488cb471cf084e527, type: 3}
+      propertyPath: areaSkillRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2007370840166066190, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: joystickAttack
       value: 

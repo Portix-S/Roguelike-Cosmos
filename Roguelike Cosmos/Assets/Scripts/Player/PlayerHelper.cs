@@ -12,7 +12,7 @@ public class PlayerHelper : MonoBehaviour
     }
 
     private void RangedSkill(){
-        pc.RangedSkill();
+        pc.Shoot();
     }
 
     private void AreaSkill(){
@@ -22,7 +22,7 @@ public class PlayerHelper : MonoBehaviour
     private void FinishAttack(){
         pc.isAreaCasting = false;
         pc.isShooting = false;
-
+        pc.canShoot = true;
     }
 
 }
