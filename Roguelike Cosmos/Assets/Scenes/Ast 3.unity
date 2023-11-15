@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17711967, g: 0.22172728, b: 0.3039862, a: 1}
+  m_IndirectSpecularColor: {r: 0.17711174, g: 0.22171676, b: 0.30397728, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -818,6 +818,7 @@ MonoBehaviour:
   - {fileID: 1940210038}
   - {fileID: 1335621202}
   playerScript: {fileID: 1236329748}
+  healthSystem: {fileID: 0}
   skillTreeUI: {fileID: 1084727920}
   pointsUI: {fileID: 487812700}
   skillButtonList:
@@ -33663,6 +33664,10 @@ PrefabInstance:
     - target: {fileID: 2007370840166066196, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007370840166066196, guid: 909e965ed40319c488cb471cf084e527, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2007370840166066197, guid: 909e965ed40319c488cb471cf084e527, type: 3}
       propertyPath: m_RootOrder

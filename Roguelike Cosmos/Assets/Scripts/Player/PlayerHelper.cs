@@ -12,17 +12,17 @@ public class PlayerHelper : MonoBehaviour
     }
 
     private void RangedSkill(){
-
+        pc.RangedSkill();
     }
 
     private void AreaSkill(){
         pc.AreaSkill();
-        StartCoroutine(FinishAttack());
     }
 
-    IEnumerator FinishAttack(){
-        yield return new WaitForSeconds(.8f);
+    private void FinishAttack(){
         pc.isAreaCasting = false;
+        pc.isShooting = false;
+
     }
 
 }
