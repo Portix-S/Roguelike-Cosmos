@@ -38,18 +38,19 @@ public class PlayerSkills
         requiredPoints = 1;
     }
 
-    private void UnlockSkill(SkillType skillType)
+    private void UnlockSkill(SkillType skillType, PlayerModifiers[] modifiers)
     {
         if (!IsSkillUnlocked(skillType))
         {
-            increaseStats(skillType);
+            increaseStats(skillType, modifiers);
             unlockedSkillTypesList.Add(skillType);
             OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedArgs { skillType = skillType });
         }
     }
 
-    private void increaseStats(SkillType skillType)
+    private void increaseStats(SkillType skillType, PlayerModifiers[] modifiers)
     {
+        /*
         if(skillType == SkillType.Dash) return;
         if(skillType == SkillType.Strenght6) return;
         if(skillType == SkillType.Defense6) return;
@@ -57,7 +58,12 @@ public class PlayerSkills
         if(skillType == SkillType.StrAgi6) return;
         if(skillType == SkillType.AgiDef6) return;
         if(skillType == SkillType.DefStr6) return;
-
+        //*/
+        foreach(PlayerModifiers playerModifiers in modifiers)
+        {
+            _playerData.modifier[(int)playerModifiers.stat].value += playerModifiers.value;
+        }
+        /*
         switch (skillType)
         {
             // First/Second Layer
@@ -149,7 +155,6 @@ public class PlayerSkills
                 _playerData.modifier[1].value +=10; //CON
                 _playerData.modifier[4].value +=10; //WIS
                 _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[3].value +=10; //INT
                 break;
 
             
@@ -220,6 +225,7 @@ public class PlayerSkills
                 _playerData.modifier[0].value +=10; //STR
                 break;
         }
+        //*/
     }
 
     public bool CanUnlock(SkillType skillType)
@@ -353,14 +359,14 @@ public class PlayerSkills
         
     }
 
-    public bool TryUnlockSkill(SkillType skillType)
+    public bool TryUnlockSkill(SkillType skillType, PlayerModifiers[] modifiers)
     {
         
         if (CanUnlock(skillType) && HasRequiredPoint(requiredPoints))
         {
             levelSystem.RemoveSkillTreePoints(requiredPoints);
             pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
-            UnlockSkill(skillType);
+            UnlockSkill(skillType, modifiers);
             return true;
         }
         else
