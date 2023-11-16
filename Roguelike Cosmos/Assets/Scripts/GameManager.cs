@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject[] mobileButtons;
     //DeviceType system;
-    bool isMobileDevice;
+    bool isMobileDevice = true;
 
     public PlayerCombat playerScript;
     [SerializeField] HealthSystem healthSystem;
@@ -56,8 +56,8 @@ public class GameManager : MonoBehaviour
         if (playerScript.system == DeviceType.Desktop)
         {
             ChangeStateMobileButtons(false);
+            isMobileDevice = false;
         }
-        isMobileDevice = false;
         playerSkills = playerScript.GetPlayerSkillScript();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviour
                 //backgroundImage.color = UtilsClass.GetColorFromString("4B677D");
                 //transform.GetComponent<Button_UI>().enabled = true;
                 ColorBlock cb = button.colors;
-                cb.normalColor = Color.blue;
+                cb.normalColor = Color.white; //Will later change to a sprite instead of a color --> being "grey" for inactive
                 button.colors = cb;
             }
             else
@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
                 //backgroundImage.color = new Color(.3f, .3f, .3f);
                 //transform.GetComponent<Button_UI>().enabled = false;
                 ColorBlock cb = button.colors;
-                cb.normalColor = Color.red;
+                cb.normalColor = Color.grey;
                 button.colors = cb;
             }
         }
