@@ -18,3 +18,6 @@ MonoBehaviour:
   - "Aumenta defesa do usu\xE1rio"
   - defesa +1
   - defesa +2
+  modifier:
+  - stat: 1
+    value: 4

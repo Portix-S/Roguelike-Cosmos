@@ -9,6 +9,7 @@ namespace Player
     public class PlayerData : ScriptableObject
     {
         public PlayerModifiers[] modifier;
+        public PlayerModifiers[] temp_modifier;
 
         [Header("life and Defense")]
         public int baseHealthPoints;//base + constituicao
