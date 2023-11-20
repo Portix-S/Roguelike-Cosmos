@@ -17,20 +17,20 @@ public class ObjectFader : MonoBehaviour
         {
             originalOpacity = material.color.a;
         } 
-        Fade();
+        // Fade();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isHidingPlayer)
-        {
-            Fade();
-        }
-        else
-        {
-            Fade();
-        }
+        // if(isHidingPlayer)
+        // {
+        //     Fade();
+        // }
+        // else
+        // {
+        //     FadeOut();
+        // }
     }
 
 
@@ -40,8 +40,8 @@ public class ObjectFader : MonoBehaviour
         foreach (Material material in materials)
         {
             Color color = material.color;
-            Color smoothColor = new Color(color.r, color.g, color.b, Mathf.Lerp(color.a, fadeAmount, fadeSpeed * Time.deltaTime));
-            material.color = smoothColor;
+            color.a = Mathf.Lerp(color.a, fadeAmount, fadeSpeed * Time.deltaTime);
+            material.color = color;
         }
     }
 

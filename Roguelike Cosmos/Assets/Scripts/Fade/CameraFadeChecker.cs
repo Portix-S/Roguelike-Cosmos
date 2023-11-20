@@ -26,8 +26,8 @@ public class CameraFadeChecker : MonoBehaviour
             {
                 if(objectFader != null)
                 {
-                    // objectFader.FadeOut();
-                    objectFader.isHidingPlayer = false;
+                    objectFader.FadeOut();
+                    //objectFader.isHidingPlayer = false;
                 }
             }
             else
@@ -35,8 +35,8 @@ public class CameraFadeChecker : MonoBehaviour
                 objectFader = hit.collider.gameObject.GetComponent<ObjectFader>();
                 if(objectFader != null)
                 {
-                    // objectFader.Fade();
-                    objectFader.isHidingPlayer = true;
+                    objectFader.Fade();
+                    //objectFader.isHidingPlayer = true;
                     Debug.Log("Fade");
                 }
             }
