@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class TentacleController : MonoBehaviour
 {
 
     public float lookRadius = 10f;
@@ -23,11 +23,42 @@ public class EnemyController : MonoBehaviour
 
     [Header("Stats/Experience")]
     [SerializeField] int xpAmount = 10;
+    private bool isActive = false;
+    private int attack;
+    private void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Player"){
+            if(!isActive){
+                isActive = true;
+                foreach (Transform child in this.transform){
+                    child.gameObject.SetActive(true);
+                }
+            }
+            else{
+                isAttacking = true;
+                enemyAnimator.SetInteger("isAttacking", attack);
+                StartCoroutine(AttackCooldown());
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if(other.gameObject.tag == "Player"){
+            if(isActive){
+                isAttacking = true;
+                attack = Random.Range(0, 3);
+                enemyAnimator.SetInteger("isAttacking", attack);
+                StartCoroutine(AttackCooldown());
+            }
+        }
+    }
 
     void Start()
     {
+        foreach (Transform child in this.transform){
+            child.gameObject.SetActive(false);
+        }
         target = PlayerManager.instance.player.transform;
-        agent = GetComponent<NavMeshAgent>();
+        //agent = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponentInChildren<Animator>();
         collider = GetComponent<Collider>();
     }
@@ -35,51 +66,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(target.position, transform.position);
-        //*
-        if (agent.velocity != Vector3.zero)
-        {
-            enemyAnimator.SetBool("isWalking", true);
-        }
-        else
-        {
-            enemyAnimator.SetBool("isWalking", false);
-        }
-
-        if (distance <= agent.stoppingDistance && !isAttacking)
-        {
-            isAttacking = true;
-            enemyAnimator.SetBool("isAttacking", true);
-            StartCoroutine(AttackCooldown());
-        }
-
-        if (distance <= lookRadius)
-        {
-            agent.SetDestination(target.position);
-            nextLocation = false;
-            if (distance <= agent.stoppingDistance)
-            {
-                FaceTarget();
-            }
-        }
-        else
-        {
-            if (nextLocation)
-            {
-                agent.SetDestination(randomPoint);
-                float distance2 = Vector3.Distance(randomPoint, transform.position);
-
-                if (distance2 <= agent.stoppingDistance)
-                {
-                    nextLocation = false;
-                }
-
-            }
-            else
-            {
-                randomPoint = RandomNavmeshLocation(randomRadius);
-                nextLocation = true;
-            }
-        }
+        FaceTarget();
     }
 
     public void StopAttacking()
@@ -113,7 +100,6 @@ public class EnemyController : MonoBehaviour
         if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;
-            Debug.Log(healthPoints);
             Tools.Graphics.CreateDamagePopup(amount, popupPos);
         }
         else
@@ -145,11 +131,11 @@ public class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lookRadius);
-        Gizmos.DrawWireSphere(transform.position, randomRadius);
-        Gizmos.DrawSphere(randomPoint, 1);
-    }
+    // void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, lookRadius);
+    //     Gizmos.DrawWireSphere(transform.position, randomRadius);
+    //     Gizmos.DrawSphere(randomPoint, 1);
+    // }
 }
