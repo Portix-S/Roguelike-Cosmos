@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Player;
 
+
 namespace RewardType
 {
     [CreateAssetMenu(fileName = "RewardType", menuName = "Scriptable Objects/RewardType")]
@@ -14,8 +15,8 @@ namespace RewardType
         public string title;
         public List<string> descriptions;
 
-        //[Header("INCREASE STATS")]
-        //public pData.PlayerModifiers[] modifier;
+        [Header("INCREASE STATS")]
+        public Player.PlayerModifiers[] modifier;
 
 
     }

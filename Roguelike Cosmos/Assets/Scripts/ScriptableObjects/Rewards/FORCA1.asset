@@ -18,3 +18,6 @@ MonoBehaviour:
   - "Aumenta for\xE7a do usu\xE1rio"
   - "for\xE7a +1"
   - "for\xE7a +2"
+  modifier:
+  - stat: 0
+    value: 3

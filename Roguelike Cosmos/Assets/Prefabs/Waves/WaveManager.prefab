@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6074326507723780276}
   - component: {fileID: 6074326507723780277}
   - component: {fileID: 6074326507723780274}
+  - component: {fileID: 5257453640215623535}
   m_Layer: 0
   m_Name: Reward_1
   m_TagString: Untagged
@@ -136,6 +137,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5257453640215623535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074326507723780272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3f2fb7d4e77c340b16e138adba2531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 1
 --- !u!1 &6074326507767602944
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +400,7 @@ GameObject:
   - component: {fileID: 6074326507972272295}
   - component: {fileID: 6074326507972272292}
   - component: {fileID: 6074326507972272293}
+  - component: {fileID: 2800389648219036396}
   m_Layer: 0
   m_Name: Reward_2
   m_TagString: Untagged
@@ -510,6 +525,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2800389648219036396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074326507972272291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3f2fb7d4e77c340b16e138adba2531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 0
 --- !u!1 &6074326508125619509
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,9 +904,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6936afc1d5e3f4da65f7c166c04013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wCounter: 0
-  wsCompleted: 0
+  positions: []
   rm: {fileID: 0}
+  TimeBetweenWaves: 0
+  waves: []
+  currentWave: 0
+  currentState: 0
 --- !u!1 &6074326508529484174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,6 +1192,7 @@ GameObject:
   - component: {fileID: 6074326508817628018}
   - component: {fileID: 6074326508817628019}
   - component: {fileID: 6074326508817628016}
+  - component: {fileID: 4938609556992848854}
   m_Layer: 0
   m_Name: Reward_3
   m_TagString: Untagged
@@ -1285,6 +1317,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4938609556992848854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074326508817628017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3f2fb7d4e77c340b16e138adba2531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 0
 --- !u!1 &6074326508849480397
 GameObject:
   m_ObjectHideFlags: 0
