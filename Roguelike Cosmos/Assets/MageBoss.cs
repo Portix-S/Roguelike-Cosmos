@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class MageBoss : MonoBehaviour
 {
+    public float lookSpeed = 5;
     public float lookRadius = 200f;
     public float randomRadius = 20f;
     Transform target;
@@ -11,14 +12,14 @@ public class MageBoss : MonoBehaviour
     public bool nextLocation = false;
     public Vector3 randomPoint = new Vector3(0, 0, 0);
     [SerializeField] float healthPoints = 100f;
-    [SerializeField] Animator enemyAnimator;
+    Animator animator;
     [SerializeField] private Collider collider;
 
     [Header("Attack Config")]
     bool isAttacking;
     float attackCooldownTimer = 2f;
     float rangedAttackCooldownTimer = 2f;
-    public float meeleRadius = 200f;
+    public float atkRadius = 200f;
     [SerializeField] int damage = 5;
 
     [Header("Stats/Experience")]
@@ -35,105 +36,84 @@ public class MageBoss : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        //enemyAnimator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         collider = GetComponent<Collider>();
 
     }
 
     void Update()
     {
+        
         float distance = Vector3.Distance(target.position, transform.position);
         //*
         if (agent.velocity != Vector3.zero)
         {
-            //enemyAnimator.SetBool("isWalking", true);
-            //Debug.Log("Anim: Andando");
+            animator.SetBool("isMoving", true);
+            Debug.Log("Anim: Andando");
         }
         else
         {
-            //enemyAnimator.SetBool("isWalking", false);
-            //Debug.Log("Anim: Parado");
+            animator.SetBool("isMoving", false);
+            Debug.Log("Anim: Parado");
+            FaceTarget(1);
         }
 
-        if (distance <= lookRadius)
+        if (distance <= lookRadius && !isAttacking)
         {
-            if (distance > meeleRadius)
+            if (distance < atkRadius) //parar para atacar
             {
+                
+                agent.velocity = Vector3.zero;
+                animator.SetBool("isMoving", false);
                 // Variar entre dois ataques meelee
                 if (!isAttacking)
                 {
+                    
                     float randomAttack = Random.Range(0f, 100f);
 
-                    if (randomAttack < 50f)
+                    if (randomAttack < 40f)
                     {
                         Debug.Log("Anim: Ataque Ranged 1");
                         isAttacking = true;
-                        //enemyAnimator.SetBool("isAttacking", true);
-                        StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
+                        animator.SetTrigger("atk1");
+                        
+                        StartCoroutine(AttackCooldown(3));
                     }
-                    else
+                    else if(randomAttack >= 40 && randomAttack < 80)
                     {
                         Debug.Log("Anim: Ataque Ranged 2");
                         isAttacking = true;
-                        // enemyAnimator.SetBool("isAttacking", true);
-                        StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
+                        animator.SetTrigger("atk2");
+                        StartCoroutine(AttackCooldown(4));
+                    }
+                    else
+                    {
+                        Debug.Log("Anim: Ataque Ranged 3");
+                        isAttacking = true;
+                        animator.SetTrigger("atk3");
+                        StartCoroutine(AttackCooldown(1));
                     }
                 }
-                else
-                {
-                    agent.velocity = Vector3.zero;
-                }
             }
             else
             {
-                if (distance <= agent.stoppingDistance && !isAttacking)
-                {
-                    Debug.Log("Ataque meelee");
-                    isAttacking = true;
-                    //enemyAnimator.SetBool("isAttacking", true);
-                    StartCoroutine(AttackCooldown());
-                }
-                else
-                {
-                    agent.SetDestination(target.position);
-                    FaceTarget();
-
-                    nextLocation = false;
-                }
+                FaceTarget(lookSpeed);
+                agent.SetDestination(target.position);
+                
+                nextLocation = false;
             }
         }
-        else
-        {
-            // Sem ver o player
-            if (nextLocation)
-            {
-                agent.SetDestination(randomPoint);
-                //Debug.Log(randomPoint);
-                float distance2 = Vector3.Distance(randomPoint, transform.position);
-                //Debug.Log(distance2);
 
-                if (distance2 <= agent.stoppingDistance)
-                {
-                    nextLocation = false;
-                }
-
-            }
-            else
-            {
-                randomPoint = RandomNavmeshLocation(randomRadius);
-                nextLocation = true;
-            }
-        }
     }
 
     public void StopAttacking()
     {
-        enemyAnimator.SetBool("isAttacking", false);
+        animator.SetBool("isAttacking", false);
     }
 
     public void StopTakingDamage()
     {
-        enemyAnimator.SetBool("isTakingDamage", false);
+        animator.SetTrigger("takeDamage");
     }
 
 
@@ -152,7 +132,7 @@ public class MageBoss : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        enemyAnimator.SetBool("isTakingDamage", true);
+        animator.SetTrigger("takeDamage");
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
         Vector3 popupPos = transform.position + transform.up * height;
@@ -184,11 +164,11 @@ public class MageBoss : MonoBehaviour
         return finalPosition;
     }
 
-    void FaceTarget()
+    void FaceTarget(float ls)
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * ls);
     }
 
     void OnDrawGizmosSelected()
