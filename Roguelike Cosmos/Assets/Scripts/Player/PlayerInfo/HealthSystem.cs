@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Player;
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -10,12 +12,23 @@ public class HealthSystem : MonoBehaviour
     private float timeStamp; // Registra o tempo que o player vai poder levar dano novamente
     private int maxHealth; // Vida máxima
     private int health; // Vida máxima
+
+    [SerializeField] GameObject transicao;
+    private NavMeshAgent playerNavMeshAgent;
+    private Plane plane;
+    private RbPlayerMovement rbPlayerMovement;
+    public Transform warpPoint;
+
+
     void Start()
     {
         timeStamp = 0;
         UpdateStats();
         //info.baseHealthPoints = maxHealth;
-
+        plane = new Plane(Vector3.up, Vector3.zero);
+        rbPlayerMovement = GetComponent<RbPlayerMovement>();
+        playerNavMeshAgent = GetComponent<NavMeshAgent>();
+        //transicao = GameObject.FindGameObjectWithTag("Transicao");
     }
 
 
@@ -71,6 +84,28 @@ public class HealthSystem : MonoBehaviour
         health -= d;
         Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
+
+        // Morrer
+        if(health <= 0){
+            StartCoroutine(Morrer());
+        }
+    }
+
+    public IEnumerator Morrer(){
+        //Time.timeScale = 0f;
+        transicao.SetActive(true);
+        WaveManager[] wms = FindObjectsOfType<WaveManager>();
+        foreach(WaveManager wm in wms)
+        {
+            wm.KillAllEnemies();
+        }
+        rbPlayerMovement.enabled = false;
+        yield return new WaitForSeconds(1.8f);
+        playerNavMeshAgent.enabled = false;
+        transform.position = plane.ClosestPointOnPlane(warpPoint.position);
+        playerNavMeshAgent.enabled = true;
+        rbPlayerMovement.enabled = true;
+        //SceneManager.LoadScene("GameOver");
     }
 
 
