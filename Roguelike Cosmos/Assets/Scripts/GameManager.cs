@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     public GameObject skillTreeUI;
     [SerializeField] private GameObject pointsUI;
     private bool skillTreeActive;
-
     public Button[] skillButtonList; // Lista teste
     public List<Button> skillButtonList2; // Lista Completa
     [SerializeField] private List<PlayerSkills.SkillType> skillTypeList;
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button popupButton;
 
     [Header("Enemy Spawn")]
-
     [SerializeField] Transform spawnPos;
     [SerializeField] GameObject enemyPrefab;
 
