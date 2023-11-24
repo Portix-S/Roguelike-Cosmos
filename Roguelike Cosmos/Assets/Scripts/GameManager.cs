@@ -102,14 +102,13 @@ public class GameManager : MonoBehaviour
         if(isMobileDevice)
             ChangeStateMobileButtons(skillTreeActive);
         skillTreeActive = !skillTreeActive;
-        //skillTreeUI.SetActive(skillTreeActive);
+        skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
             panScript.cameraTransitioningIn = true;
         else
         {
             pointsUI.SetActive(skillTreeActive);
             healthSystem.UpdateStats();
-            ClosePopup();
         }
         ChangeCamera();
     }
