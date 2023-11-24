@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class EnemyController : MonoBehaviour
 {
 
@@ -54,7 +55,6 @@ public class EnemyController : MonoBehaviour
         if (distance <= lookRadius)
         {
             agent.SetDestination(target.position);
-            Debug.Log("seguindo");
             nextLocation = false;
             if (distance <= agent.stoppingDistance)
             {
@@ -63,14 +63,10 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Não seguindo");
-            Debug.Log(nextLocation);
             if (nextLocation)
             {
                 agent.SetDestination(randomPoint);
-                Debug.Log(randomPoint);
                 float distance2 = Vector3.Distance(randomPoint, transform.position);
-                Debug.Log(distance2);
 
                 if (distance2 <= agent.stoppingDistance)
                 {

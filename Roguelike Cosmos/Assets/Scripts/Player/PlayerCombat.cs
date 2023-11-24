@@ -30,12 +30,20 @@ public class PlayerCombat : MonoBehaviour
     [Header("Projectile")]
     public GameObject pfProjectile;
     public Transform  projectileSpawn;
-    [SerializeField] private bool canShoot = true;
+    public bool canShoot = true;
     public float projectileSpeed;
     public float projectileCooldown;
     public bool isShooting;
     private Transform projectileHUD;
 
+    [Header("AoE")]
+    [SerializeField] private LayerMask whatIsEnemie;
+    [SerializeField] private float areaSkillRange = 3.5f, areaSkillDamage = 2f;
+    [SerializeField] private float areaSkillCooldown = 2f;
+    private float cooldownCounter;
+    [SerializeField] private ParticleSystem areaSkillEffect;
+    public bool isAreaCasting = false;
+    
     [Header("Mobile Input")]
     public Joystick joystickAttack;
     private Vector3 joystickAttackDirection;
@@ -59,6 +67,7 @@ public class PlayerCombat : MonoBehaviour
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
         playerRb = GetComponent<Rigidbody>();
+
         projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
         if(projectileHUD.gameObject.activeSelf){
             projectileHUD.gameObject.SetActive(false);
@@ -104,22 +113,31 @@ public class PlayerCombat : MonoBehaviour
                 playerAnimator.SetTrigger("isPunching");
             }
 
-            if(Input.GetKeyDown(KeyCode.Mouse1) && canShoot){
-                projectileHUD.gameObject.SetActive(true);
-            }
             if(Input.GetKeyUp(KeyCode.Mouse1)){
                 transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
                 projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
-                RangedSkill();
                 projectileHUD.gameObject.SetActive(false);
+
+                RangedSkill();                
             }
             else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
                 // Should probably change the animation too
                 // And make the player stay in place
+                projectileHUD.gameObject.SetActive(true);
                 LookAtMouse(projectileHUD);
             }
 
-            
+            if(Input.GetKeyDown(KeyCode.Q)){
+                if(cooldownCounter <= 0){
+                    isAreaCasting = true;
+                    playerAnimator.SetTrigger("isAOE");
+                    // AreaSkill();
+                }
+            }
+
+            /*
+                TEMPORARY CODE REMOVE LATER
+            */
             if (Input.GetKey(KeyCode.X))
             {
                 levelSystem.AddExperience(100);
@@ -158,7 +176,15 @@ public class PlayerCombat : MonoBehaviour
         }
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
+
+        if(cooldownCounter > 0)
+            cooldownCounter -= Time.deltaTime;
     }
+
+    // private void OnDrawGizmos() {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, areaSkillRange);
+    // }
 
     public void MobilePunch()
     {
@@ -170,8 +196,28 @@ public class PlayerCombat : MonoBehaviour
         if (canShoot && !isAttacking)
         {
             canShoot = false;
+            isShooting = true;
             playerAnimator.SetTrigger("isShooting");
         }
+    }
+
+    public void MobileAreaSkill(){
+        if(cooldownCounter <= 0){
+            isAreaCasting = true;
+            playerAnimator.SetTrigger("isAOE");
+        }
+    }
+
+    public void AreaSkill(){
+        Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+        areaSkillEffect.Play();
+        foreach(Collider col in colliders){
+            if(col.GetComponent<EnemyController>()){
+                Debug.Log("Dano em área boom");
+                col.GetComponent<EnemyController>().TakeDamage(_playerData.MagicDamage/3f);
+            }
+        }
+        cooldownCounter = areaSkillCooldown;
     }
 
     public void MoveForward()
@@ -212,7 +258,7 @@ public class PlayerCombat : MonoBehaviour
         var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
 
         proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.AttackDamage); //mudar dano depois
+        proj.GetComponent<Projectile>().SetDamage(_playerData.MagicDamage); //mudar dano depois
         StartCoroutine(ShootCooldown());
     }
 

@@ -9,6 +9,8 @@ public class CharacterControlMovement : MonoBehaviour
     [SerializeField] float speed = 12f;
     [SerializeField] float dashSpeed = 12f;
 
+
+
     private Vector3 move;
     // Update is called once per frame
     void Update()

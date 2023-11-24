@@ -14,6 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifier:
   - stat: 0
+    value: 10
+  - stat: 1
+    value: 0
+  - stat: 2
+    value: 0
+  - stat: 3
+    value: 0
+  - stat: 4
+    value: 0
+  temp_modifier:
+  - stat: 0
     value: 0
   - stat: 1
     value: 0
@@ -23,7 +34,7 @@ MonoBehaviour:
     value: 0
   - stat: 4
     value: 0
-  baseHealthPoints: 100
+  baseHealthPoints: 90
   baseArmor: 1
   baseMagicResistence: 1
   baseDodge: 1
