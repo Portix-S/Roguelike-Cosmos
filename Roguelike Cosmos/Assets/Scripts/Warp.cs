@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Warp : MonoBehaviour
 {
@@ -8,11 +9,12 @@ public class Warp : MonoBehaviour
     public Transform playerPos;
     public WaveManager wm;
     [HideInInspector] public bool canWarp;
-
+    private WaveManager newRoomWm;
     public GameObject canvasTransition;
-
+    private RbPlayerMovement rbPlayerMovement;
     private Plane plane;
-
+    NavMeshAgent playerNavMeshAgent;
+    [SerializeField] bool isSpawnWarp;
     private void Start() {
         canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
         canvasTransition.SetActive(false);
@@ -21,26 +23,38 @@ public class Warp : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
+        if(other.gameObject.tag == "Player")
+        {
+            canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
+            playerPos = other.GetComponent<Transform>();
+            playerNavMeshAgent = other.GetComponent<NavMeshAgent>();
+            rbPlayerMovement = other.GetComponent<RbPlayerMovement>();
+            if(canWarp || isSpawnWarp)
+            {
+                rbPlayerMovement.enabled = false;
+                StartCoroutine(RunTransition());
+            }
+        }
         //canWarp = true; // For testing
     }
 
     private void OnTriggerExit(Collider other) {
-        canWarp = false;
+        if(other.gameObject.tag == "Player")
+            canWarp = false;
     }
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.E) && canWarp){
-            playerPos.position = plane.ClosestPointOnPlane(warpPoint.position);
-            StartCoroutine(RunTransition());
-        }
-    }
 
     IEnumerator RunTransition(){
         canvasTransition.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        canvasTransition.GetComponent<Animator>().SetTrigger("EndTransition");
-        yield return new WaitForSeconds(2f);
-        canvasTransition.SetActive(false);
+        yield return new WaitForSeconds(1.9f);
+        wm.enabled = false;
+        newRoomWm = warpPoint.GetComponent<WaveManager>();
+        newRoomWm.enabled = true;
+        newRoomWm.Restart();
+        playerNavMeshAgent.enabled = false;
+        playerPos.position = plane.ClosestPointOnPlane(warpPoint.position);
+        playerNavMeshAgent.enabled = true;
+        rbPlayerMovement.enabled = true;
+
     }
 }

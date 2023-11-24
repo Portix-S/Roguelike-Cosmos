@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public PlayerCombat playerScript;
     [SerializeField] HealthSystem healthSystem;
+    private RbPlayerMovement playerMovement;
 
     [Header("UI")]
     public GameObject skillTreeUI;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     public Button[] skillButtonList; // Lista teste
     public List<Button> skillButtonList2; // Lista Completa
     [SerializeField] private List<PlayerSkills.SkillType> skillTypeList;
+    public bool canOpenSkillTree;
 
     [Header("Popup")]
     public GameObject popupPrefab;
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         skillTypeList = Enum.GetValues(typeof(PlayerSkills.SkillType)).Cast<PlayerSkills.SkillType>().ToList();
         skillTypeList.Remove(PlayerSkills.SkillType.None);
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
+        playerMovement = playerScript.GetComponent<RbPlayerMovement>();
         UpdateVisuals();
         skillTreeActive = false;
     }
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour
             else
                 playerScript.system = DeviceType.Desktop;
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.E) && canOpenSkillTree)
         {
             OpenSkillTree();
         }
@@ -102,11 +105,17 @@ public class GameManager : MonoBehaviour
         skillTreeActive = !skillTreeActive;
         //skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
+        {
             panScript.cameraTransitioningIn = true;
+            playerScript.enabled = false;
+            playerMovement.enabled = false;
+        }
         else
         {
             pointsUI.SetActive(skillTreeActive);
             healthSystem.UpdateStats();
+            playerScript.enabled = true;
+            playerMovement.enabled = true;
             ClosePopup();
         }
         ChangeCamera();
