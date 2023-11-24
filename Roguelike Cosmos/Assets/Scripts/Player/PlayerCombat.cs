@@ -245,11 +245,18 @@ public class PlayerCombat : MonoBehaviour
 
     // Temporary damage dealer
     private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Enemy" && (isAttacking || isShooting)){
+        if((other.tag == "Enemy") && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
+        else if ((other.tag == "Boss") && (isAttacking || isShooting))
+        {
+            UpdateColliders(false);
+            MageBoss enemyScript = other.GetComponent<MageBoss>();
+            enemyScript.TakeDamage(_playerData.AttackDamage);
+        }
+
     }
 
 
