@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Player;
+using UnityEngine.SceneManagement;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -10,12 +11,15 @@ public class HealthSystem : MonoBehaviour
     private float timeStamp; // Registra o tempo que o player vai poder levar dano novamente
     private int maxHealth; // Vida máxima
     private int health; // Vida máxima
+
+    GameObject transicao;
     void Start()
     {
         timeStamp = 0;
         UpdateStats();
         //info.baseHealthPoints = maxHealth;
 
+        transicao = GameObject.FindGameObjectWithTag("Transicao");
     }
 
 
@@ -71,6 +75,18 @@ public class HealthSystem : MonoBehaviour
         health -= d;
         Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
+
+        // Morrer
+        if(health <= 0){
+            StartCoroutine(Morrer());
+        }
+    }
+
+    public IEnumerator Morrer(){
+        //Time.timeScale = 0f;
+        transicao.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("GameOver");
     }
 
 

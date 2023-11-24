@@ -14,7 +14,7 @@ public class Warp : MonoBehaviour
     private Plane plane;
 
     private void Start() {
-        canvasTransition = GameObject.Find("Transicao");
+        canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
         canvasTransition.SetActive(false);
         canWarp = false;
         plane = new Plane(Vector3.up, Vector3.zero);
