@@ -30,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
     [Header("Projectile")]
     public GameObject pfProjectile;
     public Transform  projectileSpawn;
-    [SerializeField] private bool canShoot = true;
+    public bool canShoot = true;
     public float projectileSpeed;
     public float projectileCooldown;
     public bool isShooting;
@@ -116,8 +116,9 @@ public class PlayerCombat : MonoBehaviour
             if(Input.GetKeyUp(KeyCode.Mouse1)){
                 transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
                 projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
-                RangedSkill();
                 projectileHUD.gameObject.SetActive(false);
+
+                RangedSkill();                
             }
             else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
                 // Should probably change the animation too
@@ -134,7 +135,9 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            
+            /*
+                TEMPORARY CODE REMOVE LATER
+            */
             if (Input.GetKey(KeyCode.X))
             {
                 levelSystem.AddExperience(100);
@@ -193,6 +196,7 @@ public class PlayerCombat : MonoBehaviour
         if (canShoot && !isAttacking)
         {
             canShoot = false;
+            isShooting = true;
             playerAnimator.SetTrigger("isShooting");
         }
     }
