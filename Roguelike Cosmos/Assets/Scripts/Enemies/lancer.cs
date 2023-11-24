@@ -27,7 +27,7 @@ public class lancer : MonoBehaviour
     private List<Transform> enemies = new List<Transform>();
 
 
-    /// Para o inimigo não começar se movendo
+    /// Para o inimigo nï¿½o comeï¿½ar se movendo
 
 
     void Start()
@@ -74,7 +74,7 @@ public class lancer : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Não seguindo");
+            //Debug.Log("Nï¿½o seguindo");
             //Debug.Log(nextLocation);
             if (nextLocation)
             {
@@ -123,8 +123,8 @@ public class lancer : MonoBehaviour
     {
         enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
-        float height = collider.bounds.extents.y / 2f;
-        Vector3 popupPos = transform.position + transform.up * height;
+        float height = collider.bounds.extents.y;
+        Vector3 popupPos = transform.position + (transform.up * (height + 1f));
         if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;

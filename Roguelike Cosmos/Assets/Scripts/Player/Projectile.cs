@@ -30,6 +30,17 @@ public class Projectile : MonoBehaviour
             other.GetComponent<MageBoss>().TakeDamage(damage);
             Destroy(gameObject, 0.01f);
         }
+        else if (other.gameObject.tag == "Lancer")
+        {
+            other.GetComponent<lancer>().TakeDamage(damage);
+            Destroy(gameObject, 0.01f);
+        }
+        else if (other.gameObject.tag == "Lasquinha")
+        {
+            other.GetComponent<lasquinha>().TakeDamage(damage);
+            Destroy(gameObject, 0.01f);
+        }
+        
     }
 
     void DestroyFireball(){
