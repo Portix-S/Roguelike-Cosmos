@@ -19,13 +19,14 @@ public class RewardPool : ScriptableObject
         int index;
         int safeExit = 0;
 
-        while (true)
-        {
-            index = Random.Range(0, pool.Length);
-            Debug.Log(index);
-            if ((pool[index].count > 0) || (safeExit == 99999)) break;
-            safeExit += 1;
-        }
+        // while (true)
+        // {
+        //     index = Random.Range(0, pool.Length);
+        //     Debug.Log(index);
+        //     if ((pool[index].count > 0) || (safeExit == 99999)) break;
+        //     safeExit += 1;
+        // }
+        index = Random.Range(0, pool.Length);
 
         pool[index].count -= 1;
         return pool[index].r;

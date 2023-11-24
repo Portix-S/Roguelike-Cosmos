@@ -7,8 +7,8 @@ public class WaveManager : MonoBehaviour
     public enum WaveState { 
         SPAWNING, // Spawnando inimigos da wave
         WAITING, // Aguardando o player matar todos
-        DELAYING, // Atraso antes da próxima wave
-        COMPLETED, // Wave foi concluída
+        DELAYING, // Atraso antes da prï¿½xima wave
+        COMPLETED, // Wave foi concluï¿½da
         ENDED // Acabaram as waves
     };
 
@@ -24,23 +24,45 @@ public class WaveManager : MonoBehaviour
     public int currentWave;
 
     public WaveState currentState;
+    bool hasRewarded;
+    [SerializeField] GameObject endDoor;
     void Start()
     {
         rm = gameObject.GetComponentInChildren<RewardManager>();
-        currentState = WaveState.SPAWNING;
-        currentWave = 0;
+        //currentState = WaveState.SPAWNING;
+        //currentWave = 0;
     }
 
+    public void Restart()
+    {
+        currentState = WaveState.SPAWNING;
+        currentWave = 0;
+        hasRewarded = false;
+    }
+
+    public void KillAllEnemies()
+    {
+        foreach (GameObject enemy in waves[currentWave].spawnedEnemies)
+        {
+            Destroy(enemy);
+        }
+        waves[currentWave].spawnedEnemies.Clear();
+        this.enabled = false;
+    }
 
     void Update()
     {
         //Debug.Log("State: " + currentState);
-        if (currentState == WaveState.ENDED) return;
-
+        if (currentState == WaveState.ENDED) 
+        {
+            endDoor.GetComponent<Animator>().enabled = true;
+            return;
+        }
         if (currentState == WaveState.COMPLETED)
         {
-            if (currentWave == waves.Length - 1)
+            if (currentWave == waves.Length - 1 && !hasRewarded)
             {
+                hasRewarded = true;
                 currentState = WaveState.ENDED;
                 rm.ReleaseReward();
                 return;
