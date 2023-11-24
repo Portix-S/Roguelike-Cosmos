@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Player;
 
 public class MenuScript : MonoBehaviour
 {
     public GameObject MenuCanvas;
     public GameObject InstructionCanvas;
     public GameObject CreditsCanvas;
+
+    public PlayerData playerData;
 
     public void Start()
     {
@@ -22,6 +25,13 @@ public class MenuScript : MonoBehaviour
     public void StartGame()
     {
         //SceneManager.LoadScene("DestroyEnemy Scene");
+        foreach (PlayerModifiers v in playerData.temp_modifier)
+        {
+
+            v.value = 0;
+        }
+
+
         SceneManager.LoadScene("Portix 3");
     }
 

@@ -109,7 +109,7 @@ public class lancer : MonoBehaviour
 
     public void StopTakingDamage()
     {
-        enemyAnimator.SetBool("isTakingDamage", false);
+        //enemyAnimator.SetBool("isTakingDamage", false);
     }
 
 
@@ -126,7 +126,7 @@ public class lancer : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        enemyAnimator.SetBool("isTakingDamage", true);
+        //enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
         Vector3 popupPos = transform.position + transform.up * height;
@@ -179,7 +179,6 @@ public class lancer : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
 
-        StartCoroutine("Reset");
     }
     /*
     private bool CheckEnemiesOnPlayer()
