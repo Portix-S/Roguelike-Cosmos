@@ -102,13 +102,14 @@ public class GameManager : MonoBehaviour
         if(isMobileDevice)
             ChangeStateMobileButtons(skillTreeActive);
         skillTreeActive = !skillTreeActive;
-        skillTreeUI.SetActive(skillTreeActive);
+        //skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
             panScript.cameraTransitioningIn = true;
         else
         {
             pointsUI.SetActive(skillTreeActive);
             healthSystem.UpdateStats();
+            ClosePopup();
         }
         ChangeCamera();
     }
@@ -188,6 +189,7 @@ public class GameManager : MonoBehaviour
                 //image.material = skillUnlockableMaterial;
                 //backgroundImage.color = UtilsClass.GetColorFromString("4B677D");
                 //transform.GetComponent<Button_UI>().enabled = true;
+                button.GetComponent<Animator>().SetBool("CanUpgrade",true);
                 ColorBlock cb = button.colors;
                 cb.normalColor = Color.white; //Will later change to a sprite instead of a color --> being "grey" for inactive
                 button.colors = cb;
@@ -226,7 +228,7 @@ public class GameManager : MonoBehaviour
         cameraIsOnPlayer = !cameraIsOnPlayer;
     }
 
-    public void ShowPopup(Transform parent, PlayerSkills.SkillType skillType ,PlayerModifiers[] modifiers, StatsGiver statsScript)
+    public void ShowPopup(Transform parent, PlayerSkills.SkillType skillType ,PlayerModifiers[] modifiers, int requiredPoints, StatsGiver statsScript)
     {
         popupPrefab.SetActive(true);
         popupPrefab.transform.SetParent(parent);
@@ -238,6 +240,7 @@ public class GameManager : MonoBehaviour
             if(mod.value > 0)
                 popupText.text += mod.stat.ToString() + ": +" + mod.value + "\n";
         }   
+        popupText.text += "Required Points: " + requiredPoints;
         popupButton.onClick.RemoveAllListeners();
         popupButton.onClick.AddListener(() => CheckUnlock(skillType, modifiers));
     }
