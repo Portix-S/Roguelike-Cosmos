@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 public class MageBoss : MonoBehaviour
@@ -20,6 +21,18 @@ public class MageBoss : MonoBehaviour
     float attackCooldownTimer = 2f;
     float rangedAttackCooldownTimer = 2f;
     public float atkRadius = 200f;
+    //[SerializeField] float meteorSpeed = 5;
+    [SerializeField] GameObject meteorPrefab;
+    [SerializeField] Transform meteorSpawnPoint;
+    Transform meteorDestination;
+
+    [SerializeField] GameObject fireballPrefab;
+    [SerializeField] Transform fireballSpawnPoint;
+    Transform fireballDestination;
+
+    [SerializeField] List<GameObject> enemiesPrefab;
+    [SerializeField] Transform enemySpawnPoint;
+
     [SerializeField] int damage = 5;
 
     [Header("Stats/Experience")]
@@ -49,13 +62,13 @@ public class MageBoss : MonoBehaviour
         if (agent.velocity != Vector3.zero)
         {
             animator.SetBool("isMoving", true);
-            Debug.Log("Anim: Andando");
+            //Debug.Log("Anim: Andando");
         }
         else
         {
             animator.SetBool("isMoving", false);
-            Debug.Log("Anim: Parado");
-            FaceTarget(1);
+            //Debug.Log("Anim: Parado");
+            FaceTarget(lookSpeed/1.2f);
         }
 
         if (distance <= lookRadius && !isAttacking)
@@ -71,28 +84,31 @@ public class MageBoss : MonoBehaviour
                     
                     float randomAttack = Random.Range(0f, 100f);
 
-                    if (randomAttack < 40f)
+                    if (randomAttack < 50f)
                     {
-                        Debug.Log("Anim: Ataque Ranged 1");
+                        //Debug.Log("Anim: Ataque Ranged 1");
                         isAttacking = true;
                         animator.SetTrigger("atk1");
-                        
+                        //StartCoroutine(MageFireballAnim());
                         StartCoroutine(AttackCooldown(3));
                     }
-                    else if(randomAttack >= 40 && randomAttack < 80)
+                    else if(randomAttack >= 0 && randomAttack < 80)
                     {
-                        Debug.Log("Anim: Ataque Ranged 2");
+                        //Debug.Log("Anim: Ataque Ranged 2");
                         isAttacking = true;
                         animator.SetTrigger("atk2");
+                        //StartCoroutine(MageMeteorAnim(1));
                         StartCoroutine(AttackCooldown(4));
                     }
                     else
                     {
-                        Debug.Log("Anim: Ataque Ranged 3");
+                        //Debug.Log("Anim: Ataque Ranged 3");
                         isAttacking = true;
                         animator.SetTrigger("atk3");
+
                         StartCoroutine(AttackCooldown(1));
                     }
+                    atkRadius = Random.Range(9, 14);
                 }
             }
             else
@@ -132,8 +148,6 @@ public class MageBoss : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        animator.SetTrigger("takeDamage");
-        CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
         Vector3 popupPos = transform.position + transform.up * height;
         if (healthPoints - amount > 0f)
@@ -177,5 +191,34 @@ public class MageBoss : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, lookRadius);
         Gizmos.DrawWireSphere(transform.position, randomRadius);
         Gizmos.DrawSphere(randomPoint, 1);
+    }
+
+    public void AtkMeteor()
+    {
+        GameObject meteor = Instantiate(meteorPrefab, meteorSpawnPoint);
+        meteor.transform.parent = null;
+        meteor.transform.localScale = new Vector3(1, 1, 1);
+        meteorDestination = target.transform;
+        meteor.GetComponent<BossMeteor>().target = meteorDestination ;
+        //meteor.GetComponent<BossMeteor>().speed = meteorSpeed;
+        //meteor.transform.position = Vector3.MoveTowards(meteor.transform.position, meteorDestination.transform.position, meteorSpeed * Time.deltaTime);
+    }
+
+    public void AtkFireball()
+    {
+        GameObject fb = Instantiate(fireballPrefab, fireballSpawnPoint);
+        fb.transform.parent = null;
+        fb.transform.localScale = new Vector3(1, 1, 1);
+        fireballDestination = target.transform;
+        fb.GetComponent<BossFireball>().target = fireballDestination;
+        //meteor.GetComponent<BossMeteor>().speed = meteorSpeed;
+        //meteor.transform.position = Vector3.MoveTowards(meteor.transform.position, meteorDestination.transform.position, meteorSpeed * Time.deltaTime);
+    }
+
+    public void SummonEnemy()
+    {
+        GameObject nmy = Instantiate(enemiesPrefab[Random.Range(0, 1)], transform.position, Quaternion.identity);
+        nmy.transform.parent = null;
+        nmy.transform.localScale = new Vector3(1, 1, 1);
     }
 }

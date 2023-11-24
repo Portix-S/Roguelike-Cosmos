@@ -22,10 +22,25 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Hit!");
             other.GetComponent<EnemyController>().TakeDamage(damage);
             Destroy(gameObject,0.01f);
         }
+        else if (other.gameObject.tag == "Boss")
+        {
+            other.GetComponent<MageBoss>().TakeDamage(damage);
+            Destroy(gameObject, 0.01f);
+        }
+        else if (other.gameObject.tag == "Lancer")
+        {
+            other.GetComponent<lancer>().TakeDamage(damage);
+            Destroy(gameObject, 0.01f);
+        }
+        else if (other.gameObject.tag == "Lasquinha")
+        {
+            other.GetComponent<lasquinha>().TakeDamage(damage);
+            Destroy(gameObject, 0.01f);
+        }
+        
     }
 
     void DestroyFireball(){
