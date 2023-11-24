@@ -11,6 +11,9 @@ public class lancer : MonoBehaviour
     NavMeshAgent agent;
     public bool nextLocation = false;
     public Vector3 randomPoint = new Vector3(0, 0, 0);
+    public float walkSpeed = 4f;
+    public float runSpeed = 8f;
+    
     [SerializeField] float healthPoints = 100f;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] private Collider collider;
@@ -55,6 +58,7 @@ public class lancer : MonoBehaviour
 
         if (distance <= lookRadius)
         {
+            agent.speed = runSpeed;
             if (distance <= agent.stoppingDistance && !isAttacking)
             {
 
@@ -76,6 +80,7 @@ public class lancer : MonoBehaviour
         {
             //Debug.Log("Não seguindo");
             //Debug.Log(nextLocation);
+            agent.speed = walkSpeed;
             if (nextLocation)
             {
                 agent.SetDestination(randomPoint);

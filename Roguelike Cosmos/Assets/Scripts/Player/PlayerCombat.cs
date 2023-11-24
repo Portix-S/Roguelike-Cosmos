@@ -96,6 +96,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         if (system == DeviceType.Desktop)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))

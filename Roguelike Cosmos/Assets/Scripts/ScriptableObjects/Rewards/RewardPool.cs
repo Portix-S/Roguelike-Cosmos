@@ -23,7 +23,7 @@ public class RewardPool : ScriptableObject
         {
             index = Random.Range(0, pool.Length);
             Debug.Log(index);
-            if ((pool[index].count > 0) || (safeExit == 99999)) break;
+            if ((pool[index].count > 0) || (safeExit == 3)) break;
             safeExit += 1;
         }
 

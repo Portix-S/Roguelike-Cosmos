@@ -45,6 +45,7 @@ public class RbPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.isPaused) return;
         MyInput();
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown && playerAnimator.GetBool("isRunning"))

@@ -9,7 +9,7 @@ using System;
 public class RewardManager : MonoBehaviour
 {
     private Vector3 position;
-
+    public GameObject pausePrefab;
     [SerializeField]
     public List<RewardTypeData> rewards;
     public List<float> prob;
@@ -24,8 +24,12 @@ public class RewardManager : MonoBehaviour
     public GameObject reward2;
     public GameObject reward3;
     public Player.PlayerData data;
+
+
+ 
     public void ReleaseReward()
     {
+
         screen.SetActive(true);
 
         if (screen)
@@ -51,6 +55,7 @@ public class RewardManager : MonoBehaviour
             SetRewardCard(reward1);
             SetRewardCard(reward2);
             SetRewardCard(reward3);
+            pausePrefab.GetComponent<PauseMenu>().PauseGame(false);
         }
 
         void SetRewardCard(GameObject reward)
@@ -99,6 +104,7 @@ public class RewardManager : MonoBehaviour
         /*
          Função para atribuir os atributos da recompensa escolhida
          */
+        pausePrefab.GetComponent<PauseMenu>().ResumeGame();
         Debug.Log("Você pegou: " + rc.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
         Reward r = rc.GetComponent<Reward>();
 
