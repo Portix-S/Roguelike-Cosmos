@@ -6,14 +6,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Cinemachine;
+using Player;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject[] mobileButtons;
     //DeviceType system;
-    bool isMobileDevice;
+    bool isMobileDevice = true;
 
     public PlayerCombat playerScript;
+    [SerializeField] HealthSystem healthSystem;
+
+    [Header("UI")]
     public GameObject skillTreeUI;
     [SerializeField] private GameObject pointsUI;
     private bool skillTreeActive;
@@ -21,6 +26,13 @@ public class GameManager : MonoBehaviour
     public Button[] skillButtonList; // Lista teste
     public List<Button> skillButtonList2; // Lista Completa
     [SerializeField] private List<PlayerSkills.SkillType> skillTypeList;
+
+    [Header("Popup")]
+    public GameObject popupPrefab;
+    [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private Button popupButton;
+
+    [Header("Enemy Spawn")]
 
     [SerializeField] Transform spawnPos;
     [SerializeField] GameObject enemyPrefab;
@@ -30,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera skillTreeCamera;
     private bool cameraIsOnPlayer = true;
     [SerializeField] PanZoomNew panScript;
-    private PlayerSkills playerSkills;
+    public PlayerSkills playerSkills;
     [SerializeField] Transform skillTreeParent;
 
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
@@ -44,11 +56,11 @@ public class GameManager : MonoBehaviour
         if (playerScript.system == DeviceType.Desktop)
         {
             ChangeStateMobileButtons(false);
+            isMobileDevice = false;
         }
-        isMobileDevice = false;
         playerSkills = playerScript.GetPlayerSkillScript();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
-        //Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
+        Debug.Log(playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash));
         skillTypeList = Enum.GetValues(typeof(PlayerSkills.SkillType)).Cast<PlayerSkills.SkillType>().ToList();
         skillTypeList.Remove(PlayerSkills.SkillType.None);
         skillButtonList2 = skillTreeUI.GetComponentsInChildren<Button>().ToList();
@@ -87,13 +99,18 @@ public class GameManager : MonoBehaviour
 
     public void OpenSkillTree()
     {
-        ChangeStateMobileButtons(skillTreeActive);
+        if(isMobileDevice)
+            ChangeStateMobileButtons(skillTreeActive);
         skillTreeActive = !skillTreeActive;
-        skillTreeUI.SetActive(skillTreeActive);
+        //skillTreeUI.SetActive(skillTreeActive);
         if (skillTreeActive)
             panScript.cameraTransitioningIn = true;
         else
+        {
             pointsUI.SetActive(skillTreeActive);
+            healthSystem.UpdateStats();
+            ClosePopup();
+        }
         ChangeCamera();
     }
 
@@ -115,26 +132,34 @@ public class GameManager : MonoBehaviour
         playerScript.RangedSkill();
     }
 
+    public void SecondSkillButton(){
+        playerScript.MobileAreaSkill();
+    }
+
     public void DashButton()
     {
         RbPlayerMovement playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<RbPlayerMovement>();
         playerMov.StartCoroutine("Dash");
     }
 
-    private void CheckUnlock(PlayerSkills.SkillType skillType)
+    public bool CheckUnlock(PlayerSkills.SkillType skillType, PlayerModifiers[] modifiers)
     {
-        if (!playerSkills.TryUnlockSkill(skillType))
+        bool success = false;
+        if (!playerSkills.TryUnlockSkill(skillType, modifiers))
         {
             Debug.Log("Erro ao debloquear " + skillType + "!");
         }
         else
         {
             Debug.Log("Desbloqueou " + skillType + "!");
+            ClosePopup();
+            success = true;
             //Debug.Log(skillType + " checkingUnloc");
 
         }
         //Button button = skillButtonList2[skillTypeList.IndexOf(skillType)]; Utiliza igual
         UpdateVisual(skillType, skillButtonList2[skillTypeList.IndexOf(skillType)]);
+        return success;
 
     }
 
@@ -164,8 +189,9 @@ public class GameManager : MonoBehaviour
                 //image.material = skillUnlockableMaterial;
                 //backgroundImage.color = UtilsClass.GetColorFromString("4B677D");
                 //transform.GetComponent<Button_UI>().enabled = true;
+                button.GetComponent<Animator>().SetBool("CanUpgrade",true);
                 ColorBlock cb = button.colors;
-                cb.normalColor = Color.blue;
+                cb.normalColor = Color.white; //Will later change to a sprite instead of a color --> being "grey" for inactive
                 button.colors = cb;
             }
             else
@@ -175,7 +201,7 @@ public class GameManager : MonoBehaviour
                 //backgroundImage.color = new Color(.3f, .3f, .3f);
                 //transform.GetComponent<Button_UI>().enabled = false;
                 ColorBlock cb = button.colors;
-                cb.normalColor = Color.red;
+                cb.normalColor = Color.grey;
                 button.colors = cb;
             }
         }
@@ -202,6 +228,32 @@ public class GameManager : MonoBehaviour
         cameraIsOnPlayer = !cameraIsOnPlayer;
     }
 
+    public void ShowPopup(Transform parent, PlayerSkills.SkillType skillType ,PlayerModifiers[] modifiers, int requiredPoints, StatsGiver statsScript)
+    {
+        popupPrefab.SetActive(true);
+        popupPrefab.transform.SetParent(parent);
+        popupPrefab.transform.localPosition = new Vector3(0, 100, 0);
+        popupPrefab.transform.SetParent(parent.parent);
+        popupText.text = "";
+        foreach (PlayerModifiers mod in modifiers)
+        {
+            if(mod.value > 0)
+                popupText.text += mod.stat.ToString() + ": +" + mod.value + "\n";
+        }   
+        popupText.text += "Required Points: " + requiredPoints;
+        popupButton.onClick.RemoveAllListeners();
+        popupButton.onClick.AddListener(() => CheckUnlock(skillType, modifiers));
+    }
+
+    public void ClosePopup()
+    {
+        popupPrefab.SetActive(false);
+        //popupPrefab.transform.SetParent(this.transform); // Acho q n precisa
+    }
+    
+
+
+    /*
     #region("Skills")
     public void UnlockDash()
     {
@@ -392,6 +444,6 @@ public class GameManager : MonoBehaviour
         }
         UpdateVisuals();
     }
-    //*/
     #endregion
+    //*/
 }

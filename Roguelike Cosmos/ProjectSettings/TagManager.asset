@@ -12,6 +12,9 @@ TagManager:
   - Obstacle
   - Projectile
   - Enemie Spawn
+  - Boss
+  - Lancer
+  - Lasquinha
   layers:
   - Default
   - TransparentFX
@@ -20,9 +23,9 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
-  - 
+  - Enemie
+  - Player
+  - Camera
   - 
   - 
   - 

@@ -28,7 +28,7 @@ public class PlayerSkills
     TextMeshProUGUI pointsText;
     List<SkillType> unlockedSkillTypesList;
     LevelSystem levelSystem;
-    int requiredPoints;
+    public int requiredPoints;
     public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText, PlayerData playerData)
     {
         this.levelSystem = levelSystem;
@@ -38,18 +38,19 @@ public class PlayerSkills
         requiredPoints = 1;
     }
 
-    private void UnlockSkill(SkillType skillType)
+    private void UnlockSkill(SkillType skillType, PlayerModifiers[] modifiers)
     {
         if (!IsSkillUnlocked(skillType))
         {
-            increaseStats(skillType);
+            increaseStats(skillType, modifiers);
             unlockedSkillTypesList.Add(skillType);
             OnSkillUnlocked?.Invoke(this, new OnSkillUnlockedArgs { skillType = skillType });
         }
     }
 
-    private void increaseStats(SkillType skillType)
+    private void increaseStats(SkillType skillType, PlayerModifiers[] modifiers)
     {
+        /*
         if(skillType == SkillType.Dash) return;
         if(skillType == SkillType.Strenght6) return;
         if(skillType == SkillType.Defense6) return;
@@ -57,104 +58,174 @@ public class PlayerSkills
         if(skillType == SkillType.StrAgi6) return;
         if(skillType == SkillType.AgiDef6) return;
         if(skillType == SkillType.DefStr6) return;
-
+        //*/
+        foreach(PlayerModifiers playerModifiers in modifiers)
+        {
+            _playerData.modifier[(int)playerModifiers.stat].value += playerModifiers.value;
+        }
+        /*
         switch (skillType)
         {
             // First/Second Layer
             case SkillType.Strenght:
-            case SkillType.Strenght1Left: 
-            case SkillType.Strenght2Left: 
+                _playerData.modifier[0].value += 10; //STR
+                break;
+            case SkillType.Strenght1Left:
+                _playerData.modifier[0].value += 5; //STR
+                _playerData.modifier[1].value += 5; //CON
+                break;
+            case SkillType.Strenght2Left:
+                _playerData.modifier[0].value += 5; //STR
+                _playerData.modifier[1].value += 5; //CON
+                break;
             case SkillType.Strenght1Right:
+                _playerData.modifier[3].value += 5; //INT
+                _playerData.modifier[4].value += 5; //WIS
+                break;
             case SkillType.Strenght2Right:
-                _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[2].value +=10; //INT
-                break;
-            case SkillType.Defense: 
-            case SkillType.Defense1Left:  
-            case SkillType.Defense2Left: 
-            case SkillType.Defense1Right:
-            case SkillType.Defense2Right:
-                _playerData.modifier[1].value +=10; //CON
-                _playerData.modifier[4].value +=10; //WIS
-                break;
+                _playerData.modifier[3].value += 5; //INT
+                _playerData.modifier[2].value += 5; //AGI
+                break; 
 
-            case SkillType.Agility: 
-            case SkillType.Agility1Left: 
-            case SkillType.Agility2Left: 
+
+            case SkillType.Defense:
+                _playerData.modifier[1].value += 10; //CON
+                break;
+            case SkillType.Defense1Left:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[4].value += 5; //WIS
+                break;
+            case SkillType.Defense2Left:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[2].value += 5; //AGI
+                break;
+            case SkillType.Defense1Right:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[0].value += 5; //STR
+                break;
+            case SkillType.Defense2Right:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[0].value += 5; //STR
+                break;
+            
+
+            case SkillType.Agility:
+                _playerData.modifier[2].value += 10; //AGI
+                break;
+            case SkillType.Agility1Left:
+                _playerData.modifier[0].value += 5; //STR
+                _playerData.modifier[2].value += 5; //AGI
+                break;
+            case SkillType.Agility2Left:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[2].value += 5; //AGI
+                break;
             case SkillType.Agility1Right:
+                _playerData.modifier[2].value += 5; //AGI
+                _playerData.modifier[3].value += 5; //INT
+                break;
             case SkillType.Agility2Right:
-                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[2].value += 5; //AGI
+                _playerData.modifier[2].value += 5; //WIS
                 break;
 
             // First Skill/Buff
             case SkillType.Strenght3:
-                _playerData.modifier[0].value +=20; //STR
-                _playerData.modifier[3].value +=20; //INT
+                _playerData.modifier[0].value += 10; //STR
+                _playerData.modifier[3].value += 10; //INT
                 break;
             case SkillType.Defense3:
-                _playerData.modifier[1].value +=20; //CON
-                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[1].value += 10; //CON
+                _playerData.modifier[4].value += 10; //WIS
                 break;
             case SkillType.Agility3:
-                _playerData.modifier[2].value +=20;
+                _playerData.modifier[2].value += 10;
                 break;
             case SkillType.StrAgi2:
                 _playerData.modifier[0].value +=10; //STR
                 _playerData.modifier[3].value +=10; //INT
-                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[2].value +=10; //AGI
                 break;
             case SkillType.AgiDef2:
-                _playerData.modifier[2].value +=10; // AGI
-                _playerData.modifier[1].value +=20; //CON
-                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[2].value +=10; //AGI
+                _playerData.modifier[1].value +=10; //CON
+                _playerData.modifier[4].value +=10; //WIS
                 break;
             case SkillType.DefStr2:
-                _playerData.modifier[1].value +=20; //CON
-                _playerData.modifier[4].value +=20; //WIS
+                _playerData.modifier[1].value +=10; //CON
+                _playerData.modifier[4].value +=10; //WIS
                 _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[3].value +=10; //INT
-                break;
-            // Fourth/Fifth Layer and Second Buff
-            case SkillType.Strenght4Left: 
-            case SkillType.Strenght5Left:
-            case SkillType.Strenght4Right:
-            case SkillType.Strenght5Right:
-                _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[3].value +=10; //INT
-                break;
-            case SkillType.Defense4Left:
-            case SkillType.Defense5Left:
-            case SkillType.Defense4Right: 
-            case SkillType.Defense5Right:
-                _playerData.modifier[1].value +=20; //CON
-                _playerData.modifier[4].value +=20; //WIS
                 break;
 
+            
+            // Fourth/Fifth Layer and Second Buff
+            case SkillType.Strenght4Left:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[0].value += 5; //STR
+                break;
+            case SkillType.Strenght5Left:
+                _playerData.modifier[0].value += 15; //STR
+                break;
+            case SkillType.Strenght4Right:
+                _playerData.modifier[2].value += 5; //AGI
+                _playerData.modifier[3].value += 5; //INT
+                break;
+            case SkillType.Strenght5Right:
+                _playerData.modifier[3].value += 15; //INT
+                break;
+
+
+            case SkillType.Defense4Left:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[2].value += 5; //AGI
+                break;
+            case SkillType.Defense5Left:
+                _playerData.modifier[1].value += 10; //CON
+                _playerData.modifier[4].value += 10; //WIS
+                break;
+            case SkillType.Defense4Right:
+                _playerData.modifier[1].value += 5; //CON
+                _playerData.modifier[0].value += 5; //STR
+                break;
+            case SkillType.Defense5Right:
+                _playerData.modifier[1].value += 10; //CON
+                _playerData.modifier[4].value += 10; //WIS
+                break;
+
+
             case SkillType.Agility4Left:
-            case SkillType.Agility5Left: 
-            case SkillType.Agility4Right:  
+                _playerData.modifier[1].value += 10; //CON
+                _playerData.modifier[4].value += 10; //AGI
+                break;
+            case SkillType.Agility5Left:
+                _playerData.modifier[1].value += 15; //AGI
+                break;
+            case SkillType.Agility4Right:
+                _playerData.modifier[2].value += 10; //AGI
+                _playerData.modifier[3].value += 10; //INT
+                break;
             case SkillType.Agility5Right:
-                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[2].value += 15; // AGI
                 break;
               
         
             case SkillType.StrAgi4:
                 _playerData.modifier[0].value +=10; //STR
                 _playerData.modifier[3].value +=10; //INT
-                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[2].value +=10; //AGI
                 break;
             case SkillType.AgiDef4:
                 _playerData.modifier[1].value +=20; //CON
                 _playerData.modifier[4].value +=20; //WIS
-                _playerData.modifier[2].value +=10; // AGI
+                _playerData.modifier[2].value +=10; //AGI
                 break;
             case SkillType.DefStr4:
                 _playerData.modifier[1].value +=20; //CON
                 _playerData.modifier[4].value +=20; //WIS
                 _playerData.modifier[0].value +=10; //STR
-                _playerData.modifier[3].value +=10; //INT 
                 break;
         }
+        //*/
     }
 
     public bool CanUnlock(SkillType skillType)
@@ -288,14 +359,14 @@ public class PlayerSkills
         
     }
 
-    public bool TryUnlockSkill(SkillType skillType)
+    public bool TryUnlockSkill(SkillType skillType, PlayerModifiers[] modifiers)
     {
         
         if (CanUnlock(skillType) && HasRequiredPoint(requiredPoints))
         {
             levelSystem.RemoveSkillTreePoints(requiredPoints);
             pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
-            UnlockSkill(skillType);
+            UnlockSkill(skillType, modifiers);
             return true;
         }
         else

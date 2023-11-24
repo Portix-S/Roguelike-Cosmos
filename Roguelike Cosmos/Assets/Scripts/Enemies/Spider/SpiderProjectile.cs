@@ -20,7 +20,7 @@ public class SpiderProjectile : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("Hit!");
+            Debug.Log("Hit!");
             //Player Take Damage;
             Destroy(gameObject, 0.01f);
         }

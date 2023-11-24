@@ -9,12 +9,12 @@ public class HealthSystem : MonoBehaviour
     private float invbtyTime = 0.5f; // Tempo de invencibilidade após receber dano
     private float timeStamp; // Registra o tempo que o player vai poder levar dano novamente
     private int maxHealth; // Vida máxima
+    private int health; // Vida máxima
     void Start()
     {
         timeStamp = 0;
-        maxHealth = 100;
-
-        info.baseHealthPoints = maxHealth;
+        UpdateStats();
+        //info.baseHealthPoints = maxHealth;
 
     }
 
@@ -22,6 +22,12 @@ public class HealthSystem : MonoBehaviour
     void Cooldown()
     {
 
+    }
+
+    public void UpdateStats()
+    {
+        health = (int)info.HealthPoints;
+        maxHealth = health;
     }
 
     private void Update() {
@@ -35,19 +41,23 @@ public class HealthSystem : MonoBehaviour
         /*
             Para curar o player
         */
-        if(info.baseHealthPoints + h > maxHealth)
-            h = maxHealth - info.baseHealthPoints;
-        
+        if(health + h > maxHealth)
+            h = maxHealth - health;
 
-        info.baseHealthPoints += h;
+
+        health += h;
     }
 
     void SetMaxHealth(int h)
     {
-        if(h>0) maxHealth = h;
+        if (h > 0)
+        {
+            maxHealth = h;
+            health = maxHealth;
+        }
     }
 
-    public void TakeDamage(int d) 
+    public void TakeDamage(int d) // Trocar para receber dano físico e mágico
     {
         /*
             Para tomar dano e atribui o tempo que o player 
@@ -56,10 +66,10 @@ public class HealthSystem : MonoBehaviour
             na hora do contato.
         */
         if(timeStamp > Time.time) return;
-        if (info.baseHealthPoints - d < 0)
-            d = info.baseHealthPoints;
-        info.baseHealthPoints -= d;
-        //Debug.Log("Current Health: " + info.baseHealthPoints);
+        if (health - d < 0)
+            d = health;
+        health -= d;
+        Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
     }
 
