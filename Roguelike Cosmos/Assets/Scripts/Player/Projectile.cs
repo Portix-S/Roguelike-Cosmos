@@ -35,9 +35,9 @@ public class Projectile : MonoBehaviour
             other.GetComponent<lancer>().TakeDamage(damage);
             Destroy(gameObject, 0.01f);
         }
-        else if (other.gameObject.tag == "Lasquinha")
+        else if (other.gameObject.tag == "Tentacle")
         {
-            other.GetComponent<lasquinha>().TakeDamage(damage);
+            other.GetComponent<TentacleController>().TakeDamage(damage);
             Destroy(gameObject, 0.01f);
         }
         

@@ -7,7 +7,8 @@ public class MagicCircleController : MonoBehaviour
     [SerializeField] private GameObject magicCircle;
     private ParticleSystem[] ps;
     GameManager gm;
-
+    
+    [SerializeField] private GameObject skillTreeButton;
     private void Start() {
         ps = magicCircle.GetComponentsInChildren<ParticleSystem>();
         gm = FindObjectOfType<GameManager>();
@@ -19,6 +20,8 @@ public class MagicCircleController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //magicCircle.SetActive(true);
+            if(SystemInfo.deviceType == DeviceType.Handheld)
+                skillTreeButton.SetActive(true);
             gm.canOpenSkillTree = true;
             foreach (ParticleSystem p in ps)
             {
@@ -32,6 +35,7 @@ public class MagicCircleController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             gm.canOpenSkillTree = false;
+            skillTreeButton.SetActive(false);
             //magicCircle.SetActive(false);
             foreach (ParticleSystem p in ps)
             {

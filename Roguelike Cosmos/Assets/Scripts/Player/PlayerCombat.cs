@@ -105,6 +105,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         if (system == DeviceType.Desktop)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -227,10 +229,10 @@ public class PlayerCombat : MonoBehaviour
                 Debug.Log("Dano em área boom");
                 col.GetComponent<lancer>().TakeDamage(_playerData.MagicDamage/3f);
             }
-            else if(col.gameObject.tag == "Lasquinha")
+            else if(col.gameObject.tag == "Tentacle")
             {
                 Debug.Log("Dano em área boom");
-                col.GetComponent<lasquinha>().TakeDamage(_playerData.MagicDamage/3f);
+                col.GetComponent<TentacleController>().TakeDamage(_playerData.MagicDamage/3f);
             }
         }
         cooldownCounter = areaSkillCooldown;
@@ -278,10 +280,10 @@ public class PlayerCombat : MonoBehaviour
             lancer enemyScript = other.GetComponent<lancer>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-        else if ((other.tag == "Lasquinha") && (isAttacking || isShooting))
+        else if ((other.tag == "Tentacle") && (isAttacking || isShooting))
         {
             UpdateColliders(false);
-            lasquinha enemyScript = other.GetComponent<lasquinha>();
+            TentacleController enemyScript = other.GetComponent<TentacleController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
 

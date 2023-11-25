@@ -78,9 +78,16 @@ public class WaveManager : MonoBehaviour
                 if (!waves[currentWave].spawnedEnemies[i])
                     waves[currentWave].spawnedEnemies.RemoveAt(i);
             }
-
+            
             if (waves[currentWave].spawnedEnemies.Count == 0)
+            {
+                if (!hasRewarded)
+                {
+                    hasRewarded = true;
+                    rm.ReleaseReward();
+                }
                 StartCoroutine(Wait());
+            }
         }
         else if (currentState == WaveState.SPAWNING)
         {
@@ -125,6 +132,7 @@ public class WaveManager : MonoBehaviour
     {
         currentState = WaveState.DELAYING;
         yield return new WaitForSeconds(TimeBetweenWaves);
+        hasRewarded = false;
         currentState = WaveState.COMPLETED;
     }
 }
