@@ -105,6 +105,7 @@ public class HealthSystem : MonoBehaviour
         transform.position = plane.ClosestPointOnPlane(warpPoint.position);
         playerNavMeshAgent.enabled = true;
         rbPlayerMovement.enabled = true;
+        UpdateStats();
         //SceneManager.LoadScene("GameOver");
     }
 

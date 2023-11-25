@@ -27,12 +27,16 @@ public class MenuScript : MonoBehaviour
         //SceneManager.LoadScene("DestroyEnemy Scene");
         foreach (PlayerModifiers v in playerData.temp_modifier)
         {
-
             v.value = 0;
         }
 
 
         SceneManager.LoadScene("Portix 3");
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("MenuPrincipal");
     }
 
     public void Instructions()

@@ -35,9 +35,16 @@ public class TentacleController : MonoBehaviour
             }
             else{
                 isAttacking = true;
+                other.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
                 enemyAnimator.SetInteger("isAttacking", attack);
                 StartCoroutine(AttackCooldown());
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.tag == "Player")
+        {
         }
     }
 

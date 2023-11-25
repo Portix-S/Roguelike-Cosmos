@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Warp : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Warp : MonoBehaviour
     private Plane plane;
     NavMeshAgent playerNavMeshAgent;
     [SerializeField] bool isSpawnWarp;
+    [SerializeField] bool isEndWarp; //Temporário
     private void Start() {
         canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
         canvasTransition.SetActive(false);
@@ -25,6 +27,10 @@ public class Warp : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Player")
         {
+            if(canWarp && isEndWarp)
+            {
+                SceneManager.LoadScene("EndGame");
+            }
             canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
             playerPos = other.GetComponent<Transform>();
             playerNavMeshAgent = other.GetComponent<NavMeshAgent>();
