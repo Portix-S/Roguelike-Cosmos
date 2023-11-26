@@ -17,6 +17,7 @@ public class lancer : MonoBehaviour
     [SerializeField] float healthPoints = 100f;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] private Collider collider;
+    [SerializeField] Collider[] hands;
 
     [Header("Attack Config")]
     bool isAttacking;
@@ -64,6 +65,10 @@ public class lancer : MonoBehaviour
 
                 isAttacking = true;
                 enemyAnimator.SetBool("isAttacking", true);
+                foreach (Collider hand in hands)
+                {
+                    hand.enabled = true;
+                }
                 StartCoroutine(AttackCooldown());
 
             }
@@ -121,6 +126,10 @@ public class lancer : MonoBehaviour
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldownTimer);
+        foreach (Collider hand in hands)
+        {
+            hand.enabled = false;
+        }
         isAttacking = false;
     }
 
@@ -173,7 +182,13 @@ public class lancer : MonoBehaviour
         Gizmos.DrawSphere(randomPoint, 1);
     }
 
-
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.CompareTag("Player"))
+        {
+            other.GetComponent<HealthSystem>().TakeDamage(damage);
+        }
+    }
 
     public IEnumerator SpawnDelay(float sec = 0.25f)
     {

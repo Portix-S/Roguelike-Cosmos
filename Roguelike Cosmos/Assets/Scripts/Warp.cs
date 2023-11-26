@@ -17,24 +17,28 @@ public class Warp : MonoBehaviour
     NavMeshAgent playerNavMeshAgent;
     [SerializeField] bool isSpawnWarp;
     [SerializeField] bool isEndWarp; //Temporário
+    GameManager gm;
     private void Start() {
-        canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
+        //canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
         canvasTransition.SetActive(false);
         canWarp = false;
         plane = new Plane(Vector3.up, Vector3.zero);
+        gm = FindObjectOfType<GameManager>();
     }
 
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Player")
         {
+            canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
             if(canWarp && isEndWarp)
             {
                 SceneManager.LoadScene("EndGame");
             }
-            canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
             playerPos = other.GetComponent<Transform>();
             playerNavMeshAgent = other.GetComponent<NavMeshAgent>();
             rbPlayerMovement = other.GetComponent<RbPlayerMovement>();
+            gm.canOpenSkillTree = false;
+            rbPlayerMovement.StopPlayer();
             if(canWarp || isSpawnWarp)
             {
                 rbPlayerMovement.enabled = false;

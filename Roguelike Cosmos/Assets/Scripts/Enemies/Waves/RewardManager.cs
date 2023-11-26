@@ -31,7 +31,9 @@ public class RewardManager : MonoBehaviour
     {
 
         screen.SetActive(true);
-
+        reward1.GetComponent<Button>().interactable = false;
+        reward2.GetComponent<Button>().interactable = false;
+        reward3.GetComponent<Button>().interactable = false;
         if (screen)
         {
             // Verificando se a quantidade de probabilidades na lista bate com a quantidade
@@ -50,44 +52,53 @@ public class RewardManager : MonoBehaviour
                     prob.Add(prob[0]);
                 }
             }
-
-
+            
             SetRewardCard(reward1);
             SetRewardCard(reward2);
             SetRewardCard(reward3);
-            pausePrefab.GetComponent<PauseMenu>().PauseGame(false);
+            
+            StartCoroutine(ShowRewards());
         }
 
-        void SetRewardCard(GameObject reward)
+        
+    }
+
+    void SetRewardCard(GameObject reward)
+    {
+        /*
+         * Funï¿½ï¿½o para sortear as recompensas que vï¿½o aparecer
+        */
+        RewardTypeData r = rp.GetRandomReward();
+
+
+        reward.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = r.title;
+        reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = r.descriptions[0];
+
+
+        for (int j = 1; j < r.descriptions.Count; j++)
         {
-            /*
-             * Função para sortear as recompensas que vão aparecer
-            */
-            RewardTypeData r = rp.GetRandomReward();
+            TextMeshProUGUI tm = CreateText(reward.transform.GetChild(2));
+            tm.text = r.descriptions[j];
+        }
 
+        Reward rew = reward.GetComponent<Reward>();
+        rew.modifier = new List<Player.PlayerModifiers>();
 
-            reward.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = r.title;
-            reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = r.descriptions[0];
-           
-
-            for (int j = 1; j < r.descriptions.Count; j++)
-            {
-                TextMeshProUGUI tm = CreateText(reward.transform.GetChild(2));
-                tm.text = r.descriptions[j];
-            }
-
-            Reward rew = reward.GetComponent<Reward>();
-            rew.modifier = new List<Player.PlayerModifiers>();
-
-            for (int k = 0; k < r.modifier.Length; k++)
-            {
-                rew.modifier.Add(r.modifier[k]);
-            }
-
-
-
+        for (int k = 0; k < r.modifier.Length; k++)
+        {
+            rew.modifier.Add(r.modifier[k]);
         }
     }
+
+    IEnumerator ShowRewards()
+    {
+        yield return new WaitForSeconds(1f);
+        pausePrefab.GetComponent<PauseMenu>().PauseGame(false);
+        reward1.GetComponent<Button>().interactable = true;
+        reward2.GetComponent<Button>().interactable = true;
+        reward3.GetComponent<Button>().interactable = true;
+    }
+
     private TextMeshProUGUI CreateText(Transform parent)
     {
         GameObject go = Instantiate(statsTextGO);
@@ -102,10 +113,10 @@ public class RewardManager : MonoBehaviour
     public void ChoosedReward(GameObject rc)
     {
         /*
-         Função para atribuir os atributos da recompensa escolhida
+         Funï¿½ï¿½o para atribuir os atributos da recompensa escolhida
          */
         pausePrefab.GetComponent<PauseMenu>().ResumeGame();
-        Debug.Log("Você pegou: " + rc.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
+        Debug.Log("Vocï¿½ pegou: " + rc.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
         Reward r = rc.GetComponent<Reward>();
 
         foreach(Player.PlayerModifiers mod in r.modifier)

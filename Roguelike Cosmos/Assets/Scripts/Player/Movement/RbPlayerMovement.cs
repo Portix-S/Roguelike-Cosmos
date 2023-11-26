@@ -108,7 +108,13 @@ public class RbPlayerMovement : MonoBehaviour
         
 
     }
-
+    public void StopPlayer()
+    {
+        playerRb.velocity = Vector3.zero;
+        playerAnimator.SetBool("isRunning", false);
+        playerRb.angularVelocity = Vector3.zero;
+    }
+    
     private void Rotate()
     {
         if (moveDirection.magnitude >= 0.1f)

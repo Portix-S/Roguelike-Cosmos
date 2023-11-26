@@ -4,6 +4,7 @@ using UnityEngine;
 using Player;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class HealthSystem : MonoBehaviour
     private Plane plane;
     private RbPlayerMovement rbPlayerMovement;
     public Transform warpPoint;
+    [SerializeField] Image healthSlider;
 
 
     void Start()
@@ -28,6 +30,7 @@ public class HealthSystem : MonoBehaviour
         plane = new Plane(Vector3.up, Vector3.zero);
         rbPlayerMovement = GetComponent<RbPlayerMovement>();
         playerNavMeshAgent = GetComponent<NavMeshAgent>();
+        healthSlider.fillAmount = 1;
         //transicao = GameObject.FindGameObjectWithTag("Transicao");
     }
 
@@ -41,6 +44,7 @@ public class HealthSystem : MonoBehaviour
     {
         health = (int)info.HealthPoints;
         maxHealth = health;
+        healthSlider.fillAmount = 1;
     }
 
     private void Update() {
@@ -84,9 +88,10 @@ public class HealthSystem : MonoBehaviour
         health -= d;
         Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
-
+        healthSlider.fillAmount = (float)health / (float)maxHealth;
         // Morrer
         if(health <= 0){
+            healthSlider.fillAmount = 0;
             StartCoroutine(Morrer());
         }
     }
