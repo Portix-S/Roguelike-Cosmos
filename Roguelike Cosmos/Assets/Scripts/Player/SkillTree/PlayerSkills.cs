@@ -28,7 +28,7 @@ public class PlayerSkills
     TextMeshProUGUI pointsText;
     List<SkillType> unlockedSkillTypesList;
     LevelSystem levelSystem;
-    int requiredPoints;
+    public int requiredPoints;
     public PlayerSkills(LevelSystem levelSystem, TextMeshProUGUI pointsText, PlayerData playerData)
     {
         this.levelSystem = levelSystem;
