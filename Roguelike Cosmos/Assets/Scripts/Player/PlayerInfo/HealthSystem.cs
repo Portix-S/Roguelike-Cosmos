@@ -4,7 +4,10 @@ using UnityEngine;
 using Player;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+<<<<<<< HEAD
 using UnityEngine.UI;
+=======
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 
 public class HealthSystem : MonoBehaviour
 {
@@ -19,7 +22,10 @@ public class HealthSystem : MonoBehaviour
     private Plane plane;
     private RbPlayerMovement rbPlayerMovement;
     public Transform warpPoint;
+<<<<<<< HEAD
     [SerializeField] Image healthSlider;
+=======
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 
 
     void Start()
@@ -30,7 +36,10 @@ public class HealthSystem : MonoBehaviour
         plane = new Plane(Vector3.up, Vector3.zero);
         rbPlayerMovement = GetComponent<RbPlayerMovement>();
         playerNavMeshAgent = GetComponent<NavMeshAgent>();
+<<<<<<< HEAD
         healthSlider.fillAmount = 1;
+=======
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
         //transicao = GameObject.FindGameObjectWithTag("Transicao");
     }
 
@@ -44,7 +53,10 @@ public class HealthSystem : MonoBehaviour
     {
         health = (int)info.HealthPoints;
         maxHealth = health;
+<<<<<<< HEAD
         healthSlider.fillAmount = 1;
+=======
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
     }
 
     private void Update() {
@@ -88,10 +100,16 @@ public class HealthSystem : MonoBehaviour
         health -= d;
         Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
+<<<<<<< HEAD
         healthSlider.fillAmount = (float)health / (float)maxHealth;
         // Morrer
         if(health <= 0){
             healthSlider.fillAmount = 0;
+=======
+
+        // Morrer
+        if(health <= 0){
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
             StartCoroutine(Morrer());
         }
     }

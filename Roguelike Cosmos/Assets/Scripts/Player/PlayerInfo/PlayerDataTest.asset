@@ -20,7 +20,11 @@ MonoBehaviour:
   - stat: 2
     value: 0
   - stat: 3
+<<<<<<< HEAD
     value: 40
+=======
+    value: 10
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
   - stat: 4
     value: 0
   temp_modifier:

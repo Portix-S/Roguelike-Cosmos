@@ -41,7 +41,10 @@ public class MagicCircleController : MonoBehaviour
             {
                 p.Stop();
             }
+<<<<<<< HEAD
             // gm.OpenSkillTree(false)
+=======
+>>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
         }
     }
 }
