@@ -45,6 +45,7 @@ public class RbPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.isPaused) return;
         MyInput();
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && !onDashCooldown && playerAnimator.GetBool("isRunning"))
@@ -107,7 +108,13 @@ public class RbPlayerMovement : MonoBehaviour
         
 
     }
-
+    public void StopPlayer()
+    {
+        playerRb.velocity = Vector3.zero;
+        playerAnimator.SetBool("isRunning", false);
+        playerRb.angularVelocity = Vector3.zero;
+    }
+    
     private void Rotate()
     {
         if (moveDirection.magnitude >= 0.1f)

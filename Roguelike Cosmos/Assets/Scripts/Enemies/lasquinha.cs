@@ -36,7 +36,7 @@ public class lasquinha : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        //enemyAnimator = GetComponentInChildren<Animator>();
+        enemyAnimator = GetComponentInChildren<Animator>();
         collider = GetComponent<Collider>();
 
        // StartCoroutine(SpawnDelay());
@@ -48,36 +48,38 @@ public class lasquinha : MonoBehaviour
         //*
         if (agent.velocity != Vector3.zero)
         {
-            //enemyAnimator.SetBool("isWalking", true);
+            enemyAnimator.SetBool("isWalking", true);
             //Debug.Log("Anim: Andando");
         }
         else
         {
-            //enemyAnimator.SetBool("isWalking", false);
+            enemyAnimator.SetBool("isWalking", false);
             //Debug.Log("Anim: Parado");
         }
 
         if (distance <= lookRadius)
         {
-            if(distance > meeleRadius)
+            FaceTarget();
+            if (distance > meeleRadius)
             {
-                // Variar entre dois ataques meelee
+                // Variar entre dois ataques ranged
                 if (!isAttacking)
                 {
+   
                     float randomAttack = Random.Range(0f,100f);
 
                     if (randomAttack < 50f)
                     {
                         Debug.Log("Anim: Ataque Ranged 1");
                         isAttacking = true;
-                        //enemyAnimator.SetBool("isAttacking", true);
+                        enemyAnimator.SetBool("isAttackingRanged1", true);
                         StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
                     }
                     else
                     {
                         Debug.Log("Anim: Ataque Ranged 2");
                         isAttacking = true;
-                        // enemyAnimator.SetBool("isAttacking", true);
+                        enemyAnimator.SetBool("isAttackingRanged2", true);
                         StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
                     }
                 }
@@ -90,9 +92,9 @@ public class lasquinha : MonoBehaviour
             {
                 if (distance <= agent.stoppingDistance && !isAttacking)
                 {
-                    Debug.Log("Ataque meelee");
+                    
                     isAttacking = true;
-                    //enemyAnimator.SetBool("isAttacking", true);
+                    enemyAnimator.SetBool("isAttackingMeelee", true);
                     StartCoroutine(AttackCooldown());
                 }
                 else
@@ -130,13 +132,11 @@ public class lasquinha : MonoBehaviour
 
     public void StopAttacking()
     {
-        enemyAnimator.SetBool("isAttacking", false);
+        enemyAnimator.SetBool("isAttackingMeelee", false);
+        enemyAnimator.SetBool("isAttackingRanged1", false);
+        enemyAnimator.SetBool("isAttackingRanged2", false);
     }
 
-    public void StopTakingDamage()
-    {
-        enemyAnimator.SetBool("isTakingDamage", false);
-    }
 
 
     public int GetDamage()
@@ -146,15 +146,14 @@ public class lasquinha : MonoBehaviour
 
     IEnumerator AttackCooldown(float time=2f)
     {
-
         yield return new WaitForSeconds(time);
-       
+
+        StopAttacking();
         isAttacking = false;
     }
 
     public void TakeDamage(float amount)
     {
-        enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
         float height = collider.bounds.extents.y / 2f;
         Vector3 popupPos = transform.position + transform.up * height;

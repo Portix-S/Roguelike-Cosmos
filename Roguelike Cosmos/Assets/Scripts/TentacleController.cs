@@ -15,11 +15,13 @@ public class TentacleController : MonoBehaviour
     [SerializeField] float healthPoints = 100f;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] private Collider collider;
+    [SerializeField] GameObject parent;
 
     [Header("Attack Config")]
-    bool isAttacking;
-    float attackCooldownTimer = 2f;
+    [SerializeField] bool isAttacking;
+    float attackCooldownTimer = 1f;
     [SerializeField] int damage = 5;
+    [SerializeField] float distance;
 
     [Header("Stats/Experience")]
     [SerializeField] int xpAmount = 10;
@@ -29,44 +31,55 @@ public class TentacleController : MonoBehaviour
         if(other.gameObject.tag == "Player"){
             if(!isActive){
                 isActive = true;
-                foreach (Transform child in this.transform){
-                    child.gameObject.SetActive(true);
-                }
+            //     foreach (Transform child in this.transform){
+            //         child.gameObject.SetActive(true);
+            //     }
             }
             else{
                 isAttacking = true;
+                other.gameObject.GetComponent<HealthSystem>().TakeDamage(damage);
                 enemyAnimator.SetInteger("isAttacking", attack);
                 StartCoroutine(AttackCooldown());
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.tag == "Player")
+        {
         }
     }
 
     private void OnTriggerStay(Collider other) {
-        if(other.gameObject.tag == "Player"){
-            if(isActive){
-                isAttacking = true;
-                attack = Random.Range(0, 3);
-                enemyAnimator.SetInteger("isAttacking", attack);
-                StartCoroutine(AttackCooldown());
-            }
-        }
+        // if(other.gameObject.tag == "Player"){
+        //     if(isActive){
+        //         isAttacking = true;
+        //         attack = Random.Range(1, 4);
+        //         enemyAnimator.SetInteger("isAttacking", attack);
+        //         StartCoroutine(AttackCooldown());
+        //     }
+        // }
     }
 
     void Start()
     {
-        foreach (Transform child in this.transform){
-            child.gameObject.SetActive(false);
-        }
+        // foreach (Transform child in this.transform){
+        //     child.gameObject.SetActive(false);
+        // }
         target = PlayerManager.instance.player.transform;
-        //agent = GetComponent<NavMeshAgent>();
-        enemyAnimator = GetComponentInChildren<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        enemyAnimator = GetComponentInParent<Animator>();
         collider = GetComponent<Collider>();
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(target.position, transform.position);
-        FaceTarget();
+        distance = Vector3.Distance(target.position, transform.position);
+        if (distance <= lookRadius && !isAttacking)
+        {
+            isAttacking = true;
+            StartCoroutine(AttackCooldown());
+        }
     }
 
     public void StopAttacking()
@@ -87,8 +100,14 @@ public class TentacleController : MonoBehaviour
 
     IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(attackCooldownTimer);
+        collider.enabled = true;
+        attack = Random.Range(1, 4);
+        enemyAnimator.SetInteger("isAttacking", attack);
+        yield return new WaitForSeconds(attackCooldownTimer/2f);
+        enemyAnimator.SetInteger("isAttacking", 0);
+        yield return new WaitForSeconds(attackCooldownTimer/2f);
         isAttacking = false;
+        collider.enabled = false;
     }
 
     public void TakeDamage(float amount)
@@ -107,7 +126,7 @@ public class TentacleController : MonoBehaviour
             Tools.Graphics.CreateDamagePopup(healthPoints, popupPos);
             healthPoints = 0f;
             target.GetComponent<PlayerCombat>().GetLevelSystem().AddExperience(xpAmount);
-            Destroy(gameObject);
+            Destroy(parent);
         }
     }
 
@@ -124,18 +143,13 @@ public class TentacleController : MonoBehaviour
         return finalPosition;
     }
 
-    void FaceTarget()
-    {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
+    
 
-    // void OnDrawGizmosSelected()
-    // {
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(transform.position, lookRadius);
-    //     Gizmos.DrawWireSphere(transform.position, randomRadius);
-    //     Gizmos.DrawSphere(randomPoint, 1);
-    // }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, lookRadius);
+        Gizmos.DrawWireSphere(transform.position, randomRadius);
+        Gizmos.DrawSphere(randomPoint, 1);
+    }
 }

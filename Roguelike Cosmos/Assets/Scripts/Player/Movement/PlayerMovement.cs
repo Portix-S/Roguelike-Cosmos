@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         

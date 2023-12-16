@@ -15,6 +15,8 @@ public class CharacterControlMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+       
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         move = new Vector3(-input.x, 0f, -input.y);

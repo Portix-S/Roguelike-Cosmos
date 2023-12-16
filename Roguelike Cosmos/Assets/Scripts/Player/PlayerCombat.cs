@@ -50,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     public Joystick joystickSkill;
     private Vector3 joystickSkillDirection;
     private bool isHUDActive = false;
-
+    public Collider[] colliders;
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
         leftHandCollider.enabled = enable;
@@ -105,6 +105,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         if (system == DeviceType.Desktop)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -209,12 +211,28 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void AreaSkill(){
-        Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+         colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
         areaSkillEffect.Play();
         foreach(Collider col in colliders){
-            if(col.GetComponent<EnemyController>()){
+            if(col.gameObject.tag == "Enemy")
+            {
                 Debug.Log("Dano em área boom");
                 col.GetComponent<EnemyController>().TakeDamage(_playerData.MagicDamage/3f);
+            }
+            else if(col.gameObject.tag == "Boss")
+            {
+                Debug.Log("Dano em área boom");
+                col.GetComponent<MageBoss>().TakeDamage(_playerData.MagicDamage/3f);
+            }
+            else if(col.gameObject.tag == "Lancer")
+            {
+                Debug.Log("Dano em área boom");
+                col.GetComponent<lancer>().TakeDamage(_playerData.MagicDamage/3f);
+            }
+            else if(col.gameObject.tag == "Tentacle")
+            {
+                Debug.Log("Dano em área boom");
+                col.GetComponent<TentacleController>().TakeDamage(_playerData.MagicDamage/3f);
             }
         }
         cooldownCounter = areaSkillCooldown;
@@ -245,11 +263,30 @@ public class PlayerCombat : MonoBehaviour
 
     // Temporary damage dealer
     private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Enemy" && (isAttacking || isShooting)){
+        if((other.tag == "Enemy") && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
+        else if ((other.tag == "Boss") && (isAttacking || isShooting))
+        {
+            UpdateColliders(false);
+            MageBoss enemyScript = other.GetComponent<MageBoss>();
+            enemyScript.TakeDamage(_playerData.AttackDamage);
+        }
+        else if ((other.tag == "Lancer") && (isAttacking || isShooting))
+        {
+            UpdateColliders(false);
+            lancer enemyScript = other.GetComponent<lancer>();
+            enemyScript.TakeDamage(_playerData.AttackDamage);
+        }
+        else if ((other.tag == "Tentacle") && (isAttacking || isShooting))
+        {
+            UpdateColliders(false);
+            TentacleController enemyScript = other.GetComponent<TentacleController>();
+            enemyScript.TakeDamage(_playerData.AttackDamage);
+        }
+
     }
 
 
