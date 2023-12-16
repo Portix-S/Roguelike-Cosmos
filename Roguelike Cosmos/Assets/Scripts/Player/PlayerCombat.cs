@@ -280,16 +280,13 @@ public class PlayerCombat : MonoBehaviour
             lancer enemyScript = other.GetComponent<lancer>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-<<<<<<< HEAD
         else if ((other.tag == "Lasquinha") && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             lasquinha enemyScript = other.GetComponent<lasquinha>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-=======
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
-        else if ((other.tag == "Tentacle") && (isAttacking || isShooting))
+        else if((other.tag == "Tentacle") && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             TentacleController enemyScript = other.GetComponent<TentacleController>();

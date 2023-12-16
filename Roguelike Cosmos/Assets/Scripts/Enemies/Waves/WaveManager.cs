@@ -35,10 +35,7 @@ public class WaveManager : MonoBehaviour
 
     public void Restart()
     {
-<<<<<<< HEAD
         endDoor.GetComponent<Animator>().SetBool("isOpening", false);
-=======
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
         currentState = WaveState.SPAWNING;
         currentWave = 0;
         hasRewarded = false;
@@ -59,11 +56,7 @@ public class WaveManager : MonoBehaviour
         //Debug.Log("State: " + currentState);
         if (currentState == WaveState.ENDED) 
         {
-<<<<<<< HEAD
             endDoor.GetComponent<Animator>().SetBool("isOpening", true);
-=======
-            endDoor.GetComponent<Animator>().enabled = true;
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
             return;
         }
         if (currentState == WaveState.COMPLETED)

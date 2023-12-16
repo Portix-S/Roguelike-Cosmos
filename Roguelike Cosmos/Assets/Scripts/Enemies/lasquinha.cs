@@ -6,7 +6,6 @@ using Player;
 
 public class lasquinha : MonoBehaviour
 {
-    [SerializeField] private PlayerData _playerData;
     public float lookRadius = 20f;
     public float randomRadius = 20f;
     Transform target;

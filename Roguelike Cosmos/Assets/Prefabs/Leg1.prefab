@@ -124,21 +124,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2175204378560750928}
-<<<<<<< HEAD
   - component: {fileID: 1847981795753165488}
   - component: {fileID: 1966550123}
   m_Layer: 0
   m_Name: Leg1
   m_TagString: Untagged
-=======
-  - component: {fileID: 1847981795753165493}
-  - component: {fileID: 1847981795753165488}
-  - component: {fileID: 1847981795753165494}
-  - component: {fileID: 1354434189}
-  m_Layer: 7
-  m_Name: Leg1
-  m_TagString: Tentacle
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,22 +151,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
-=======
---- !u!135 &1847981795753165493
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541410260450590698}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 20
-  m_Center: {x: 0, y: 0, z: 0}
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 --- !u!95 &1847981795753165488
 Animator:
   serializedVersion: 4
@@ -197,11 +171,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
-<<<<<<< HEAD
 --- !u!114 &1966550123
-=======
---- !u!114 &1847981795753165494
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,38 +180,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541410260450590698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: e739e4047a829ba90a22f1de3f4d8d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-=======
-  m_Script: {fileID: 11500000, guid: 4b52053a96487ffec831352f10380c06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookRadius: 10
-  randomRadius: 20
-  nextLocation: 0
-  randomPoint: {x: 0, y: 0, z: 0}
-  healthPoints: 100
-  enemyAnimator: {fileID: 0}
-  collider: {fileID: 0}
-  damage: 5
-  xpAmount: 10
---- !u!64 &1354434189
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541410260450590698}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 --- !u!1 &4307886442327300687
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +320,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8717378669728909085}
-<<<<<<< HEAD
   - component: {fileID: 1898964054}
   - component: {fileID: 1898964049}
   - component: {fileID: 1898964050}
@@ -387,11 +327,6 @@ GameObject:
   m_Layer: 7
   m_Name: Bone.005
   m_TagString: Tentacle
-=======
-  m_Layer: 7
-  m_Name: Bone.005
-  m_TagString: Untagged
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +347,6 @@ Transform:
   m_Father: {fileID: 3591922772160231728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 --- !u!54 &1898964054
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -488,8 +422,6 @@ NavMeshAgent:
   m_BaseOffset: 0.07
   m_WalkableMask: 0
   m_ObstacleAvoidanceType: 0
-=======
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 --- !u!1 &8182373779201301278
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,11 +431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4590659629418808252}
-<<<<<<< HEAD
   m_Layer: 0
-=======
-  m_Layer: 7
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
   m_Name: Bone.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using TMPro;
-=======
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -21,7 +18,6 @@ public class Warp : MonoBehaviour
     NavMeshAgent playerNavMeshAgent;
     [SerializeField] bool isSpawnWarp;
     [SerializeField] bool isEndWarp; //Temporário
-<<<<<<< HEAD
     GameManager gm;
     private void Start() {
         //canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
@@ -29,38 +25,21 @@ public class Warp : MonoBehaviour
         canWarp = false;
         plane = new Plane(Vector3.up, Vector3.zero);
         gm = FindObjectOfType<GameManager>();
-=======
-    private void Start() {
-        canvasTransition = GameObject.FindGameObjectWithTag("Transicao");
-        canvasTransition.SetActive(false);
-        canWarp = false;
-        plane = new Plane(Vector3.up, Vector3.zero);
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
     }
 
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.tag == "Player")
         {
-<<<<<<< HEAD
             canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
-=======
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
             if(canWarp && isEndWarp)
             {
                 SceneManager.LoadScene("EndGame");
             }
-<<<<<<< HEAD
             playerPos = other.GetComponent<Transform>();
             playerNavMeshAgent = other.GetComponent<NavMeshAgent>();
             rbPlayerMovement = other.GetComponent<RbPlayerMovement>();
             gm.canOpenSkillTree = false;
             rbPlayerMovement.StopPlayer();
-=======
-            canWarp = (wm.currentState == WaveManager.WaveState.ENDED);
-            playerPos = other.GetComponent<Transform>();
-            playerNavMeshAgent = other.GetComponent<NavMeshAgent>();
-            rbPlayerMovement = other.GetComponent<RbPlayerMovement>();
->>>>>>> abdaf47560c4faf640cac4a749718702198f89c2
             if(canWarp || isSpawnWarp)
             {
                 rbPlayerMovement.enabled = false;

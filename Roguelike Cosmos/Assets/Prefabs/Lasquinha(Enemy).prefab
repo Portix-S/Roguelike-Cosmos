@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 166210889983652312}
   m_Layer: 0
   m_Name: Lasquinha(Enemy)
-  m_TagString: Enemie
+  m_TagString: Lasquinha
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,19 +83,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb99aec7badb3674a8320f73cde016c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
   lookRadius: 20
   randomRadius: 20
   nextLocation: 0
   randomPoint: {x: 0, y: 0, z: 0}
-  healthPoints: 500
+  healthPoints: 1000
   enemyAnimator: {fileID: 0}
   collider: {fileID: 0}
   attackDurationTimer: 1.5
   rangedAttackDurationTimer: 1.25
-  meleeRadius: 8
+  meleeRadius: 7
   damage: 5
-  rangedCooldown: 0.5
+  rangedCooldown: 1.25
   meleeCooldown: 1
   xpAmount: 10
 --- !u!1001 &166210888060957167
