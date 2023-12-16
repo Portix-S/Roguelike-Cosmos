@@ -19,16 +19,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1920
-    height: 941
+    width: 1366
+    height: 629
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-<<<<<<< HEAD
-  controlID: 938
-=======
-  controlID: 3360
->>>>>>> PortixBranch
+  controlID: 1618
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -49,17 +45,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 517
-    y: 486
-    width: 523
-    height: 241
-=======
-    x: 779
-    y: 576
-    width: 727
-    height: 463
->>>>>>> PortixBranch
+    x: 541
+    y: 454
+    width: 507
+    height: 273
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -106,40 +95,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-<<<<<<< HEAD
-      width: 523
-      height: 220
-    m_Scale: {x: 0.2037037, y: 0.2037037}
-    m_Translation: {x: 261.5, y: 110}
-=======
-      width: 727
-      height: 442
-    m_Scale: {x: 0.37864584, y: 0.37864584}
-    m_Translation: {x: 363.5, y: 221}
->>>>>>> PortixBranch
+      width: 507
+      height: 252
+    m_Scale: {x: 0.23333333, y: 0.23333333}
+    m_Translation: {x: 253.5, y: 126}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-<<<<<<< HEAD
-      x: -1283.7273
+      x: -1086.4286
       y: -540
-      width: 2567.4546
+      width: 2172.8572
       height: 1080
     m_MinimalGUI: 1
-  m_defaultScale: 0.2037037
-  m_LastWindowPixelSize: {x: 523, y: 241}
-=======
-      x: -960
-      y: -583.6589
-      width: 1920
-      height: 1167.3177
-    m_MinimalGUI: 1
-  m_defaultScale: 0.37864584
-  m_LastWindowPixelSize: {x: 727, y: 463}
->>>>>>> PortixBranch
+  m_defaultScale: 0.23333333
+  m_LastWindowPixelSize: {x: 507, y: 273}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000001000000000000
@@ -164,16 +136,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1508
-    height: 941
+    width: 1050
+    height: 629
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-<<<<<<< HEAD
-  controlID: 939
-=======
-  controlID: 3337
->>>>>>> PortixBranch
+  controlID: 1619
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,21 +161,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 1042
-    height: 367
+    width: 1050
+    height: 335
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 940
-=======
-    width: 1508
-    height: 457
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 8096}
-  vertical: 0
-  controlID: 3322
->>>>>>> PortixBranch
+  controlID: 1580
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -225,13 +184,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 202
-    height: 367
-=======
-    width: 454
-    height: 457
->>>>>>> PortixBranch
+    width: 318
+    height: 335
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
@@ -261,30 +215,18 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 119
-<<<<<<< HEAD
-    width: 201
-    height: 346
-=======
-    width: 453
-    height: 436
->>>>>>> PortixBranch
+    width: 317
+    height: 314
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-<<<<<<< HEAD
-      scrollPos: {x: 0, y: 31}
+      scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 1afbffffd4630000
-=======
-      scrollPos: {x: 0, y: 300}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 3a64ffff9665ffffec65ffff0668ffff2cbaffff3abaffff62baffffeafaffffbe140100d0540100
->>>>>>> PortixBranch
+      m_ExpandedIDs: cc0affff2662ffffecb3ffffd0bcffffaac8ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -323,23 +265,13 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 202
+    x: 318
     y: 0
-    width: 840
-    height: 367
-  m_MinSize: {x: 102, y: 121}
+    width: 732
+    height: 335
+  m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 9}
-=======
-    x: 454
-    y: 0
-    width: 1054
-    height: 457
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 8}
->>>>>>> PortixBranch
   m_Panes:
   - {fileID: 8}
   - {fileID: 9}
@@ -366,17 +298,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 202
+    x: 318
     y: 119
-    width: 838
-    height: 346
-=======
-    x: 454
-    y: 119
-    width: 1052
-    height: 436
->>>>>>> PortixBranch
+    width: 730
+    height: 314
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -506,7 +431,7 @@ MonoBehaviour:
       containerId: overlay-container--right
       floating: 0
       collapsed: 0
-      displayed: 0
+      displayed: 1
       snapOffset: {x: 0, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
@@ -601,29 +526,19 @@ MonoBehaviour:
       id: Scene View/Tilemap Palette Helper
       index: 12
       layout: 4
-<<<<<<< HEAD
-  m_WindowGUID: c4f910f004a4da84d905de5aea5ef703
-=======
   m_WindowGUID: cc27987af1a868c49b0894db9c0f5429
->>>>>>> PortixBranch
   m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 1
+  m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-<<<<<<< HEAD
-    m_Target: {x: -19.739262, y: 2.9152946, z: 13.326825}
+    m_Target: {x: -5.7394733, y: 12.591696, z: -35.470776}
     speed: 2
-    m_Value: {x: -19.739262, y: 2.9152946, z: 13.326825}
-=======
-    m_Target: {x: 1012.09406, y: 522.0408, z: 4.9609866}
-    speed: 2
-    m_Value: {x: 1012.09406, y: 522.0408, z: 4.9609866}
->>>>>>> PortixBranch
+    m_Value: {x: -5.7394733, y: 12.591696, z: -35.470776}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -670,25 +585,17 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-<<<<<<< HEAD
-    m_Target: {x: 0.2632478, y: 0.008682415, z: -0.0023692932, w: 0.9646864}
-=======
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
->>>>>>> PortixBranch
+    m_Target: {x: 0.18488863, y: 0.020636285, z: -0.0038832347, w: 0.9825353}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0, w: -1}
+    m_Value: {x: 0.18488862, y: 0.020636283, z: -0.0038832342, w: 0.9825352}
   m_Size:
-    m_Target: 605.3549
+    m_Target: 4.4027905
     speed: 2
-<<<<<<< HEAD
-    m_Value: 10
-=======
-    m_Value: 605.3549
->>>>>>> PortixBranch
+    m_Value: 4.4027905
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
-    m_Value: 1
+    m_Value: 0
   m_CameraSettings:
     m_Speed: 1.0005
     m_SpeedNormalized: 0.5
@@ -702,15 +609,13 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.24569803, y: -0.10622149, z: 0.027306834, w: -0.96318424}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
-<<<<<<< HEAD
-=======
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -862,9 +767,9 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 524efca7caa6e9846ac883ae3eed5d8f, type: 2}
+  m_AnimatorController: {fileID: 9100000, guid: b3d25b229823221799e472b89d2c195a, type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 5592704990937586759, guid: 524efca7caa6e9846ac883ae3eed5d8f, type: 2}
+  - m_Target: {fileID: -3240185264480005907, guid: b3d25b229823221799e472b89d2c195a, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -877,7 +782,6 @@ MonoBehaviour:
   m_CurrentEditor: 1
   m_LayerEditor:
     m_SelectedLayerIndex: 0
->>>>>>> PortixBranch
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -924,25 +828,14 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 367
-    width: 1042
-    height: 262
+    y: 335
+    width: 1050
+    height: 294
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 989
---- !u!114 &11
-=======
-    y: 457
-    width: 1508
-    height: 484
-  m_MinSize: {x: 200, y: 100}
-  m_MaxSize: {x: 16192, y: 8096}
-  vertical: 0
-  controlID: 3338
+  controlID: 1620
 --- !u!114 &12
->>>>>>> PortixBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -952,31 +845,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 517
-    height: 262
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 12}
-=======
-    width: 779
-    height: 484
-  m_MinSize: {x: 230, y: 250}
-  m_MaxSize: {x: 10000, y: 10000}
-  m_ActualView: {fileID: 13}
->>>>>>> PortixBranch
+    width: 541
+    height: 294
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 13}
   - {fileID: 14}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -985,11 +870,7 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-<<<<<<< HEAD
-  m_EditorHideFlags: 1
-=======
   m_EditorHideFlags: 0
->>>>>>> PortixBranch
   m_Script: {fileID: 12014, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -1002,15 +883,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 486
-    width: 516
-    height: 241
-=======
-    y: 576
-    width: 778
-    height: 463
->>>>>>> PortixBranch
+    y: 454
+    width: 540
+    height: 273
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1028,34 +903,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scripts/Player
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
-  m_StartGridSize: 96
+  m_StartGridSize: 46
   m_LastFolders:
-  - Assets/Scripts
-<<<<<<< HEAD
-  m_LastFoldersGridSize: -1
+  - Assets/Scripts/Player
+  m_LastFoldersGridSize: 46
   m_LastProjectPath: /home/ast/Jogos/Cosmos/Roguelike-Cosmos/Roguelike Cosmos
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 81}
-    m_SelectedIDs: a07e0000
-    m_LastClickedID: 32416
-    m_ExpandedIDs: 00000000c47d0000c67d0000c87d0000ca7d0000cc7d0000ce7d0000d07d0000d27d0000d47d0000
-=======
-  m_LastFoldersGridSize: 96
-  m_LastProjectPath: /home/portix/Documents/GitHub/Roguelike-Cosmos/Roguelike Cosmos
-  m_LockTracker:
-    m_IsLocked: 0
-  m_FolderTreeState:
-    scrollPos: {x: 0, y: 162}
-    m_SelectedIDs: be150100
-    m_LastClickedID: 71102
-    m_ExpandedIDs: 00000000686700006a6700006c6700006e67000070670000726700007467000076670000786700007a6700007c6700007e67000080670000826700008467000086670000886700008a6700008c6700008e6700009067000092670000be15010000ca9a3bffffff7f
->>>>>>> PortixBranch
+    scrollPos: {x: 0, y: 152}
+    m_SelectedIDs: 78bc0000
+    m_LastClickedID: 48248
+    m_ExpandedIDs: 0000000070bc000072bc000074bc000076bc000078bc00007abc00007cbc00007ebc000080bc0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1083,11 +946,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-<<<<<<< HEAD
-    m_ExpandedIDs: 00000000c47d0000c67d0000c87d0000ca7d0000cc7d0000ce7d0000d07d0000d27d0000d47d0000
-=======
-    m_ExpandedIDs: 00000000686700006a6700006c6700006e67000070670000726700007467000076670000786700007a6700007c6700007e67000080670000826700008467000086670000886700008a6700008c6700008e670000906700009267000000ca9a3bffffff7f
->>>>>>> PortixBranch
+    m_ExpandedIDs: 0000000070bc000072bc000074bc000076bc000078bc00007abc00007cbc00007ebc000080bc0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1112,17 +971,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-<<<<<<< HEAD
-    m_SelectedInstanceIDs: 5c660000
-    m_LastClickedInstanceID: 26204
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c623000068d301008ed9010054250100
-=======
-    m_SelectedInstanceIDs: 62290100
-    m_LastClickedInstanceID: 76130
+    m_SelectedInstanceIDs: 60250000
+    m_LastClickedInstanceID: 9568
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 80c20000901501003ab20000222a0100664301006c491200
->>>>>>> PortixBranch
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1138,7 +990,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
+      m_ClientGUIView: {fileID: 0}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -1146,19 +998,11 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-<<<<<<< HEAD
-    m_ScrollPosition: {x: 0, y: 286}
-    m_GridSize: 64
-  m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 207
---- !u!114 &13
-=======
-    m_ScrollPosition: {x: 0, y: 105}
-    m_GridSize: 96
+    m_ScrollPosition: {x: 0, y: 0}
+    m_GridSize: 46
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 200
 --- !u!114 &14
->>>>>>> PortixBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1179,15 +1023,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 491
-    width: 516
-    height: 236
-=======
-    y: 576
-    width: 778
-    height: 463
->>>>>>> PortixBranch
+    y: 454
+    width: 540
+    height: 273
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1207,17 +1045,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 517
+    x: 541
     y: 0
-    width: 525
-    height: 262
-=======
-    x: 779
-    y: 0
-    width: 729
-    height: 484
->>>>>>> PortixBranch
+    width: 509
+    height: 294
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
@@ -1235,39 +1066,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: NavMeshEditorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1508
+    x: 1050
     y: 0
-<<<<<<< HEAD
-    width: 324
+    width: 316
     height: 629
-  m_MinSize: {x: 276, y: 71}
+  m_MinSize: {x: 301, y: 381}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
-=======
-    width: 412
-    height: 941
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 17}
->>>>>>> PortixBranch
+  m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
-<<<<<<< HEAD
-  m_Selected: 0
-  m_LastSelected: 0
---- !u!114 &16
-=======
   - {fileID: 18}
   - {fileID: 19}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &17
->>>>>>> PortixBranch
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1287,10 +1104,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1508
+    x: 1050
     y: 119
-    width: 411
-    height: 920
+    width: 315
+    height: 608
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1301,11 +1118,7 @@ MonoBehaviour:
     m_CachedPref: 338
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-<<<<<<< HEAD
-  m_LastInspectedObjectInstanceID: 26204
-=======
-  m_LastInspectedObjectInstanceID: 76130
->>>>>>> PortixBranch
+  m_LastInspectedObjectInstanceID: 9568
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1332,16 +1145,14 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1508
+    x: 1050
     y: 119
-    width: 411
-    height: 920
+    width: 315
+    height: 608
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
-<<<<<<< HEAD
-=======
 --- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1370,4 +1181,3 @@ MonoBehaviour:
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
->>>>>>> PortixBranch

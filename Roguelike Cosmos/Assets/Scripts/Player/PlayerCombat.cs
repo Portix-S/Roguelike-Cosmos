@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.AI;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -89,7 +90,10 @@ public class PlayerCombat : MonoBehaviour
     }
 
     private void LookAtMouse(Transform rotatedObject){
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        if(NavMesh.SamplePosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out NavMeshHit NMHit, 100f, NavMesh.AllAreas)){
+            Debug.Log("Achou NavMesh: " + NMHit.position);
+        }
+        Plane plane = new Plane(Vector3.up, NMHit.position);
         // Cria um raycast para achar o ponto do plano que o jogador está direcionando
         Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(plane.Raycast(raio, out float enter)){
