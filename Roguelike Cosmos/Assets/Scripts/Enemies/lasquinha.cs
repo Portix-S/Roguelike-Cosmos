@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Player;
 
 public class lasquinha : MonoBehaviour
 {
+    [SerializeField] private PlayerData _playerData;
     public float lookRadius = 20f;
     public float randomRadius = 20f;
     Transform target;
@@ -17,19 +19,16 @@ public class lasquinha : MonoBehaviour
 
     [Header("Attack Config")]
     bool isAttacking;
-    float attackCooldownTimer = 2f;
-    float rangedAttackCooldownTimer = 2f;
-    public float meeleRadius = 7f;
+    public float attackDurationTimer = 3.33f;
+    public float rangedAttackDurationTimer = 1.25f;
+    public float meleeRadius = 7f;
     [SerializeField] int damage = 5;
+    public float rangedCooldown = 0.5f;
+    public float meleeCooldown = 0;
 
     [Header("Stats/Experience")]
     [SerializeField] int xpAmount = 10;
 
-    [SerializeField]
-    private List<Transform> enemies = new List<Transform>();
-
-
-    /// Para o inimigo não começar se movendo
 
 
     void Start()
@@ -39,7 +38,7 @@ public class lasquinha : MonoBehaviour
         enemyAnimator = GetComponentInChildren<Animator>();
         collider = GetComponent<Collider>();
 
-       // StartCoroutine(SpawnDelay());
+        // StartCoroutine(SpawnDelay());
     }
 
     void Update()
@@ -60,27 +59,27 @@ public class lasquinha : MonoBehaviour
         if (distance <= lookRadius)
         {
             FaceTarget();
-            if (distance > meeleRadius)
+            if (distance > meleeRadius)
             {
                 // Variar entre dois ataques ranged
                 if (!isAttacking)
                 {
-   
-                    float randomAttack = Random.Range(0f,100f);
+
+                    float randomAttack = Random.Range(0f, 100f);
 
                     if (randomAttack < 50f)
                     {
-                        Debug.Log("Anim: Ataque Ranged 1");
+                        //Debug.Log("Anim: Ataque Ranged 1");
                         isAttacking = true;
                         enemyAnimator.SetBool("isAttackingRanged1", true);
-                        StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
+                        StartCoroutine(AttackDuration(rangedAttackDurationTimer, rangedCooldown));
                     }
                     else
                     {
-                        Debug.Log("Anim: Ataque Ranged 2");
+                        //Debug.Log("Anim: Ataque Ranged 2");
                         isAttacking = true;
                         enemyAnimator.SetBool("isAttackingRanged2", true);
-                        StartCoroutine(AttackCooldown(rangedAttackCooldownTimer));
+                        StartCoroutine(AttackDuration(rangedAttackDurationTimer, rangedCooldown));
                     }
                 }
                 else
@@ -92,10 +91,10 @@ public class lasquinha : MonoBehaviour
             {
                 if (distance <= agent.stoppingDistance && !isAttacking)
                 {
-                    
+
                     isAttacking = true;
-                    enemyAnimator.SetBool("isAttackingMeelee", true);
-                    StartCoroutine(AttackCooldown());
+                    enemyAnimator.SetBool("isAttackingMelee", true);
+                    StartCoroutine(AttackDuration(attackDurationTimer, meleeCooldown));
                 }
                 else
                 {
@@ -130,13 +129,14 @@ public class lasquinha : MonoBehaviour
         }
     }
 
-    public void StopAttacking()
+    public void StopAttacking(float cooldown)
     {
-        enemyAnimator.SetBool("isAttackingMeelee", false);
+        //Debug.Log("Parou o ataque");
+        enemyAnimator.SetBool("isAttackingMelee", false);
         enemyAnimator.SetBool("isAttackingRanged1", false);
         enemyAnimator.SetBool("isAttackingRanged2", false);
+        StartCoroutine(AttackCooldown(cooldown));
     }
-
 
 
     public int GetDamage()
@@ -144,11 +144,17 @@ public class lasquinha : MonoBehaviour
         return damage;
     }
 
-    IEnumerator AttackCooldown(float time=2f)
+    IEnumerator AttackDuration(float duration = 2f, float cooldown = 2f)
+    {
+        yield return new WaitForSeconds(duration);
+
+        StopAttacking(cooldown);
+    }
+
+    IEnumerator AttackCooldown(float time = 2f)
     {
         yield return new WaitForSeconds(time);
 
-        StopAttacking();
         isAttacking = false;
     }
 
@@ -207,6 +213,19 @@ public class lasquinha : MonoBehaviour
         yield return new WaitForSeconds(sec);
 
         StartCoroutine("Reset");
+    }
+    */
+    /*
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            PlayerCombat pc = other.GetComponent<PlayerCombat>();
+            if(pc.isAttacking || pc.isShooting)
+            {
+                TakeDamage(_playerData.AttackDamage);
+            }
+        }
     }
     */
 }

@@ -61,7 +61,7 @@ namespace Player
                     if (v.stat == PlayerModifier.Constitution)
                         hp += v.value * 0.2f;
                     if (v.stat == PlayerModifier.Agility)
-                        hp += v.value * 0.1f;
+                        hp += v.value * 0.05f;
                 }
 
                 foreach (PlayerModifiers v in temp_modifier)
@@ -84,11 +84,9 @@ namespace Player
                 foreach (PlayerModifiers v in modifier)
                 {
                     if (v.stat == PlayerModifier.Constitution)
-                        hp += v.value * 0.1f;
+                        hp += v.value * 0.05f;
                     if (v.stat == PlayerModifier.Wisdom)
                         hp += v.value * 0.2f;
-                    if (v.stat == PlayerModifier.Intelligence)
-                        hp += v.value * 0.1f;
                 }
 
                 foreach (PlayerModifiers v in temp_modifier)
@@ -154,8 +152,6 @@ namespace Player
                 float d = baseAttackDamage;
                 foreach (PlayerModifiers v in modifier)
                 {
-                    if (v.stat == PlayerModifier.Agility)
-                        d += v.value * 0.75f;
                     if (v.stat == PlayerModifier.Strength)
                         d += v.value * 1.5f;
                 }
@@ -171,6 +167,20 @@ namespace Player
             }
         }
 
+        public float MagicDamage
+        {
+            get
+            {
+                float d = baseAttackRange;
+                foreach (PlayerModifiers v in modifier)
+                {
+                    if (v.stat == PlayerModifier.Intelligence)
+                        d += v.value * 1.5f;
+                }
+                return d;
+            }
+        }
+
         public float CoolDownReduct
         {
             get
@@ -179,9 +189,9 @@ namespace Player
                 foreach (PlayerModifiers v in modifier)
                 {
                     if (v.stat == PlayerModifier.Intelligence)
-                        d += v.value * 0.2f;
+                        d += v.value * 0.05f;
                     if (v.stat == PlayerModifier.Wisdom)
-                        d += v.value * 0.1f;
+                        d += v.value * 0.2f;
                 }
 
                 foreach (PlayerModifiers v in temp_modifier)

@@ -937,6 +937,7 @@ MonoBehaviour:
   waves: []
   currentWave: 0
   currentState: 0
+  endDoor: {fileID: 0}
 --- !u!1 &6074326508529484174
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.10700001, y: 0.028555008}
   m_AnchorMax: {x: 0.88000005, y: 0.3978458}
-  m_AnchoredPosition: {x: 3.501709, y: 6}
+  m_AnchoredPosition: {x: 3.501709, y: 5.9999924}
   m_SizeDelta: {x: -4.8099976, y: -13.195007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6074326508529484163
@@ -1662,7 +1663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.282, y: 0.4167446}
   m_AnchorMax: {x: 0.7302136, y: 0.7765992}
-  m_AnchoredPosition: {x: -3.500023, y: 7.260002}
+  m_AnchoredPosition: {x: -3.5000305, y: 7.260002}
   m_SizeDelta: {x: -2.4100037, y: 19.5914}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4920374091538573100

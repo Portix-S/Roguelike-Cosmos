@@ -17,6 +17,7 @@ public class lancer : MonoBehaviour
     [SerializeField] float healthPoints = 100f;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] private Collider collider;
+    [SerializeField] Collider[] hands;
 
     [Header("Attack Config")]
     bool isAttacking;
@@ -30,7 +31,7 @@ public class lancer : MonoBehaviour
     private List<Transform> enemies = new List<Transform>();
 
 
-    /// Para o inimigo não começar se movendo
+    /// Para o inimigo nï¿½o comeï¿½ar se movendo
 
 
     void Start()
@@ -64,6 +65,10 @@ public class lancer : MonoBehaviour
 
                 isAttacking = true;
                 enemyAnimator.SetBool("isAttacking", true);
+                foreach (Collider hand in hands)
+                {
+                    hand.enabled = true;
+                }
                 StartCoroutine(AttackCooldown());
 
             }
@@ -78,7 +83,7 @@ public class lancer : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Não seguindo");
+            //Debug.Log("Nï¿½o seguindo");
             //Debug.Log(nextLocation);
             agent.speed = walkSpeed;
             if (nextLocation)
@@ -121,6 +126,10 @@ public class lancer : MonoBehaviour
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldownTimer);
+        foreach (Collider hand in hands)
+        {
+            hand.enabled = false;
+        }
         isAttacking = false;
     }
 
@@ -128,8 +137,8 @@ public class lancer : MonoBehaviour
     {
         //enemyAnimator.SetBool("isTakingDamage", true);
         CameraShake.Instance.ShakeCamera(2f, 0.2f);
-        float height = collider.bounds.extents.y / 2f;
-        Vector3 popupPos = transform.position + transform.up * height;
+        float height = collider.bounds.extents.y;
+        Vector3 popupPos = transform.position + (transform.up * (height + 1f));
         if (healthPoints - amount > 0f)
         {
             healthPoints -= amount;
@@ -173,7 +182,13 @@ public class lancer : MonoBehaviour
         Gizmos.DrawSphere(randomPoint, 1);
     }
 
-
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.CompareTag("Player"))
+        {
+            other.GetComponent<HealthSystem>().TakeDamage(damage);
+        }
+    }
 
     public IEnumerator SpawnDelay(float sec = 0.25f)
     {

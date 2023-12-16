@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5481061102206977911}
   m_Layer: 0
   m_Name: Lanceiro(Prototipo)
-  m_TagString: Enemy
+  m_TagString: Lancer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,6 +160,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2df86825be65daf41be8e9eb2cde66e8, type: 3}
+--- !u!1 &6995733141966433612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2df86825be65daf41be8e9eb2cde66e8, type: 3}
+  m_PrefabInstance: {fileID: 7914161463958900765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1394050182081186473
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995733141966433612}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 524efca7caa6e9846ac883ae3eed5d8f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &7664570860852115446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2df86825be65daf41be8e9eb2cde66e8, type: 3}

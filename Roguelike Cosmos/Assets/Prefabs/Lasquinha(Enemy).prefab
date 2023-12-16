@@ -83,17 +83,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb99aec7badb3674a8320f73cde016c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
   lookRadius: 20
   randomRadius: 20
   nextLocation: 0
   randomPoint: {x: 0, y: 0, z: 0}
-  healthPoints: 100
+  healthPoints: 500
   enemyAnimator: {fileID: 0}
   collider: {fileID: 0}
-  meeleRadius: 7
+  attackDurationTimer: 1.5
+  rangedAttackDurationTimer: 1.25
+  meleeRadius: 8
   damage: 5
+  rangedCooldown: 0.5
+  meleeCooldown: 1
   xpAmount: 10
-  enemies: []
 --- !u!1001 &166210888060957167
 PrefabInstance:
   m_ObjectHideFlags: 0

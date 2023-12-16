@@ -3,7 +3,12 @@ guid: 36b56c6839d6c0842b19c3fde8c2107e
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: spider
+    second: {fileID: 2100000, guid: f907709f34b6f45e6a93ee7bc62d8991, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

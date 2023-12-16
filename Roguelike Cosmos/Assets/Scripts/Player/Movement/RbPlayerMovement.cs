@@ -92,7 +92,7 @@ public class RbPlayerMovement : MonoBehaviour
     {
         //bool hasMobileInput = Mathf.Abs(joystick.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystick.Vertical) > Mathf.Epsilon;
         //bool hasPcInput = Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon;
-        isNotAttacking = !playerCombat.isAttacking && !playerCombat.isShooting;
+        isNotAttacking = !playerCombat.isAttacking && !playerCombat.isShooting && !playerCombat.isAreaCasting;
         if (((Mathf.Abs(input.x) > Mathf.Epsilon || Mathf.Abs(input.y) > Mathf.Epsilon)))
             playerAnimator.SetBool("isRunning", true);
         else
@@ -108,7 +108,13 @@ public class RbPlayerMovement : MonoBehaviour
         
 
     }
-
+    public void StopPlayer()
+    {
+        playerRb.velocity = Vector3.zero;
+        playerAnimator.SetBool("isRunning", false);
+        playerRb.angularVelocity = Vector3.zero;
+    }
+    
     private void Rotate()
     {
         if (moveDirection.magnitude >= 0.1f)

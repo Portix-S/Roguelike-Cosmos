@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Player;
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -9,19 +12,39 @@ public class HealthSystem : MonoBehaviour
     private float invbtyTime = 0.5f; // Tempo de invencibilidade após receber dano
     private float timeStamp; // Registra o tempo que o player vai poder levar dano novamente
     private int maxHealth; // Vida máxima
+    private int health; // Vida máxima
+
+    [SerializeField] GameObject transicao;
+    private NavMeshAgent playerNavMeshAgent;
+    private Plane plane;
+    private RbPlayerMovement rbPlayerMovement;
+    public Transform warpPoint;
+    [SerializeField] Image healthSlider;
+
+
     void Start()
     {
         timeStamp = 0;
-        maxHealth = 100;
-
-        info.baseHealthPoints = maxHealth;
-
+        UpdateStats();
+        //info.baseHealthPoints = maxHealth;
+        plane = new Plane(Vector3.up, Vector3.zero);
+        rbPlayerMovement = GetComponent<RbPlayerMovement>();
+        playerNavMeshAgent = GetComponent<NavMeshAgent>();
+        healthSlider.fillAmount = 1;
+        //transicao = GameObject.FindGameObjectWithTag("Transicao");
     }
 
 
     void Cooldown()
     {
 
+    }
+
+    public void UpdateStats()
+    {
+        health = (int)info.HealthPoints;
+        maxHealth = health;
+        healthSlider.fillAmount = 1;
     }
 
     private void Update() {
@@ -35,19 +58,23 @@ public class HealthSystem : MonoBehaviour
         /*
             Para curar o player
         */
-        if(info.baseHealthPoints + h > maxHealth)
-            h = maxHealth - info.baseHealthPoints;
-        
+        if(health + h > maxHealth)
+            h = maxHealth - health;
 
-        info.baseHealthPoints += h;
+
+        health += h;
     }
 
     void SetMaxHealth(int h)
     {
-        if(h>0) maxHealth = h;
+        if (h > 0)
+        {
+            maxHealth = h;
+            health = maxHealth;
+        }
     }
 
-    public void TakeDamage(int d) 
+    public void TakeDamage(int d) // Trocar para receber dano físico e mágico
     {
         /*
             Para tomar dano e atribui o tempo que o player 
@@ -56,11 +83,35 @@ public class HealthSystem : MonoBehaviour
             na hora do contato.
         */
         if(timeStamp > Time.time) return;
-        if (info.baseHealthPoints - d < 0)
-            d = info.baseHealthPoints;
-        info.baseHealthPoints -= d;
-        //Debug.Log("Current Health: " + info.baseHealthPoints);
+        if (health - d < 0)
+            d = health;
+        health -= d;
+        Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
+        healthSlider.fillAmount = (float)health / (float)maxHealth;
+        // Morrer
+        if(health <= 0){
+            healthSlider.fillAmount = 0;
+            StartCoroutine(Morrer());
+        }
+    }
+
+    public IEnumerator Morrer(){
+        //Time.timeScale = 0f;
+        transicao.SetActive(true);
+        WaveManager[] wms = FindObjectsOfType<WaveManager>();
+        foreach(WaveManager wm in wms)
+        {
+            wm.KillAllEnemies();
+        }
+        rbPlayerMovement.enabled = false;
+        yield return new WaitForSeconds(1.8f);
+        playerNavMeshAgent.enabled = false;
+        transform.position = plane.ClosestPointOnPlane(warpPoint.position);
+        playerNavMeshAgent.enabled = true;
+        rbPlayerMovement.enabled = true;
+        UpdateStats();
+        //SceneManager.LoadScene("GameOver");
     }
 
 
