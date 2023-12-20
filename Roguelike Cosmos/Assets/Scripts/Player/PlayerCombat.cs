@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class PlayerCombat : MonoBehaviour
     public float projectileCooldown;
     public bool isShooting;
     private Transform projectileHUD;
+    private Transform directionHUD;
 
     [Header("AoE")]
     [SerializeField] private LayerMask whatIsEnemie;
@@ -70,9 +72,11 @@ public class PlayerCombat : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
 
         projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
+
         if(projectileHUD.gameObject.activeSelf){
             projectileHUD.gameObject.SetActive(false);
         }
+        directionHUD = projectileHUD.Find("Projectile Direction");
     }
 
     public LevelSystem GetLevelSystem()
@@ -89,28 +93,28 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    Vector3 hit;
     private void LookAtMouse(Transform rotatedObject){
-        if(NavMesh.SamplePosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out NavMeshHit NMHit, 100f, NavMesh.AllAreas)){
-            Debug.Log("Achou NavMesh: " + NMHit.position);
-        }
+        NavMesh.SamplePosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out NavMeshHit NMHit, 100f, NavMesh.AllAreas);
         Plane plane = new Plane(Vector3.up, NMHit.position);
-        // Cria um raycast para achar o ponto do plano que o jogador está direcionando
         Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        hit = Vector3.zero;
         if(plane.Raycast(raio, out float enter)){
-            Vector3 hit = raio.GetPoint(enter);
-            Vector3 playerPos = plane.ClosestPointOnPlane(rotatedObject.position);
-            Vector3 attackDirection = new Vector3(hit.x - playerPos.x, hit.y - playerPos.y, hit.z - playerPos.z);
-            rotatedObject.rotation = Quaternion.LookRotation(attackDirection) * Quaternion.Euler(0f, -90f, 0f);
-            if(rotatedObject != this.transform){
-                rotatedObject.rotation *= Quaternion.Euler(90f, 0f, 0f);
-            }
+            hit = raio.GetPoint(enter);
+
+            Vector3 diff = hit- rotatedObject.position;
+            float rot = Mathf.Atan2(diff.x, diff.z) * Mathf.Rad2Deg;
+            rotatedObject.rotation = Quaternion.Euler(-90f, 0f, rot - 90f);
         }
     }
 
+    Vector3 rotDirection;
     void Update()
     {
         if (PauseMenu.isPaused) return;
 
+        
         if (system == DeviceType.Desktop)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -120,29 +124,29 @@ public class PlayerCombat : MonoBehaviour
             }
 
             if(Input.GetKeyUp(KeyCode.Mouse1)){
-                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
-                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
+                transform.forward = directionHUD.right;
+                directionHUD.right = transform.forward;
                 projectileHUD.gameObject.SetActive(false);
 
                 RangedSkill();                
             }
             else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
-                // Should probably change the animation too
-                // And make the player stay in place
-                projectileHUD.gameObject.SetActive(true);
-                LookAtMouse(projectileHUD);
+                if(!projectileHUD.gameObject.activeSelf){
+                    projectileHUD.gameObject.SetActive(true);
+                }
+
+                LookAtMouse(directionHUD);
             }
 
             if(Input.GetKeyDown(KeyCode.Q)){
                 if(cooldownCounter <= 0){
                     isAreaCasting = true;
                     playerAnimator.SetTrigger("isAOE");
-                    // AreaSkill();
                 }
             }
 
             /*
-                TEMPORARY CODE REMOVE LATER
+                TEMPORARY CODE REMOVE LATER ------------------------------------------------- IS IT LATER NOW?
             */
             if (Input.GetKey(KeyCode.X))
             {
@@ -157,15 +161,12 @@ public class PlayerCombat : MonoBehaviour
             if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
                 joystickAttackDirection = new Vector3(joystickAttack.Horizontal, 0f, joystickAttack.Vertical);
                 transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
-                Debug.Log("ATACA O AST");
                 playerAnimator.SetTrigger("isPunching");
             }
 
             if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
                 if(!isHUDActive){
                     projectileHUD.gameObject.SetActive(true);
-                    Debug.Log("ATACA O AST COM SKILL");
-
                     isHUDActive = true;
                 }
                 joystickSkillDirection = new Vector3(joystickSkill.Horizontal, 0f, joystickSkill.Vertical);
@@ -187,10 +188,12 @@ public class PlayerCombat : MonoBehaviour
             cooldownCounter -= Time.deltaTime;
     }
 
-    // private void OnDrawGizmos() {
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(transform.position, areaSkillRange);
-    // }
+    private void OnDrawGizmos() {
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawRay(hit + (Vector3.up * 100), hit + (Vector3.down * 100));
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(this.transform.position, hit);
+    }
 
     public void MobilePunch()
     {
@@ -246,7 +249,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerRb.velocity = Vector3.zero;
         //playerRb.AddForce(transform.right * attackMoveForce * 100f * Time.deltaTime, ForceMode.Force);
-        playerRb.AddForce(transform.right * attackMoveForce * 100f * Time.deltaTime, ForceMode.Acceleration);
+        playerRb.AddForce(transform.forward * attackMoveForce * 100f * Time.deltaTime, ForceMode.Acceleration);
 
     }
 
