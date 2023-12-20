@@ -24,8 +24,8 @@ public class PlayerCombat : MonoBehaviour
     public Animator playerAnimator;
 
     [Header("Basic Combat")]
-    [SerializeField] private BoxCollider leftHandCollider;
-    [SerializeField] private BoxCollider rightHandCollider;
+    [SerializeField] private Collider swordCollider;
+    //[SerializeField] private BoxCollider rightHandCollider;
     public bool isAttacking;
     [SerializeField] float attackMoveForce = 1f;
 
@@ -56,8 +56,8 @@ public class PlayerCombat : MonoBehaviour
     public Collider[] colliders;
     // Basic Attack Logic //
     public void UpdateColliders(bool enable){
-        leftHandCollider.enabled = enable;
-        rightHandCollider.enabled = enable;
+        swordCollider.enabled = enable;
+        //rightHandCollider.enabled = enable;
     }
 
     private void Awake() {
@@ -103,13 +103,18 @@ public class PlayerCombat : MonoBehaviour
         if(plane.Raycast(raio, out float enter)){
             hit = raio.GetPoint(enter);
 
+            if(rotatedObject == this.transform){
+                rotatedObject.LookAt(hit);
+                return;
+            }
+
             Vector3 diff = hit- rotatedObject.position;
             float rot = Mathf.Atan2(diff.x, diff.z) * Mathf.Rad2Deg;
             rotatedObject.rotation = Quaternion.Euler(-90f, 0f, rot - 90f);
+            
         }
     }
 
-    Vector3 rotDirection;
     void Update()
     {
         if (PauseMenu.isPaused) return;
