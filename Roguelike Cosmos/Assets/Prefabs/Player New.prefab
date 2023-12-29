@@ -5185,12 +5185,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2007370840166066197}
   - component: {fileID: 2007370840166066186}
-  - component: {fileID: 2007370840166066185}
   - component: {fileID: 2007370840166066184}
-  - component: {fileID: 2007370840166066190}
   - component: {fileID: 2007370840166066191}
-  - component: {fileID: 7789356951063795442}
+  - component: {fileID: 2007370840166066185}
   - component: {fileID: 2007370839235988768}
+  - component: {fileID: 2007370840166066190}
+  - component: {fileID: 7789356951063795442}
   m_Layer: 8
   m_Name: Player New
   m_TagString: Player
@@ -5240,6 +5240,36 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &2007370840166066184
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007370840166066196}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 10
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &2007370840166066191
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007370840166066196}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0.88, z: -0.00000008940697}
 --- !u!114 &2007370840166066185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5259,22 +5289,22 @@ MonoBehaviour:
   dashing: 0
   smoothTurnTime: 0.05
   playerAnimator: {fileID: 0}
---- !u!54 &2007370840166066184
-Rigidbody:
+--- !u!114 &2007370839235988768
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007370840166066196}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 10
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec7e01b4345e6c40b00dc2b38169cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
+  transicao: {fileID: 0}
+  warpPoint: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &2007370840166066190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5294,41 +5324,25 @@ MonoBehaviour:
   currentStatsPoints: 0
   pointsText: {fileID: 0}
   playerAnimator: {fileID: 0}
-  leftHandCollider: {fileID: 0}
-  rightHandCollider: {fileID: 0}
-  isAttacking: 0
+  combatColliders: []
   attackMoveForce: 200
+  isAttacking: 0
   pfProjectile: {fileID: 4897886130843630534, guid: 76ad689860003691f82e34cab9758f80, type: 3}
-  projectileSpawn: {fileID: 2007370840329625848}
+  projectileSpawnPoint: {fileID: 0}
+  rangedSkillSpeed: 0
+  rangedSkillCoolDown: 0
   canShoot: 1
-  projectileSpeed: 30
-  projectileCooldown: 1
   isShooting: 0
+  areaSkillEffect: {fileID: 129651715}
   whatIsEnemie:
     serializedVersion: 2
     m_Bits: 128
   areaSkillRange: 8
   areaSkillDamage: 20
   areaSkillCooldown: 2
-  areaSkillEffect: {fileID: 129651715}
   isAreaCasting: 0
   joystickAttack: {fileID: 0}
   joystickSkill: {fileID: 0}
-  colliders: []
---- !u!136 &2007370840166066191
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007370840166066196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0.88, z: -0.00000008940697}
 --- !u!95 &7789356951063795442
 Animator:
   serializedVersion: 4
@@ -5349,22 +5363,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2007370839235988768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2007370840166066196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec7e01b4345e6c40b00dc2b38169cf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 06cfca46083c49145be59a8deab093a7, type: 2}
-  transicao: {fileID: 0}
-  warpPoint: {fileID: 0}
-  healthSlider: {fileID: 0}
 --- !u!1 &2007370840329625851
 GameObject:
   m_ObjectHideFlags: 0

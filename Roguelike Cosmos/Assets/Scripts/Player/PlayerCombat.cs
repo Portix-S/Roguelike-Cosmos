@@ -6,77 +6,98 @@ using TMPro;
 using UnityEngine.AI;
 using DG.Tweening;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerData _playerData;
     public DeviceType system;
     private PlayerSkills playerSkills;
-    Rigidbody playerRb;
+    private Rigidbody playerRb;
 
+    /*------------------------------  LEVEL SYSTEM  ------------------------------------*/
     [Header("Level System")]
     [SerializeField] LevelWindow levelWindow;
     private LevelSystem levelSystem;
-    [SerializeField] int currentPoints;
-    [SerializeField] int currentStatsPoints;
+    [SerializeField] int currentPoints;      // Necessário?
+    [SerializeField] int currentStatsPoints; // Necessário?
     [SerializeField] TextMeshProUGUI pointsText;
 
+    /*------------------------------  ANIMATION  --------------------------------------*/
     [Header("Animation")]
     public Animator playerAnimator;
 
+    /*------------------------------  BASIC COMBAT  ------------------------------------*/
     [Header("Basic Combat")]
-    [SerializeField] private Collider swordCollider;
-    //[SerializeField] private BoxCollider rightHandCollider;
-    public bool isAttacking;
+    [SerializeField] private Collider[] combatColliders;
     [SerializeField] float attackMoveForce = 1f;
+    [HideInInspector] public bool isAttacking;
 
-    [Header("Projectile")]
+    /*------------------------------  RANGED SKILL  ------------------------------------*/
+    [Header("Ranged Skill")]
     public GameObject pfProjectile;
-    public Transform  projectileSpawn;
-    public bool canShoot = true;
-    public float projectileSpeed;
-    public float projectileCooldown;
-    public bool isShooting;
+    public Transform  projectileSpawnPoint;
+    
+    public float rangedSkillSpeed;
+    public float rangedSkillCoolDown;
+    [HideInInspector] public bool canShoot = true;
+
+    [HideInInspector] public bool isShooting;
+
     private Transform projectileHUD;
     private Transform directionHUD;
 
-    [Header("AoE")]
-    [SerializeField] private LayerMask whatIsEnemie;
-    [SerializeField] private float areaSkillRange = 3.5f, areaSkillDamage = 2f;
-    [SerializeField] private float areaSkillCooldown = 2f;
-    private float cooldownCounter;
+    /*------------------------------  AREA SKILL  ------------------------------------*/
+    [Header("Area Skill")]
     [SerializeField] private ParticleSystem areaSkillEffect;
-    public bool isAreaCasting = false;
+    [SerializeField] private LayerMask whatIsEnemie;
+
+    [SerializeField] private float areaSkillRange = 3.5f;
+    [SerializeField] private float areaSkillDamage = 2f;
+    [SerializeField] private float areaSkillCooldown = 2f;
+
+    [HideInInspector] public bool isAreaCasting = false;
+    private float cooldownCounter;
+    //[HideInInspector] public Collider[] enemieColliders; // Isso precisa ser global?
     
+    /*------------------------------  MOBILE BUTTONS  ------------------------------------*/
     [Header("Mobile Input")]
     public Joystick joystickAttack;
     private Vector3 joystickAttackDirection;
+
     public Joystick joystickSkill;
     private Vector3 joystickSkillDirection;
+
     private bool isHUDActive = false;
-    public Collider[] colliders;
-    // Basic Attack Logic //
-    public void UpdateColliders(bool enable){
-        swordCollider.enabled = enable;
-        //rightHandCollider.enabled = enable;
-    }
 
     private void Awake() {
         system = SystemInfo.deviceType;
-        UpdateColliders(false);
+
+        // @Portix, documenta isso aqui
         levelSystem = new LevelSystem();
         levelWindow.SetLevelSystem(levelSystem);
         pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
         playerSkills = new PlayerSkills(levelSystem, pointsText, _playerData);
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+
         playerRb = GetComponent<Rigidbody>();
 
-        projectileHUD = transform.Find("Skills UI");//.transform.Find("Projectile Direction");
+        UpdateColliders(false);
 
+        projectileHUD = transform.Find("Skills UI");
         if(projectileHUD.gameObject.activeSelf){
             projectileHUD.gameObject.SetActive(false);
         }
         directionHUD = projectileHUD.Find("Projectile Direction");
+    }
+
+    private void Start()
+    {
+        system = SystemInfo.deviceType; // Isso já não ta sendo feito no Awake?
+        if (system == DeviceType.Handheld)
+        {
+            attackMoveForce = 100f;
+        }
     }
 
     public LevelSystem GetLevelSystem()
@@ -84,34 +105,42 @@ public class PlayerCombat : MonoBehaviour
         return this.levelSystem;
     }
 
-    private void Start()
-    {
-        system = SystemInfo.deviceType;
-        if (system == DeviceType.Handheld)
-        {
-            attackMoveForce = 100f;
+    /*
+        Função para ativar e desativar os colliders usados para registrar o ataque básico
+    */
+    public void UpdateColliders(bool enable){
+        foreach(Collider col in combatColliders){
+            col.enabled = enable;
         }
     }
 
     Vector3 hit;
+    /*
+        LookAtMouse()
+        Ajusta a posição do jogador/HUD para fazer o objeto olhar na direção do mouse
+    */
     private void LookAtMouse(Transform rotatedObject){
+        // Usa o NavMesh para achar a altura do plano que corresponde ao chão do jogador
         NavMesh.SamplePosition(Camera.main.ScreenToWorldPoint(Input.mousePosition), out NavMeshHit NMHit, 100f, NavMesh.AllAreas);
         Plane plane = new Plane(Vector3.up, NMHit.position);
+
         Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        hit = Vector3.zero;
+        hit = rotatedObject.position;
         if(plane.Raycast(raio, out float enter)){
+            // Usando Raycast, acha o ponto corresponde à posição do mouse no plano isométrico
             hit = raio.GetPoint(enter);
 
+            // Se essa função for chamada para o rotacionar o jogador, apenas LookAt() basta
             if(rotatedObject == this.transform){
                 rotatedObject.LookAt(hit);
                 return;
             }
 
-            Vector3 diff = hit- rotatedObject.position;
+            // Como o HUD é "2D", é preciso ajustar cada eixo manualmente calculando o ângulo da rotação
+            Vector3 diff = hit - rotatedObject.position;
             float rot = Mathf.Atan2(diff.x, diff.z) * Mathf.Rad2Deg;
-            rotatedObject.rotation = Quaternion.Euler(-90f, 0f, rot - 90f);
-            
+            rotatedObject.rotation = Quaternion.Euler(-90f, 0f, rot - 90f); 
         }
     }
 
@@ -119,21 +148,30 @@ public class PlayerCombat : MonoBehaviour
     {
         if (PauseMenu.isPaused) return;
 
-        
+        /*--- CONTROLES DESKTOP ---*/
         if (system == DeviceType.Desktop)
         {
+            /*-- ATAQUE BÁSICO  --*/
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 LookAtMouse(this.transform);
                 playerAnimator.SetTrigger("isPunching");
             }
 
+
+            /*-- SKILL --*/
+            /*
+                O jogador pode segurar o botão do mouse para mirar a skill;
+                Enquanto mira, ele pode mover-se livremente, e uma HUD mostra a direção mirada.
+
+                Quando o jogador solta o botão ele para de se mover, se vira para a direção mirada e atira uma bola de fogo uau  
+            */
             if(Input.GetKeyUp(KeyCode.Mouse1)){
                 transform.forward = directionHUD.right;
                 directionHUD.right = transform.forward;
                 projectileHUD.gameObject.SetActive(false);
 
-                RangedSkill();                
+                TriggerRangedSkill(); // Ver Implementeção (Selecione + F12)         
             }
             else if (Input.GetKey(KeyCode.Mouse1) && canShoot){
                 if(!projectileHUD.gameObject.activeSelf){
@@ -143,88 +181,102 @@ public class PlayerCombat : MonoBehaviour
                 LookAtMouse(directionHUD);
             }
 
+
+            /*-- AREA SKILL --*/
             if(Input.GetKeyDown(KeyCode.Q)){
-                if(cooldownCounter <= 0){
-                    isAreaCasting = true;
-                    playerAnimator.SetTrigger("isAOE");
-                }
+                TriggerAreaSkill(); // Ver Implementação (Selecione + F12)
             }
 
-            /*
-                TEMPORARY CODE REMOVE LATER ------------------------------------------------- IS IT LATER NOW?
-            */
-            if (Input.GetKey(KeyCode.X))
-            {
-                levelSystem.AddExperience(100);
-            }
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                levelSystem.AddExperience(10);
-            }
+            /* Usar as funções do menu de contexto (Implementação no fim do código) */
+            // if (Input.GetKey(KeyCode.X) levelSystem.AddExperience(100);
+            // if (Input.GetKeyDown(KeyCode.Z)) levelSystem.AddExperience(10);
         }
-        else if (system == DeviceType.Handheld){
+
+
+        /*--- CONTROLES MOBILE---*/
+        else if (system == DeviceType.Handheld)
+        {
+            /*-- ATAQUE BÁSICO  --*/
             if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
                 joystickAttackDirection = new Vector3(joystickAttack.Horizontal, 0f, joystickAttack.Vertical);
                 transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
                 playerAnimator.SetTrigger("isPunching");
             }
 
+            /*-- SKILL --*/
             if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
-                if(!isHUDActive){
+                if(!projectileHUD.gameObject.activeSelf){
                     projectileHUD.gameObject.SetActive(true);
-                    isHUDActive = true;
                 }
+
                 joystickSkillDirection = new Vector3(joystickSkill.Horizontal, 0f, joystickSkill.Vertical);
-                projectileHUD.rotation = Quaternion.LookRotation(joystickSkillDirection) * Quaternion.Euler(90f, -90f, 0f);
+
+                // Semelhante à função LookAtMouse()
+                float rot = Mathf.Atan2(joystickSkillDirection.x, joystickSkillDirection.z) * Mathf.Rad2Deg;
+                directionHUD.rotation = Quaternion.Euler(-90f, 0f, rot - 90f);
             }
-            else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && isHUDActive){
-                transform.rotation = projectileHUD.rotation * Quaternion.Euler(-90f, 0f, 0f);
-                projectileHUD.rotation = transform.rotation * Quaternion.Euler( 90f, 0f, 0f);
-                RangedSkill();
+            else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && projectileHUD.gameObject.activeSelf){
+                transform.forward = directionHUD.right;
+                directionHUD.right = transform.forward;
                 projectileHUD.gameObject.SetActive(false);
-                isHUDActive = false;
+
+                TriggerRangedSkill();
             }
 
+            /*-- AREA SKILL --*/
+            /* -Implementado como botão */
         }
+
         currentPoints = levelSystem.GetSkillTreePoints();
         currentStatsPoints = levelSystem.GetStatPoints();
 
+        // Update do timer do cooldown
         if(cooldownCounter > 0)
             cooldownCounter -= Time.deltaTime;
     }
 
-    private void OnDrawGizmos() {
-        // Gizmos.color = Color.red;
-        // Gizmos.DrawRay(hit + (Vector3.up * 100), hit + (Vector3.down * 100));
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(this.transform.position, hit);
-    }
-
-    public void MobilePunch()
+    /*-------------------- LÓGICA SKILL RANGED --------------------*/
+    public void TriggerRangedSkill()
     {
-        playerAnimator.SetTrigger("isPunching");
-    }
-
-    public void RangedSkill()
-    {
-        if (canShoot && !isAttacking)
-        {
+        if (canShoot && !isAttacking){
+            playerAnimator.SetTrigger("isShooting");
             canShoot = false;
             isShooting = true;
-            playerAnimator.SetTrigger("isShooting");
         }
     }
 
-    public void MobileAreaSkill(){
+    // Chamada por evento na animação
+    public void Shoot(){
+        var proj = Instantiate(pfProjectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+
+        proj.GetComponent<Rigidbody>().velocity = projectileSpawnPoint.forward * rangedSkillSpeed;
+        proj.GetComponent<Projectile>().SetDamage(_playerData.MagicDamage);
+        StartCoroutine(ShootCooldown());
+    }
+
+    IEnumerator ShootCooldown(){
+        yield return new WaitForSeconds(rangedSkillCoolDown);
+        canShoot = true;
+    }
+
+    /*-------------------- LÓGICA SKILL AREA --------------------*/
+    public void TriggerAreaSkill()
+    {
         if(cooldownCounter <= 0){
-            isAreaCasting = true;
             playerAnimator.SetTrigger("isAOE");
+            isAreaCasting = true;
         }
     }
 
+    // Chamada por evento na animação
     public void AreaSkill(){
-         colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+        // Coleta todos os colliders na área da skill
+        Collider[] colliders = Physics.OverlapSphere(transform.position, areaSkillRange, whatIsEnemie);
+
+        // Ativa efeito de partícula
         areaSkillEffect.Play();
+
+        // Testa se o collider é de um inimigo e aplica o dano
         foreach(Collider col in colliders){
             if(col.gameObject.tag == "Enemy")
             {
@@ -247,33 +299,30 @@ public class PlayerCombat : MonoBehaviour
                 col.GetComponent<TentacleController>().TakeDamage(_playerData.MagicDamage/3f);
             }
         }
+
+        // Atualiza o cooldown da skill
         cooldownCounter = areaSkillCooldown;
     }
 
-    public void MoveForward()
-    {
-        playerRb.velocity = Vector3.zero;
-        //playerRb.AddForce(transform.right * attackMoveForce * 100f * Time.deltaTime, ForceMode.Force);
-        playerRb.AddForce(transform.forward * attackMoveForce * 100f * Time.deltaTime, ForceMode.Acceleration);
-
-    }
-
-
-    public void AddXP()
-    {
-        levelSystem.AddExperience(90);
-    }
-
+    /*-------------------- LÓGICA ATAQUE BÁSICO --------------------*/
+    // Chamada no Behaviour do animator
     public void StartAttack(){
         isAttacking = true;
         UpdateColliders(true);
+        Invoke("MoveForward", 0.5f);
     }
 
+    // Chamada no Behaviour do animator
     public void FinishAttack(){
         UpdateColliders(false);
     }
 
-    // Temporary damage dealer
+    public void MoveForward(){
+        playerRb.velocity = Vector3.zero;
+        playerRb.AddForce(transform.forward * attackMoveForce * 100f * Time.deltaTime, ForceMode.Acceleration);
+    }
+
+    /* Aplica dano do ataque básico */
     private void OnTriggerEnter(Collider other) {
         if((other.tag == "Enemy") && (isAttacking || isShooting)){
             UpdateColliders(false);
@@ -304,37 +353,14 @@ public class PlayerCombat : MonoBehaviour
             TentacleController enemyScript = other.GetComponent<TentacleController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-
     }
 
-
-    // Ranged Skill Logic //
-    public void Shoot(){
-        var proj = Instantiate(pfProjectile, projectileSpawn.position, projectileSpawn.rotation);
-
-        proj.GetComponent<Rigidbody>().velocity = projectileSpawn.forward * projectileSpeed;
-        proj.GetComponent<Projectile>().SetDamage(_playerData.MagicDamage); //mudar dano depois
-        StartCoroutine(ShootCooldown());
-    }
-
-    IEnumerator ShootCooldown(){
-        yield return new WaitForSeconds(projectileCooldown);
-        canShoot = true;
-    }
-        
-    
-
-
-
-    private bool CanUseSkill()
-    {
-        return playerSkills.IsSkillUnlocked(PlayerSkills.SkillType.Dash);
-    }
-
+    /*-------------------- LÓGICA SKILL SET --------------------*/
     public PlayerSkills GetPlayerSkillScript()
     {
         return playerSkills;
     }
+
     private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedArgs e)
     {
         switch (e.skillType)
@@ -355,5 +381,15 @@ public class PlayerCombat : MonoBehaviour
     {
         pointsText.text = "SkillPoints:\n" + levelSystem.GetSkillTreePoints();
     }
-} 
 
+    /*------------------------------------------ TESTE ------------------------------------------*/
+    [ContextMenu("Add 10 Exp")]
+    void Plus10exp(){
+        levelSystem.AddExperience(10);
+    }
+
+    [ContextMenu("Add 100 Exp")]
+    void Plus100exp(){
+        levelSystem.AddExperience(100);
+    }
+} 

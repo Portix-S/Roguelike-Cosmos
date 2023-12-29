@@ -236,13 +236,9 @@ public class PlayerSkills
         if (skillRequirement1 != SkillType.None && skillRequirement2 == SkillType.None)
         {
             if (IsSkillUnlocked(skillRequirement1))
-            {
                 return true;
-            }
-            else
-            {
+            else 
                 return false;
-            }
         }
         else if (skillRequirement1 != SkillType.None && skillRequirement2 != SkillType.None)
         {

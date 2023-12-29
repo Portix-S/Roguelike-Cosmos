@@ -9,8 +9,6 @@ public class CombatAnimationBehaviour : StateMachineBehaviour
     {
         PlayerCombat playerCombat = animator.gameObject.GetComponentInParent<PlayerCombat>();
         playerCombat.StartAttack();
-        playerCombat.MoveForward();
-
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
