@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 166210889983652312}
   m_Layer: 0
   m_Name: Lasquinha(Enemy)
-  m_TagString: Enemie
+  m_TagString: Lasquinha
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,13 +87,16 @@ MonoBehaviour:
   randomRadius: 20
   nextLocation: 0
   randomPoint: {x: 0, y: 0, z: 0}
-  healthPoints: 100
+  healthPoints: 1000
   enemyAnimator: {fileID: 0}
   collider: {fileID: 0}
-  meeleRadius: 7
+  attackDurationTimer: 1.5
+  rangedAttackDurationTimer: 1.25
+  meleeRadius: 7
   damage: 5
+  rangedCooldown: 1.25
+  meleeCooldown: 1
   xpAmount: 10
-  enemies: []
 --- !u!1001 &166210888060957167
 PrefabInstance:
   m_ObjectHideFlags: 0
