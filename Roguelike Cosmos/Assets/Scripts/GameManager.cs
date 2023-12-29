@@ -129,18 +129,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AttackButton()
-    {
-        playerScript.MobilePunch();
-    }
+    // public void AttackButton()
+    // {
+    //     playerScript.MobilePunch();
+    // }
 
     public void FirstSkillButton()
     {
-        playerScript.RangedSkill();
+        playerScript.TriggerRangedSkill();
     }
 
     public void SecondSkillButton(){
-        playerScript.MobileAreaSkill();
+        playerScript.TriggerAreaSkill();
     }
 
     public void DashButton()

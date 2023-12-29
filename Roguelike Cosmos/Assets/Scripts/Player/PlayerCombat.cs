@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.AI;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCombat : MonoBehaviour
@@ -197,14 +198,14 @@ public class PlayerCombat : MonoBehaviour
         else if (system == DeviceType.Handheld)
         {
             /*-- ATAQUE BÁSICO  --*/
-            if(joystickAttack.Horizontal != 0 || joystickAttack.Vertical != 0){
+            if(Mathf.Abs(joystickAttack.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystickAttack.Vertical) > Mathf.Epsilon){
                 joystickAttackDirection = new Vector3(joystickAttack.Horizontal, 0f, joystickAttack.Vertical);
                 transform.rotation = Quaternion.LookRotation(joystickAttackDirection) * Quaternion.Euler(0f, -90f, 0f);
                 playerAnimator.SetTrigger("isPunching");
             }
 
             /*-- SKILL --*/
-            if(joystickSkill.Horizontal != 0 || joystickSkill.Vertical != 0){
+            if(Mathf.Abs(joystickSkill.Horizontal) > Mathf.Epsilon || Mathf.Abs(joystickSkill.Vertical) > Mathf.Epsilon){
                 if(!projectileHUD.gameObject.activeSelf){
                     projectileHUD.gameObject.SetActive(true);
                 }
@@ -215,7 +216,7 @@ public class PlayerCombat : MonoBehaviour
                 float rot = Mathf.Atan2(joystickSkillDirection.x, joystickSkillDirection.z) * Mathf.Rad2Deg;
                 directionHUD.rotation = Quaternion.Euler(-90f, 0f, rot - 90f);
             }
-            else if(joystickSkill.Horizontal == 0 && joystickSkill.Vertical == 0 && projectileHUD.gameObject.activeSelf){
+            else if(Mathf.Abs(joystickSkill.Horizontal) < Mathf.Epsilon  && Mathf.Abs(joystickSkill.Vertical) < Mathf.Epsilon   && projectileHUD.gameObject.activeSelf){
                 transform.forward = directionHUD.right;
                 directionHUD.right = transform.forward;
                 projectileHUD.gameObject.SetActive(false);
