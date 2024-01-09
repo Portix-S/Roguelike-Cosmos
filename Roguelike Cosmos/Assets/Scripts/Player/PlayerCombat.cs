@@ -279,22 +279,22 @@ public class PlayerCombat : MonoBehaviour
 
         // Testa se o collider é de um inimigo e aplica o dano
         foreach(Collider col in colliders){
-            if(col.gameObject.tag == "Enemy")
+            if(col.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Dano em área boom");
                 col.GetComponent<EnemyController>().TakeDamage(_playerData.MagicDamage/3f);
             }
-            else if(col.gameObject.tag == "Boss")
+            else if(col.gameObject.CompareTag("Boss"))
             {
                 Debug.Log("Dano em área boom");
                 col.GetComponent<MageBoss>().TakeDamage(_playerData.MagicDamage/3f);
             }
-            else if(col.gameObject.tag == "Lancer")
+            else if(col.gameObject.CompareTag("Lancer"))
             {
                 Debug.Log("Dano em área boom");
                 col.GetComponent<lancer>().TakeDamage(_playerData.MagicDamage/3f);
             }
-            else if(col.gameObject.tag == "Tentacle")
+            else if(col.gameObject.CompareTag("Tentacle"))
             {
                 Debug.Log("Dano em área boom");
                 col.GetComponent<TentacleController>().TakeDamage(_playerData.MagicDamage/3f);
@@ -324,31 +324,32 @@ public class PlayerCombat : MonoBehaviour
     }
 
     /* Aplica dano do ataque básico */
-    private void OnTriggerEnter(Collider other) {
-        if((other.tag == "Enemy") && (isAttacking || isShooting)){
+    public void Attack(Collider other) {
+        Debug.Log("Trying to attack " + other.name);
+        if((other.CompareTag("Enemy")) && (isAttacking || isShooting)){
             UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-        else if ((other.tag == "Boss") && (isAttacking || isShooting))
+        else if ((other.CompareTag("Boss")) && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             MageBoss enemyScript = other.GetComponent<MageBoss>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-        else if ((other.tag == "Lancer") && (isAttacking || isShooting))
+        else if ((other.CompareTag("Lancer")) && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             lancer enemyScript = other.GetComponent<lancer>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-        else if ((other.tag == "Lasquinha") && (isAttacking || isShooting))
+        else if ((other.CompareTag("Lasquinha")) && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             lasquinha enemyScript = other.GetComponent<lasquinha>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
-        else if((other.tag == "Tentacle") && (isAttacking || isShooting))
+        else if((other.CompareTag("Tentacle")) && (isAttacking || isShooting))
         {
             UpdateColliders(false);
             TentacleController enemyScript = other.GetComponent<TentacleController>();
