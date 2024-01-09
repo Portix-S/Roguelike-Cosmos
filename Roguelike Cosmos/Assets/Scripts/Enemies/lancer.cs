@@ -65,7 +65,6 @@ public class lancer : MonoBehaviour
 
                 isAttacking = true;
                 enemyAnimator.SetBool("isAttacking", true);
-                
                 StartCoroutine(AttackCooldown());
 
             }
@@ -122,16 +121,17 @@ public class lancer : MonoBehaviour
 
     IEnumerator AttackCooldown()
     {
+        yield return new WaitForSeconds(0.2f);
         foreach (Collider hand in hands)
         {
             hand.enabled = true;
         }
-        yield return new WaitForSeconds(attackCooldownTimer/3f);
+        yield return new WaitForSeconds(0.2f);
         foreach (Collider hand in hands)
         {
             hand.enabled = false;
         }
-        yield return new WaitForSeconds((attackCooldownTimer/3f)*2f);
+        yield return new WaitForSeconds((attackCooldownTimer - 0.4f));
         isAttacking = false;
     }
 
@@ -184,13 +184,13 @@ public class lancer : MonoBehaviour
         Gizmos.DrawSphere(randomPoint, 1);
     }
 
-    private void OnTriggerEnter(Collider other) 
-    {
-        if(other.CompareTag("Player"))
-        {
-            other.GetComponent<HealthSystem>().TakeDamage(damage);
-        }
-    }
+    // private void OnTriggerEnter(Collider other) 
+    // {
+    //     if(other.CompareTag("Player"))
+    //     {
+    //         other.GetComponent<HealthSystem>().TakeDamage(damage);
+    //     }
+    // }
 
     public IEnumerator SpawnDelay(float sec = 0.25f)
     {
