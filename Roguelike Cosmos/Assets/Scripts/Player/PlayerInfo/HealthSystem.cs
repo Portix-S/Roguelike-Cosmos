@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Player;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
@@ -20,8 +24,14 @@ public class HealthSystem : MonoBehaviour
     private RbPlayerMovement rbPlayerMovement;
     public Transform warpPoint;
     [SerializeField] Image healthSlider;
-
-
+    
+    // Vignette postprocess
+    [SerializeField] PostProcessProfile profile;
+    [SerializeField] private Vignette vignette;
+    private float vignetteTime = 0.3f;
+    private float vignetteTimer = 0f;
+    private bool fadingIn = false;
+    private bool fadingOut = false;
     void Start()
     {
         timeStamp = 0;
@@ -32,6 +42,8 @@ public class HealthSystem : MonoBehaviour
         playerNavMeshAgent = GetComponent<NavMeshAgent>();
         healthSlider.fillAmount = 1;
         //transicao = GameObject.FindGameObjectWithTag("Transicao");
+        profile.TryGetSettings(out vignette);
+        vignette.intensity.value = 0f;
     }
 
 
@@ -47,10 +59,27 @@ public class HealthSystem : MonoBehaviour
         healthSlider.fillAmount = 1;
     }
 
-    private void Update() {
-        if(Input.GetKeyDown("b")) TakeDamage(10);
-        if(Input.GetKeyDown("v")) Heal(20);
+    private void Update()
+    {
+        if (fadingIn || fadingOut)
+        {
+            vignetteTimer += Time.deltaTime;
+            float t = vignetteTimer / vignetteTime;
+            if (fadingOut)
+            {
+                vignette.intensity.value = Mathf.Lerp(0.5f, 0f, t);
+            }
+            else
+                vignette.intensity.value = Mathf.Lerp(0f, 0.5f, t*2f);
             
+            if(vignetteTimer >= vignetteTime)
+            {
+                fadingIn = false;
+                fadingOut = false;
+                vignetteTimer = 0f;
+            }
+        }
+
     }
 
     public void Heal(int h) 
@@ -83,17 +112,42 @@ public class HealthSystem : MonoBehaviour
             na hora do contato.
         */
         if(timeStamp > Time.time) return;
+        vignetteTimer = 0f;
         if (health - d < 0)
             d = health;
         health -= d;
         Debug.Log("Current Health: " + health);
         timeStamp = Time.time + invbtyTime;
         healthSlider.fillAmount = (float)health / (float)maxHealth;
+        // // Vignette
+        // if(profile.TryGetSettings(out vignette))
+        // {
+        //     // vignette.enabled = new BoolParameter() {value = true};
+        //     // vignette.intensity.overrideState = false;
+        //     float test = Mathf.Lerp(0, 5, 0.1f);
+        //     vignette.intensity = new FloatParameter { value = 0.5f };
+        //     StartCoroutine("EndDamageVignette");
+        // }
+        //     
+        vignette.active = true;
+        fadingIn = true;
+        StartCoroutine("EndDamageVignette");
         // Morrer
         if(health <= 0){
             healthSlider.fillAmount = 0;
             StartCoroutine(Morrer());
         }
+    }
+    
+    IEnumerator EndDamageVignette()
+    {
+        yield return new WaitForSeconds(vignetteTime);
+        // vignette.active = false;
+        fadingIn = false;
+        fadingOut = true;
+
+        // vignette.intensity = new FloatParameter { value = 0f };
+        // vignette.intensity.overrideState = false;
     }
 
     public IEnumerator Morrer(){
