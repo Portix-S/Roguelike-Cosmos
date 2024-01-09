@@ -22,7 +22,7 @@ public class lancer : MonoBehaviour
     [Header("Attack Config")]
     bool isAttacking;
     float attackCooldownTimer = 2f;
-    [SerializeField] int damage = 5;
+    public int damage = 5;
 
     [Header("Stats/Experience")]
     [SerializeField] int xpAmount = 10;
@@ -65,10 +65,7 @@ public class lancer : MonoBehaviour
 
                 isAttacking = true;
                 enemyAnimator.SetBool("isAttacking", true);
-                foreach (Collider hand in hands)
-                {
-                    hand.enabled = true;
-                }
+                
                 StartCoroutine(AttackCooldown());
 
             }
@@ -125,11 +122,16 @@ public class lancer : MonoBehaviour
 
     IEnumerator AttackCooldown()
     {
-        yield return new WaitForSeconds(attackCooldownTimer);
+        foreach (Collider hand in hands)
+        {
+            hand.enabled = true;
+        }
+        yield return new WaitForSeconds(attackCooldownTimer/3f);
         foreach (Collider hand in hands)
         {
             hand.enabled = false;
         }
+        yield return new WaitForSeconds((attackCooldownTimer/3f)*2f);
         isAttacking = false;
     }
 
