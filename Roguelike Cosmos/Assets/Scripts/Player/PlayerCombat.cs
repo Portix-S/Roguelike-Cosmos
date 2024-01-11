@@ -327,31 +327,26 @@ public class PlayerCombat : MonoBehaviour
     public void Attack(Collider other) {
         Debug.Log("Trying to attack " + other.name);
         if((other.CompareTag("Enemy")) && (isAttacking || isShooting)){
-            UpdateColliders(false);
             EnemyController enemyScript = other.GetComponent<EnemyController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
         else if ((other.CompareTag("Boss")) && (isAttacking || isShooting))
         {
-            UpdateColliders(false);
             MageBoss enemyScript = other.GetComponent<MageBoss>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
         else if ((other.CompareTag("Lancer")) && (isAttacking || isShooting))
         {
-            UpdateColliders(false);
             lancer enemyScript = other.GetComponent<lancer>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
         else if ((other.CompareTag("Lasquinha")) && (isAttacking || isShooting))
         {
-            UpdateColliders(false);
             lasquinha enemyScript = other.GetComponent<lasquinha>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }
         else if((other.CompareTag("Tentacle")) && (isAttacking || isShooting))
         {
-            UpdateColliders(false);
             TentacleController enemyScript = other.GetComponent<TentacleController>();
             enemyScript.TakeDamage(_playerData.AttackDamage);
         }

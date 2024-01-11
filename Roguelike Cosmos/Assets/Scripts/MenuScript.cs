@@ -31,7 +31,7 @@ public class MenuScript : MonoBehaviour
         }
 
 
-        SceneManager.LoadScene("Portix 3");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void PlayAgain()

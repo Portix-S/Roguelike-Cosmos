@@ -111,13 +111,13 @@ namespace Player
                 foreach (PlayerModifiers v in modifier)
                 {
                     if (v.stat == PlayerModifier.Agility)
-                        dg += v.value * 0.1f;
+                        dg += v.value * 0.3f;
                 }
 
                 foreach (PlayerModifiers v in temp_modifier)
                 {
                     if (v.stat == PlayerModifier.Agility)
-                        dg += v.value * 0.1f;
+                        dg += v.value * 0.3f;
                 }
                 return dg;
             }

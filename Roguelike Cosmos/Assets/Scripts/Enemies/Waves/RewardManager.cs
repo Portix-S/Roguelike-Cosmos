@@ -24,9 +24,13 @@ public class RewardManager : MonoBehaviour
     public GameObject reward2;
     public GameObject reward3;
     public Player.PlayerData data;
+    private HealthSystem playerHealthSystem;
 
+    private void Start()
+    {
+        playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+    }
 
- 
     public void ReleaseReward()
     {
 
@@ -118,7 +122,8 @@ public class RewardManager : MonoBehaviour
         pausePrefab.GetComponent<PauseMenu>().ResumeGame();
         Debug.Log("Voc� pegou: " + rc.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text);
         Reward r = rc.GetComponent<Reward>();
-
+        playerHealthSystem.Heal(15f);
+        
         foreach(Player.PlayerModifiers mod in r.modifier)
         {
             switch (mod.stat)
