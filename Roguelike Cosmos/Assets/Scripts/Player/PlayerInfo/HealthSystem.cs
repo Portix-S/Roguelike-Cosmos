@@ -79,6 +79,13 @@ public class HealthSystem : MonoBehaviour
                 vignetteTimer = 0f;
             }
         }
+        
+        //Only on Unity Editor
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.N))
+            StartCoroutine(Morrer());
+
+        #endif
 
     }
 
@@ -95,11 +102,12 @@ public class HealthSystem : MonoBehaviour
 
         health += h;
         healthSlider.fillAmount = (float)health / (float)maxHealth;
-        vignetteTime = 0.8f;
-        vignette.color.value = Color.green;
-        vignette.active = true;
-        fadingIn = true;
-        StartCoroutine("EndDamageVignette");
+        // vignetteTime = 0.8f;
+        // vignette.color.value = Color.green;
+        // vignette.active = true;
+        // fadingIn = true;
+        // StartCoroutine("EndDamageVignette");
+        VignnetteEffect(0.8f, Color.green);
     }
 
     void SetMaxHealth(float h)
@@ -137,25 +145,14 @@ public class HealthSystem : MonoBehaviour
             Debug.Log("Current Health: " + health);
             timeStamp = Time.time + invbtyTime;
             healthSlider.fillAmount = (float)health / (float)maxHealth;
-            // // Vignette
-            // if(profile.TryGetSettings(out vignette))
-            // {
-            //     // vignette.enabled = new BoolParameter() {value = true};
-            //     // vignette.intensity.overrideState = false;
-            //     float test = Mathf.Lerp(0, 5, 0.1f);
-            //     vignette.intensity = new FloatParameter { value = 0.5f };
-            //     StartCoroutine("EndDamageVignette");
-            // }
-            //     
-            vignetteTime = 0.3f;
-            vignette.color.value = Color.red;
-            vignette.active = true;
-            fadingIn = true;
-            StartCoroutine("EndDamageVignette");
+            
+            //Vignette
+            VignnetteEffect(0.3f, Color.red);
         }
         else
         {
             Debug.Log("Dodge");
+            VignnetteEffect(0.8f, Color.cyan);
             timeStamp = Time.time + invbtyTime;
         }
 
@@ -164,6 +161,15 @@ public class HealthSystem : MonoBehaviour
             healthSlider.fillAmount = 0;
             StartCoroutine(Morrer());
         }
+    }
+
+    private void VignnetteEffect(float time, Color color)
+    {
+        vignetteTime = time;
+        vignette.color.value = color;
+        vignette.active = true;
+        fadingIn = true;
+        StartCoroutine("EndDamageVignette");
     }
     
     IEnumerator EndDamageVignette()

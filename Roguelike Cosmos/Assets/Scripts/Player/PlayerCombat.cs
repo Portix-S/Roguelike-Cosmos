@@ -189,7 +189,9 @@ public class PlayerCombat : MonoBehaviour
             }
 
             /* Usar as funções do menu de contexto (Implementação no fim do código) */
-            // if (Input.GetKey(KeyCode.X) levelSystem.AddExperience(100);
+            #if UNITY_EDITOR
+            if (Input.GetKey(KeyCode.X)) levelSystem.AddExperience(100);
+            #endif
             // if (Input.GetKeyDown(KeyCode.Z)) levelSystem.AddExperience(10);
         }
 
@@ -279,25 +281,26 @@ public class PlayerCombat : MonoBehaviour
 
         // Testa se o collider é de um inimigo e aplica o dano
         foreach(Collider col in colliders){
+            float damage = _playerData.MagicDamage/2f + 1f;
             if(col.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Dano em área boom");
-                col.GetComponent<EnemyController>().TakeDamage(_playerData.MagicDamage/3f);
+                col.GetComponent<EnemyController>().TakeDamage(damage);
             }
             else if(col.gameObject.CompareTag("Boss"))
             {
                 Debug.Log("Dano em área boom");
-                col.GetComponent<MageBoss>().TakeDamage(_playerData.MagicDamage/3f);
+                col.GetComponent<MageBoss>().TakeDamage(damage);
             }
             else if(col.gameObject.CompareTag("Lancer"))
             {
                 Debug.Log("Dano em área boom");
-                col.GetComponent<lancer>().TakeDamage(_playerData.MagicDamage/3f);
+                col.GetComponent<lancer>().TakeDamage(damage);
             }
             else if(col.gameObject.CompareTag("Tentacle"))
             {
                 Debug.Log("Dano em área boom");
-                col.GetComponent<TentacleController>().TakeDamage(_playerData.MagicDamage/3f);
+                col.GetComponent<TentacleController>().TakeDamage(damage);
             }
         }
 
