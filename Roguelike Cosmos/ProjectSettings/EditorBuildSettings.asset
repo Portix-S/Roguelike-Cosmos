@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuPrincipal.unity
     guid: b6d687ad7310e72629043ddc49c27250
   - enabled: 1
-    path: Assets/Scenes/Portix 3.unity
-    guid: c3f7a6922839a7840854a68b6653daaf
-  - enabled: 0
-    path: Assets/Scenes/Cena1.unity
-    guid: 75d37271f1cb59749a666808219a2503
+    path: Assets/Scenes/New Configs.unity
+    guid: 28f58afd136842c4a9276d250db0bd1a
   - enabled: 1
     path: Assets/Scenes/EndGame.unity
     guid: 7dfcf75a36b583f6ba4342df7987ca51

@@ -16,16 +16,16 @@ MonoBehaviour:
   - stat: 0
     value: 10
   - stat: 1
-    value: 0
+    value: 1
   - stat: 2
-    value: 0
+    value: 1
   - stat: 3
-    value: 40
+    value: 25
   - stat: 4
-    value: 0
+    value: 1
   temp_modifier:
   - stat: 0
-    value: 0
+    value: 21
   - stat: 1
     value: 4
   - stat: 2

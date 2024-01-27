@@ -15,8 +15,8 @@ public class HealthSystem : MonoBehaviour
     public PlayerData info; // Informações do player
     private float invbtyTime = 0.5f; // Tempo de invencibilidade após receber dano
     private float timeStamp; // Registra o tempo que o player vai poder levar dano novamente
-    private int maxHealth; // Vida máxima
-    private int health; // Vida máxima
+    private float maxHealth; // Vida máxima
+    private float health; // Vida máxima
 
     [SerializeField] GameObject transicao;
     private NavMeshAgent playerNavMeshAgent;
@@ -79,22 +79,38 @@ public class HealthSystem : MonoBehaviour
                 vignetteTimer = 0f;
             }
         }
+        
+        //Only on Unity Editor
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.N))
+            StartCoroutine(Morrer());
+
+        #endif
 
     }
 
-    public void Heal(int h) 
+    public void Heal(float h) 
     {
         /*
             Para curar o player
         */
+        vignetteTimer = 0f;
+
         if(health + h > maxHealth)
             h = maxHealth - health;
 
 
         health += h;
+        healthSlider.fillAmount = (float)health / (float)maxHealth;
+        // vignetteTime = 0.8f;
+        // vignette.color.value = Color.green;
+        // vignette.active = true;
+        // fadingIn = true;
+        // StartCoroutine("EndDamageVignette");
+        VignnetteEffect(0.8f, Color.green);
     }
 
-    void SetMaxHealth(int h)
+    void SetMaxHealth(float h)
     {
         if (h > 0)
         {
@@ -103,7 +119,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int d) // Trocar para receber dano físico e mágico
+    public void TakeDamage(float d) // Trocar para receber dano físico e mágico
     {
         /*
             Para tomar dano e atribui o tempo que o player 
@@ -112,31 +128,48 @@ public class HealthSystem : MonoBehaviour
             na hora do contato.
         */
         if(timeStamp > Time.time) return;
-        vignetteTimer = 0f;
-        if (health - d < 0)
-            d = health;
-        health -= d;
-        Debug.Log("Current Health: " + health);
-        timeStamp = Time.time + invbtyTime;
-        healthSlider.fillAmount = (float)health / (float)maxHealth;
-        // // Vignette
-        // if(profile.TryGetSettings(out vignette))
-        // {
-        //     // vignette.enabled = new BoolParameter() {value = true};
-        //     // vignette.intensity.overrideState = false;
-        //     float test = Mathf.Lerp(0, 5, 0.1f);
-        //     vignette.intensity = new FloatParameter { value = 0.5f };
-        //     StartCoroutine("EndDamageVignette");
-        // }
-        //     
-        vignette.active = true;
-        fadingIn = true;
-        StartCoroutine("EndDamageVignette");
+        float random = UnityEngine.Random.Range(0, 100);
+        float dodge = info.Dodge * 2f;
+        dodge = Mathf.Clamp(dodge, 0, 70f);
+        Debug.Log("Dodge: " + dodge);
+        Debug.Log("Armor: " + info.Armor);
+
+        if (random > dodge)
+        {
+            vignetteTimer = 0f;
+            if (health - d < 0)
+                d = health;
+            
+            float percentageDamageReduction = (info.Armor * 2f / 100); 
+            health -= (d - (d * percentageDamageReduction));
+            Debug.Log("Current Health: " + health);
+            timeStamp = Time.time + invbtyTime;
+            healthSlider.fillAmount = (float)health / (float)maxHealth;
+            
+            //Vignette
+            VignnetteEffect(0.3f, Color.red);
+        }
+        else
+        {
+            Debug.Log("Dodge");
+            VignnetteEffect(0.8f, Color.cyan);
+            timeStamp = Time.time + invbtyTime;
+        }
+
         // Morrer
         if(health <= 0){
             healthSlider.fillAmount = 0;
             StartCoroutine(Morrer());
         }
+    }
+
+    private void VignnetteEffect(float time, Color color)
+    {
+        vignetteTime = time;
+        vignette.color.value = color;
+        vignette.active = true;
+        fadingIn = true;
+        StartCoroutine("EndDamageVignette");
     }
     
     IEnumerator EndDamageVignette()
