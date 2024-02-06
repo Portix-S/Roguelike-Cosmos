@@ -137,12 +137,16 @@ public class HealthSystem : MonoBehaviour
         if (random > dodge)
         {
             vignetteTimer = 0f;
-            if (health - d < 0)
-                d = health;
             
-            float percentageDamageReduction = (info.Armor * 2f / 100); 
-            health -= (d - (d * percentageDamageReduction));
-            Debug.Log("Current Health: " + health);
+            
+            float percentageDamageReduction = (info.Armor * 0.02f); 
+            float damage = d - (d * percentageDamageReduction);
+            if (health - damage < 0)
+                health = 0f;
+            else
+                health -= damage;
+            
+            Debug.Log("Current Health: " + health + "Damage: " + damage);
             timeStamp = Time.time + invbtyTime;
             healthSlider.fillAmount = (float)health / (float)maxHealth;
             
