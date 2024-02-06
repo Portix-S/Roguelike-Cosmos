@@ -120,11 +120,11 @@ public class RbPlayerMovement : MonoBehaviour
         if (moveDirection.magnitude >= 0.1f)
         {
             // ???
-            float targetAngle = Mathf.Atan2(moveDirection.z, moveDirection.x) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            // float targetAngle = Mathf.Atan2(moveDirection.z, moveDirection.x) * Mathf.Rad2Deg;
+            // float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
+            // transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            //transform.rotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.LookRotation(moveDirection);
         }
     }
 
